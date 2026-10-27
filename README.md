@@ -1,6 +1,9 @@
 # Maria Gula Confeitaria · site demonstrativo
 
-Site de uma página para a Maria Gula Confeitaria (Meia Praia, Itapema/SC): vitrine com fotos, cardápio de delivery com pedido montado e enviado pelo WhatsApp, encomendas, a confeiteira e como chegar.
+Site da Maria Gula Confeitaria (Meia Praia, Itapema/SC), em duas páginas:
+
+- **Hoje** (`index.html`): a vitrine, o cardápio do dia com pedido montado e enviado pelo WhatsApp, a confeiteira e como chegar.
+- **Encomendas** (`encomendas.html`): encomendas por ocasião, tortas, tamanhos, docinhos de festa e o formulário de orçamento pelo WhatsApp.
 
 HTML, CSS e JavaScript puros, sem etapa de build.
 
@@ -29,7 +32,7 @@ Tudo fica em [`js/dados.js`](js/dados.js):
 
 Cada item usa a foto `assets/img/cardapio/<id>.jpg` (tortas: `torta-<id>.jpg`; docinhos: `doce-<id>.jpg` ou `fino-<id>.jpg`), em retrato 4:5 (800x1000). As fotos atuais são ilustrativas, de bancos de imagens livres; os créditos ficam em `js/creditos.js` e aparecem no rodapé. Ao trocar por fotos da Maria, apague o crédito correspondente.
 
-Os textos fixos (endereço, horários no rodapé e na seção "Visite a loja") ficam no `index.html`.
+Os textos fixos ficam no HTML de cada página. O cabeçalho e o rodapé se repetem nas duas: ao mudar endereço, horário ou contato, altere em `index.html` e em `encomendas.html`.
 
 ## Publicar no GitHub Pages
 
@@ -38,10 +41,11 @@ Os textos fixos (endereço, horários no rodapé e na seção "Visite a loja") f
 
 ## Estrutura
 
-- `index.html`: a página
+- `index.html`: página de hoje (vitrine, cardápio do dia, a Maria, visite)
+- `encomendas.html`: página de encomendas (ocasiões, tortas, tamanhos, docinhos, orçamento)
 - `css/style.css`: estilos (cores e tamanhos em variáveis no topo)
 - `js/dados.js`: cardápio, preços e horários
-- `js/main.js`: pedido, aviso de aberto/fechado, menu do celular e animações
+- `js/main.js`: serve as duas páginas; cada parte só roda se o seu bloco existir na página (pedido, orçamento, aviso de aberto/fechado, menu do celular e animações)
 - `assets/img/`: fotos recortadas do Instagram @mariagulagula (baixa resolução, trocar por originais)
 - `PRODUCT.md`, `DESIGN.md`, `.impeccable/`: contexto de produto e sistema visual (skill Impeccable)
 

@@ -42,11 +42,13 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
   scroll-padding-top: var(--header);
   scrollbar-color: var(--vinho) var(--pessego-2);
   accent-color: var(--framboesa);
 }
+
+/* Suave só depois de carregar: quem chega por um link com âncora (encomendas.html#docinhos) cai direto no lugar. */
+html.suave { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -127,13 +129,14 @@ input, select, textarea { caret-color: var(--framboesa); }
   display: inline-flex; align-items: center; gap: 10px;
   font: 400 1.5rem / 1 var(--f-display); text-decoration: none; white-space: nowrap;
 }
-.wordmark svg { width: 34px; height: 34px; color: var(--pessego-2); }
+.wordmark svg { width: 34px; height: 34px; flex: none; color: var(--pessego-2); }
+.so-celular { display: none; }
 .nav { display: flex; gap: 28px; margin-left: auto; }
 .nav a {
   font-size: var(--t-small); font-weight: 500; text-decoration: none;
   padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color 0.2s;
 }
-.nav a:hover { border-bottom-color: var(--pessego); }
+.nav a:hover, .nav a[aria-current='page'] { border-bottom-color: var(--pessego); }
 .menu-toggle { display: none; }
 
 /* Toldo da fachada, como o real: listras amarelo (#E3B03A) e branco (#FFFBF4), borda reta
@@ -384,6 +387,27 @@ input, select, textarea { caret-color: var(--framboesa); }
 .quote__row { display: grid; grid-template-columns: 1.4fr 1.2fr 0.7fr; gap: 16px; }
 .quote__help { font-size: var(--t-small); color: var(--ink-claro); margin-top: -8px; }
 
+/* Ponte para as encomendas: três fotos que se abrem em leque, sobre espresso */
+.ponte { --focus: var(--pessego); background: var(--espresso); color: var(--pessego-claro); padding-block: var(--section); overflow: hidden; }
+.ponte__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: center; }
+.ponte__copy { grid-column: 1 / 6; }
+.ponte__copy > p { margin-top: 24px; max-width: 28em; color: var(--ink-escuro); }
+.ponte .actions { margin-top: 36px; }
+.ponte__leque {
+  --abre: 1; --foto: clamp(190px, 18vw, 270px);
+  grid-column: 6 / 13; position: relative; list-style: none; margin: 0; padding: 0;
+  height: calc(var(--foto) * 1.25 + 120px);
+}
+.ponte__leque li {
+  position: absolute; left: 50%; top: 50%; width: var(--foto);
+  padding: 8px; background: var(--pessego-claro);
+  transform: translate(-50%, -50%) translate(calc(var(--x) * var(--abre)), calc(var(--y) * var(--abre))) rotate(calc(var(--r) * var(--abre)));
+}
+.ponte__leque li:nth-child(1) { --x: -78%; --y: 9%; --r: -10deg; }
+.ponte__leque li:nth-child(2) { --x: 0%; --y: -4%; --r: 1deg; z-index: 2; }
+.ponte__leque li:nth-child(3) { --x: 78%; --y: 9%; --r: 10deg; }
+.ponte__leque img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+
 /* A Maria: pêssego, retrato grande */
 .maria { background: var(--pessego); padding-block: var(--section); }
 .maria__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: center; }
@@ -597,7 +621,8 @@ input, select, textarea { caret-color: var(--framboesa); }
 .adesivos-par { display: flex; gap: 28px; margin-top: 36px; }
 .adesivos-par .adesivo { position: static; --tam: 84px; }
 .ocasioes__head { position: relative; }
-.ocasioes__head .adesivo { top: -20px; right: -140px; --tam: 110px; }
+/* No vão acima do quarto cartão, que fica mais baixo que os outros */
+.ocasioes__head .adesivo { right: 3%; bottom: -118px; --tam: 92px; }
 .maria__photo { position: relative; }
 .maria__photo .adesivo { left: -48px; bottom: 56px; --tam: 120px; }
 .footer .wrap { position: relative; }
@@ -607,10 +632,20 @@ input, select, textarea { caret-color: var(--framboesa); }
 .maria__photo { overflow: visible; }
 .maria__photo img, .maria__strip img, .ocasiao__foto img { border-radius: 999px 999px 0 0; }
 
-/* Encomendas por ocasião */
-.ocasioes { --focus: var(--espresso); background: var(--pessego); padding-block: var(--section); }
-.ocasioes__head { max-width: 40em; }
-.ocasioes__head p { margin-top: 20px; max-width: 32em; }
+/* Encomendas por ocasião: a primeira tela da página de encomendas, sob o mesmo toldo */
+.ocasioes { --focus: var(--espresso); background: var(--pessego); padding-bottom: var(--section); }
+.ocasioes__head {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px var(--gap); align-items: end;
+  padding-top: clamp(36px, 4.4vw, 64px);
+}
+.ocasioes__head h1 { grid-column: 1 / 8; }
+.ocasioes__intro { grid-column: 8 / 13; }
+.ocasioes__intro .lead { margin-top: 0; }
+.ocasioes__intro .actions { margin-top: 28px; }
+.atalhos { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; font-size: var(--t-small); color: var(--ink-claro); }
+.atalhos a { font-weight: 500; text-decoration: underline; text-decoration-color: var(--rose); }
+.atalhos a:hover { color: var(--espresso); }
+.ocasioes__lista:focus { outline: none; }
 .ocasioes__lista {
   list-style: none; padding: 0; margin: 56px 0 0;
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px var(--gap); align-items: start;
@@ -661,7 +696,7 @@ body::after {
 .sem-animacao .case__light { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html.suave { scroll-behavior: auto; }
   .selo__anel { rotate: 0deg; }
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
   .js [data-reveal] > :not(.adesivo), .js .case .item__pic img, .js .case__light { opacity: 1; transform: none; filter: none; clip-path: none; }
@@ -675,7 +710,9 @@ body::after {
   .menu__head { position: static; }
   .menu__head .adesivo { position: absolute; top: calc(var(--section) - 20px); right: var(--gutter); margin: 0; --tam: 88px; }
   .ocasioes__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ocasioes__head .adesivo { right: 0; top: -70px; --tam: 90px; }
+  .ocasioes__head h1, .ocasioes__intro { grid-column: 1 / -1; }
+  .ocasioes__intro .lead { max-width: 30em; }
+  .ponte__copy, .ponte__leque { grid-column: 1 / -1; }
   .sizes__copy, .plates { grid-column: 1 / -1; }
   .mesa__copy, .mesa__tiles { grid-column: 1 / -1; justify-self: start; }
   .orcamento__copy, .quote { grid-column: 1 / -1; }
@@ -697,6 +734,8 @@ body::after {
   .nav.is-open { display: flex; }
   .nav a { font-size: var(--t-body); padding: 14px 0; border-bottom: 2px solid var(--vinho); }
   .sign__action { margin-left: auto; }
+  .so-largo { display: none; }
+  .so-celular { display: inline; }
   .menu-toggle {
     display: grid; place-items: center; width: 44px; height: 44px; margin-right: -8px;
     border: 0; background: none; color: var(--pessego-claro);
@@ -734,6 +773,11 @@ body::after {
   .faixa { padding: 14px 0; }
   .faixa__grupo { font-size: 1.75rem; gap: 22px; padding-right: 22px; }
   .ocasiao:nth-child(even) { margin-top: 32px; }
+  .ocasioes__head .adesivo { bottom: -78px; --tam: 64px; }
+  .ponte__leque { --foto: 38vw; height: calc(var(--foto) * 1.25 + 72px); }
+  .ponte__leque li { padding: 6px; }
+  .ponte__leque li:nth-child(1) { --x: -60%; }
+  .ponte__leque li:nth-child(3) { --x: 60%; }
   .maria__photo .adesivo { left: -10px; bottom: 30px; --tam: 88px; }
   .footer .adesivo { --tam: 84px; top: -10px; }
   .torta { --w: 76vw; }

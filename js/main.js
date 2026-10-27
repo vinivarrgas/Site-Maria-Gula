@@ -5,6 +5,7 @@
   if (!D) return;
   window.__mgPronto = true;
 
+  // O mesmo script serve as duas páginas (hoje e encomendas): cada parte só roda se o seu bloco existir.
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -20,7 +21,9 @@
   // No display, o "R$" da Gloock parece "RS"; o símbolo vai na fonte do texto.
   const moeda = (html) => html.replace('R$', '<span class="cur">R$</span>');
   const precoCurto = (p) => moeda(Number.isInteger(p) ? `R$&nbsp;${p}` : esc(brl.format(p)));
+  const precoKg = (v) => `${brl.format(v)} o kg`;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const rola = (alvo) => alvo.scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' });
 
   /* Links de WhatsApp */
   $$('[data-wa]').forEach((a) => {
@@ -67,12 +70,42 @@
     });
 
     const aviso = $('[data-delivery-note]');
+    if (!aviso) return;
     aviso.hidden = deliveryAberto;
     const volta = h < D.delivery[0] ? `hoje às ${hora(D.delivery[0])}` : `amanhã às ${hora(D.delivery[0])}`;
     aviso.textContent = `O delivery está fechado agora e volta ${volta}. Você pode enviar o pedido e combinar o horário no WhatsApp.`;
   }
   atualizaStatus();
   setInterval(atualizaStatus, 60_000);
+
+  /* Aviso curto, com ação opcional (desfazer) */
+  const gaveta = $('[data-drawer]');
+  const toast = $('[data-toast]');
+  let toastTimer;
+  const escondeAviso = () => toast.classList.remove('is-visible');
+  function aviso(texto, acao) {
+    // Com a gaveta aberta, o aviso precisa estar dentro dela para ficar acima do fundo escuro.
+    const lugar = gaveta?.open ? gaveta : document.body;
+    if (toast.parentElement !== lugar) lugar.append(toast);
+    toast.replaceChildren(Object.assign(document.createElement('span'), { textContent: texto }));
+    if (acao) {
+      const desfazer = Object.assign(document.createElement('button'), {
+        type: 'button',
+        className: 'toast__action',
+        textContent: acao.rotulo,
+      });
+      desfazer.addEventListener('click', () => {
+        acao.acao();
+        escondeAviso();
+      });
+      toast.append(desfazer);
+    }
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(escondeAviso, acao ? 6000 : 2400);
+  }
+
+  /* ——— Página de hoje ——— */
 
   /* Itens do delivery: a foto do doce e a plaquinha de preço */
   let grupoSabor = 0;
@@ -99,11 +132,14 @@
       </li>`;
   }
 
-  $('[data-destaques]').innerHTML = (D.destaques || [])
-    .filter((id) => ITENS.has(id))
-    .map((id, i) => itemHTML(ITENS.get(id), i))
-    .join('')
-    .replaceAll('loading="lazy"', 'loading="eager"');
+  const destaques = $('[data-destaques]');
+  if (destaques) {
+    destaques.innerHTML = (D.destaques || [])
+      .filter((id) => ITENS.has(id))
+      .map((id, i) => itemHTML(ITENS.get(id), i))
+      .join('')
+      .replaceAll('loading="lazy"', 'loading="eager"');
+  }
 
   // Cardápio do dia: cada item é um prato redondo visto de cima, com nome, descrição e preço.
   function pratoHTML(item) {
@@ -128,447 +164,453 @@
       </li>`;
   }
 
-  $('[data-menu]').innerHTML = D.cardapio
-    .map(
-      (cat) => `<section class="shelf${cat.itens.length === 1 ? (cat.itens[0].sabores ? ' shelf--um-sabores' : ' shelf--um') : ''}" aria-labelledby="prateleira-${cat.id}" data-reveal>
-        <h3 class="shelf__name" id="prateleira-${cat.id}">${esc(cat.nome)}</h3>
-        <ul class="shelf__row">${cat.itens.map(pratoHTML).join('')}</ul>
-      </section>`
-    )
-    .join('');
+  const cardapio = $('[data-menu]');
+  if (cardapio) {
+    cardapio.innerHTML = D.cardapio
+      .map(
+        (cat) => `<section class="shelf${cat.itens.length === 1 ? (cat.itens[0].sabores ? ' shelf--um-sabores' : ' shelf--um') : ''}" aria-labelledby="prateleira-${cat.id}" data-reveal>
+          <h3 class="shelf__name" id="prateleira-${cat.id}">${esc(cat.nome)}</h3>
+          <ul class="shelf__row">${cat.itens.map(pratoHTML).join('')}</ul>
+        </section>`
+      )
+      .join('');
+  }
 
   /* Faixa de frases */
   const faixaTrilho = $('[data-faixa-trilho]');
-  const grupoFaixa = `<div class="faixa__grupo">${(D.frases || [])
-    .map((f) => `<span>${esc(f)}</span><svg aria-hidden="true"><use href="#i-hat"></use></svg>`)
-    .join('')}</div>`;
-  faixaTrilho.innerHTML = grupoFaixa + grupoFaixa;
+  if (faixaTrilho) {
+    const grupoFaixa = `<div class="faixa__grupo">${(D.frases || [])
+      .map((f) => `<span>${esc(f)}</span><svg aria-hidden="true"><use href="#i-hat"></use></svg>`)
+      .join('')}</div>`;
+    faixaTrilho.innerHTML = grupoFaixa + grupoFaixa;
+  }
+
+  /* ——— Página de encomendas ——— */
 
   /* Encomendas por ocasião */
-  $('[data-ocasioes]').innerHTML = (D.ocasioes || [])
-    .map(
-      (o) => `<li class="ocasiao">
-        <figure class="ocasiao__foto"><img src="${foto(`ocasiao-${o.id}`)}" alt="${esc(o.nome)}" width="800" height="1000" loading="lazy"></figure>
-        <h3>${esc(o.nome)}</h3>
-        <p>${esc(o.texto)}</p>
-        <button type="button" class="btn btn--primary btn--sm" data-ocasiao="${o.id}">Pedir orçamento</button>
-      </li>`
-    )
-    .join('');
+  const ocasioes = $('[data-ocasioes]');
+  if (ocasioes) {
+    ocasioes.innerHTML = (D.ocasioes || [])
+      .map(
+        (o) => `<li class="ocasiao">
+          <figure class="ocasiao__foto"><img src="${foto(`ocasiao-${o.id}`)}" alt="${esc(o.nome)}" width="800" height="1000"></figure>
+          <h3>${esc(o.nome)}</h3>
+          <p>${esc(o.texto)}</p>
+          <button type="button" class="btn btn--primary btn--sm" data-ocasiao="${o.id}">Pedir orçamento</button>
+        </li>`
+      )
+      .join('');
+  }
 
   /* Tortas: cartões com foto; as outras entram numa lista */
-  const comFoto = D.tortas.filter((t) => t.foto);
-  const semFoto = D.tortas.filter((t) => !t.foto);
-  const precoKg = (v) => `${brl.format(v)} o kg`;
-  $('[data-tortas]').innerHTML =
-    comFoto
-      .map(
-        (t) => `<article class="torta">
-          <figure class="torta__pic"><img src="${foto(`torta-${t.id}`)}" alt="Torta ${esc(t.nome)}" width="800" height="1000" loading="lazy"></figure>
-          <div class="torta__body">
-            <div class="torta__head"><h3 class="torta__name">${esc(t.nome)}</h3><span class="torta__price">${precoKg(t.precoKg)}</span></div>
-            <p class="torta__desc">${esc(t.descricao)}</p>
-            <button type="button" class="btn btn--light btn--sm" data-quero="${t.id}">Quero esta torta</button>
-          </div>
-        </article>`
-      )
-      .join('') +
-    `<article class="torta torta--mais">
-      <h3 class="torta__name">E mais ${semFoto.length} sabores</h3>
-      <p class="torta__desc">São ${D.tortas.length} tortas ao todo, de ${brl.format(Math.min(...D.tortas.map((t) => t.precoKg)))} a ${brl.format(Math.max(...D.tortas.map((t) => t.precoKg)))} o kg. Escolha a sua no orçamento.</p>
-      <a class="btn btn--light btn--sm" href="#orcamento">Ver todos os sabores</a>
-    </article>`;
+  const tortas = $('[data-tortas]');
+  if (tortas) {
+    const comFoto = D.tortas.filter((t) => t.foto);
+    const semFoto = D.tortas.filter((t) => !t.foto);
+    tortas.innerHTML =
+      comFoto
+        .map(
+          (t) => `<article class="torta">
+            <figure class="torta__pic"><img src="${foto(`torta-${t.id}`)}" alt="Torta ${esc(t.nome)}" width="800" height="1000" loading="lazy"></figure>
+            <div class="torta__body">
+              <div class="torta__head"><h3 class="torta__name">${esc(t.nome)}</h3><span class="torta__price">${precoKg(t.precoKg)}</span></div>
+              <p class="torta__desc">${esc(t.descricao)}</p>
+              <button type="button" class="btn btn--light btn--sm" data-quero="${t.id}">Quero esta torta</button>
+            </div>
+          </article>`
+        )
+        .join('') +
+      `<article class="torta torta--mais">
+        <h3 class="torta__name">E mais ${semFoto.length} sabores</h3>
+        <p class="torta__desc">São ${D.tortas.length} tortas ao todo, de ${brl.format(Math.min(...D.tortas.map((t) => t.precoKg)))} a ${brl.format(Math.max(...D.tortas.map((t) => t.precoKg)))} o kg. Escolha a sua no orçamento.</p>
+        <a class="btn btn--light btn--sm" href="#orcamento">Ver todos os sabores</a>
+      </article>`;
+  }
 
   /* Tamanhos: pratos desenhados em escala */
-  $('[data-tamanhos]').innerHTML = D.tamanhos
-    .map(
-      (t) => `<li class="plate" data-plate="${t.id}">
-        <button type="button" class="plate__btn" style="--d: calc(${t.id} * clamp(4.4px, 0.8vw, 8px))" aria-label="Escolher ${esc(t.forma.toLowerCase())}, até ${t.fatias} fatias, no orçamento"><span></span></button>
-        <p class="plate__forma">${t.id} cm</p>
-        <p class="plate__fatias">até ${t.fatias} fatias</p>
-      </li>`
-    )
-    .join('');
+  const tamanhos = $('[data-tamanhos]');
+  if (tamanhos) {
+    tamanhos.innerHTML = D.tamanhos
+      .map(
+        (t) => `<li class="plate" data-plate="${t.id}">
+          <button type="button" class="plate__btn" style="--d: calc(${t.id} * clamp(4.4px, 0.8vw, 8px))" aria-label="Escolher ${esc(t.forma.toLowerCase())}, até ${t.fatias} fatias, no orçamento"><span></span></button>
+          <p class="plate__forma">${t.id} cm</p>
+          <p class="plate__fatias">até ${t.fatias} fatias</p>
+        </li>`
+      )
+      .join('');
+  }
 
   /* Docinhos: grupos com preço e a mesa de fotos */
-  const precoDoce = (g) => {
-    if (g.preco) return `${brl.format(g.preco)} cada`;
-    const valores = g.itens.map((i) => i.preco);
-    return `${brl.format(Math.min(...valores))} a ${brl.format(Math.max(...valores))}`;
-  };
-  $('[data-grupos]').innerHTML = D.docinhos
-    .map(
-      (g) => `<div class="grupo">
-        <dt>${esc(g.nome)} <span>${precoDoce(g)}</span></dt>
-        <dd>${g.itens.length} sabores.${g.nota ? ` ${esc(g.nota)}` : ''}</dd>
-      </div>`
-    )
-    .join('');
-  $('[data-docinhos]').innerHTML = D.docinhos
-    .flatMap((g) => g.itens.filter((i) => i.foto).map((i) => ({ ...i, preco: i.preco ?? g.preco })))
-    .map(
-      (i) => `<li class="tile">
-        <figure>
-          <img src="${foto(`${i.foto}-${i.id}`)}" alt="${esc(i.nome)}" width="800" height="1000" loading="lazy">
-          <figcaption>${esc(i.nome)}<span>${brl.format(i.preco)}</span></figcaption>
-        </figure>
-      </li>`
-    )
-    .join('');
-
-  /* Créditos das fotos ilustrativas */
-  const nomesPorFoto = new Map([
-    ...D.cardapio.flatMap((c) => c.itens.map((i) => [i.id, i.nome])),
-    ...D.tortas.map((t) => [`torta-${t.id}`, `Torta ${t.nome}`]),
-    ...D.docinhos.flatMap((g) => g.itens.filter((i) => i.foto).map((i) => [`${i.foto}-${i.id}`, i.nome])),
-    ...(D.ocasioes || []).map((o) => [`ocasiao-${o.id}`, o.nome]),
-  ]);
-  const creditos = (window.MG_CREDITOS || []).filter((c) => nomesPorFoto.has(c.id));
-  $('[data-creditos]').innerHTML = creditos
-    .map(
-      (c) =>
-        `<li>${esc(nomesPorFoto.get(c.id))}: <a href="${esc(c.source_page)}" target="_blank" rel="noopener">${esc(c.creator || 'autor desconhecido')}</a>, ${esc(c.license)}</li>`
-    )
-    .join('');
-  $('.credits').hidden = creditos.length === 0;
-
-  /* Pedido do delivery */
-  const CHAVE = 'mariagula:pedido';
-  let pedido = [];
-  try {
-    pedido = JSON.parse(localStorage.getItem(CHAVE)) || [];
-  } catch {
-    pedido = [];
-  }
-  pedido = Array.isArray(pedido) ? pedido.filter((l) => ITENS.has(l.id) && l.qtd > 0) : [];
-
-  const salva = () => {
-    try {
-      localStorage.setItem(CHAVE, JSON.stringify(pedido));
-    } catch {
-      /* navegador sem armazenamento: o pedido vale só nesta visita */
-    }
-  };
-  const subtotal = () => pedido.reduce((soma, l) => soma + ITENS.get(l.id).preco * l.qtd, 0);
-  const totalItens = () => pedido.reduce((soma, l) => soma + l.qtd, 0);
-
-  const barra = $('[data-orderbar]');
-  const lista = $('[data-order-list]');
-  const gaveta = $('[data-drawer]');
-  const form = $('[data-order-form]');
-
-  function desenha() {
-    const n = totalItens();
-    const total = brl.format(subtotal());
-    barra.hidden = n === 0;
-    $('[data-order-count]').textContent = n;
-    $('[data-order-items]').textContent = n === 1 ? '1 item' : `${n} itens`;
-    $('[data-order-total]').innerHTML = moeda(total);
-    $('[data-order-subtotal]').innerHTML = moeda(total);
-
-    $$('[data-count]').forEach((el) => {
-      const id = el.dataset.count;
-      const q = pedido.filter((l) => l.id === id).reduce((soma, l) => soma + l.qtd, 0);
-      el.textContent = q || '';
-      el.closest('[data-item]').classList.toggle('is-in-order', q > 0);
-      el.closest('.add').setAttribute('aria-label', `Adicionar ${ITENS.get(id).nome} ao pedido${q ? `, ${q} no pedido` : ''}`);
-    });
-
-    lista.innerHTML = pedido
-      .map((l, i) => {
-        const item = ITENS.get(l.id);
-        const nome = esc(item.nome);
-        const ultimo = l.qtd === 1;
-        return `<li class="line">
-          <img class="line__pic" src="${foto(item.id)}" alt="" width="800" height="1000">
-          <div class="line__info">
-            <p class="line__name">${nome}</p>
-            ${l.sabor ? `<p class="line__flavor">${esc(l.sabor)}</p>` : ''}
-            <p class="line__price">${brl.format(item.preco * l.qtd)}</p>
-          </div>
-          <div class="stepper">
-            <button type="button" data-step="-1" data-index="${i}" aria-label="${ultimo ? `Tirar ${nome} do pedido` : `Diminuir ${nome}`}">
-              <svg aria-hidden="true"><use href="#${ultimo ? 'i-trash' : 'i-minus'}"></use></svg>
-            </button>
-            <output aria-label="Quantidade de ${nome}">${l.qtd}</output>
-            <button type="button" data-step="1" data-index="${i}" aria-label="Aumentar ${nome}">
-              <svg aria-hidden="true"><use href="#i-plus"></use></svg>
-            </button>
-          </div>
-        </li>`;
-      })
+  const grupos = $('[data-grupos]');
+  if (grupos) {
+    const precoDoce = (g) => {
+      if (g.preco) return `${brl.format(g.preco)} cada`;
+      const valores = g.itens.map((i) => i.preco);
+      return `${brl.format(Math.min(...valores))} a ${brl.format(Math.max(...valores))}`;
+    };
+    grupos.innerHTML = D.docinhos
+      .map(
+        (g) => `<div class="grupo">
+          <dt>${esc(g.nome)} <span>${precoDoce(g)}</span></dt>
+          <dd>${g.itens.length} sabores.${g.nota ? ` ${esc(g.nota)}` : ''}</dd>
+        </div>`
+      )
       .join('');
-
-    $('[data-order-empty]').hidden = n > 0;
-    $('[data-order-fields]').hidden = n === 0;
-    $('[data-order-foot]').hidden = n === 0;
+  }
+  const docinhos = $('[data-docinhos]');
+  if (docinhos) {
+    docinhos.innerHTML = D.docinhos
+      .flatMap((g) => g.itens.filter((i) => i.foto).map((i) => ({ ...i, preco: i.preco ?? g.preco })))
+      .map(
+        (i) => `<li class="tile">
+          <figure>
+            <img src="${foto(`${i.foto}-${i.id}`)}" alt="${esc(i.nome)}" width="800" height="1000" loading="lazy">
+            <figcaption>${esc(i.nome)}<span>${brl.format(i.preco)}</span></figcaption>
+          </figure>
+        </li>`
+      )
+      .join('');
   }
 
-  function adiciona(id, sabor) {
-    const linha = pedido.find((l) => l.id === id && l.sabor === sabor);
-    if (linha) linha.qtd += 1;
-    else pedido.push({ id, sabor, qtd: 1 });
-    salva();
-    desenha();
-    aviso(`${ITENS.get(id).nome} entrou no pedido.`);
-    if (!reduzMovimento) {
-      barra.classList.remove('is-bump');
-      void barra.offsetWidth;
-      barra.classList.add('is-bump');
+  /* Créditos: só das fotos ilustrativas que aparecem nesta página */
+  const listaCreditos = $('[data-creditos]');
+  if (listaCreditos) {
+    const nomesPorFoto = new Map([
+      ...D.cardapio.flatMap((c) => c.itens.map((i) => [i.id, i.nome])),
+      ...D.tortas.map((t) => [`torta-${t.id}`, `Torta ${t.nome}`]),
+      ...D.docinhos.flatMap((g) => g.itens.filter((i) => i.foto).map((i) => [`${i.foto}-${i.id}`, i.nome])),
+      ...(D.ocasioes || []).map((o) => [`ocasiao-${o.id}`, o.nome]),
+    ]);
+    const naPagina = new Set($$('img').map((img) => img.getAttribute('src')));
+    const creditos = (window.MG_CREDITOS || []).filter((c) => nomesPorFoto.has(c.id) && naPagina.has(foto(c.id)));
+    listaCreditos.innerHTML = creditos
+      .map(
+        (c) =>
+          `<li>${esc(nomesPorFoto.get(c.id))}: <a href="${esc(c.source_page)}" target="_blank" rel="noopener">${esc(c.creator || 'autor desconhecido')}</a>, ${esc(c.license)}</li>`
+      )
+      .join('');
+    listaCreditos.closest('.credits').hidden = creditos.length === 0;
+  }
+
+  /* Pedido do delivery (página de hoje) */
+  if (gaveta) {
+    const CHAVE = 'mariagula:pedido';
+    let pedido = [];
+    try {
+      pedido = JSON.parse(localStorage.getItem(CHAVE)) || [];
+    } catch {
+      pedido = [];
     }
-  }
+    pedido = Array.isArray(pedido) ? pedido.filter((l) => ITENS.has(l.id) && l.qtd > 0) : [];
 
-  function altera(i, delta) {
-    const linha = pedido[i];
-    if (!linha) return;
-    linha.qtd += delta;
-    if (linha.qtd > 0) {
+    const salva = () => {
+      try {
+        localStorage.setItem(CHAVE, JSON.stringify(pedido));
+      } catch {
+        /* navegador sem armazenamento: o pedido vale só nesta visita */
+      }
+    };
+    const subtotal = () => pedido.reduce((soma, l) => soma + ITENS.get(l.id).preco * l.qtd, 0);
+    const totalItens = () => pedido.reduce((soma, l) => soma + l.qtd, 0);
+
+    const barra = $('[data-orderbar]');
+    const lista = $('[data-order-list]');
+    const form = $('[data-order-form]');
+
+    const desenha = () => {
+      const n = totalItens();
+      const total = brl.format(subtotal());
+      barra.hidden = n === 0;
+      $('[data-order-count]').textContent = n;
+      $('[data-order-items]').textContent = n === 1 ? '1 item' : `${n} itens`;
+      $('[data-order-total]').innerHTML = moeda(total);
+      $('[data-order-subtotal]').innerHTML = moeda(total);
+
+      $$('[data-count]').forEach((el) => {
+        const id = el.dataset.count;
+        const q = pedido.filter((l) => l.id === id).reduce((soma, l) => soma + l.qtd, 0);
+        el.textContent = q || '';
+        el.closest('[data-item]').classList.toggle('is-in-order', q > 0);
+        el.closest('.add').setAttribute('aria-label', `Adicionar ${ITENS.get(id).nome} ao pedido${q ? `, ${q} no pedido` : ''}`);
+      });
+
+      lista.innerHTML = pedido
+        .map((l, i) => {
+          const item = ITENS.get(l.id);
+          const nome = esc(item.nome);
+          const ultimo = l.qtd === 1;
+          return `<li class="line">
+            <img class="line__pic" src="${foto(item.id)}" alt="" width="800" height="1000">
+            <div class="line__info">
+              <p class="line__name">${nome}</p>
+              ${l.sabor ? `<p class="line__flavor">${esc(l.sabor)}</p>` : ''}
+              <p class="line__price">${brl.format(item.preco * l.qtd)}</p>
+            </div>
+            <div class="stepper">
+              <button type="button" data-step="-1" data-index="${i}" aria-label="${ultimo ? `Tirar ${nome} do pedido` : `Diminuir ${nome}`}">
+                <svg aria-hidden="true"><use href="#${ultimo ? 'i-trash' : 'i-minus'}"></use></svg>
+              </button>
+              <output aria-label="Quantidade de ${nome}">${l.qtd}</output>
+              <button type="button" data-step="1" data-index="${i}" aria-label="Aumentar ${nome}">
+                <svg aria-hidden="true"><use href="#i-plus"></use></svg>
+              </button>
+            </div>
+          </li>`;
+        })
+        .join('');
+
+      $('[data-order-empty]').hidden = n > 0;
+      $('[data-order-fields]').hidden = n === 0;
+      $('[data-order-foot]').hidden = n === 0;
+    };
+
+    const adiciona = (id, sabor) => {
+      const linha = pedido.find((l) => l.id === id && l.sabor === sabor);
+      if (linha) linha.qtd += 1;
+      else pedido.push({ id, sabor, qtd: 1 });
       salva();
       desenha();
-      return;
-    }
-    const [removida] = pedido.splice(i, 1);
-    salva();
-    desenha();
-    aviso(`${ITENS.get(removida.id).nome} saiu do pedido.`, {
-      rotulo: 'Desfazer',
-      acao: () => {
-        removida.qtd = 1;
-        pedido.splice(Math.min(i, pedido.length), 0, removida);
+      aviso(`${ITENS.get(id).nome} entrou no pedido.`);
+      if (!reduzMovimento) {
+        barra.classList.remove('is-bump');
+        void barra.offsetWidth;
+        barra.classList.add('is-bump');
+      }
+    };
+
+    const altera = (i, delta) => {
+      const linha = pedido[i];
+      if (!linha) return;
+      linha.qtd += delta;
+      if (linha.qtd > 0) {
         salva();
         desenha();
-      },
-    });
-  }
-
-  // Itens da vitrine e do cardápio usam o mesmo pedido.
-  document.addEventListener('click', (e) => {
-    const botao = e.target.closest('[data-add]');
-    if (!botao) return;
-    const item = botao.closest('[data-item]');
-    adiciona(botao.dataset.add, item.querySelector('[data-sabor]:checked')?.value || '');
-    if (!reduzMovimento) {
-      item.classList.remove('is-pop');
-      void item.offsetWidth;
-      item.classList.add('is-pop');
-    }
-  });
-
-  lista.addEventListener('click', (e) => {
-    const botao = e.target.closest('[data-step]');
-    if (!botao) return;
-    const i = Number(botao.dataset.index);
-    const delta = Number(botao.dataset.step);
-    altera(i, delta);
-    // A lista é redesenhada: devolve o foco ao mesmo controle, ou ao título se a linha saiu.
-    const mesmo = lista.querySelector(`[data-index="${i}"][data-step="${delta}"]`);
-    (mesmo || lista.querySelector('[data-step]') || $('#pedido-titulo')).focus();
-  });
-
-  /* Aviso curto, com ação opcional (desfazer) */
-  const toast = $('[data-toast]');
-  let toastTimer;
-  const escondeAviso = () => toast.classList.remove('is-visible');
-  function aviso(texto, acao) {
-    // Com a gaveta aberta, o aviso precisa estar dentro dela para ficar acima do fundo escuro.
-    const lugar = gaveta.open ? gaveta : document.body;
-    if (toast.parentElement !== lugar) lugar.append(toast);
-    toast.replaceChildren(Object.assign(document.createElement('span'), { textContent: texto }));
-    if (acao) {
-      const desfazer = Object.assign(document.createElement('button'), {
-        type: 'button',
-        className: 'toast__action',
-        textContent: acao.rotulo,
+        return;
+      }
+      const [removida] = pedido.splice(i, 1);
+      salva();
+      desenha();
+      aviso(`${ITENS.get(removida.id).nome} saiu do pedido.`, {
+        rotulo: 'Desfazer',
+        acao: () => {
+          removida.qtd = 1;
+          pedido.splice(Math.min(i, pedido.length), 0, removida);
+          salva();
+          desenha();
+        },
       });
-      desfazer.addEventListener('click', () => {
-        acao.acao();
-        escondeAviso();
-      });
-      toast.append(desfazer);
-    }
-    toast.classList.add('is-visible');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(escondeAviso, acao ? 6000 : 2400);
-  }
+    };
 
-  /* Gaveta do pedido */
-  let modoEscolhido = false;
-  const abrePedido = () => {
-    atualizaStatus();
-    // Com a loja aberta e o delivery fechado, a retirada é o caminho que funciona agora.
-    if (!modoEscolhido && !deliveryAberto && lojaAberta) form.elements.modo.value = 'retirada';
-    atualizaModo();
-    if (typeof gaveta.showModal === 'function') gaveta.showModal();
-    else gaveta.setAttribute('open', '');
-    document.body.classList.add('pedido-aberto');
-    $('#pedido-titulo').focus();
-  };
-  const fechaPedido = () => {
-    if (typeof gaveta.close === 'function') gaveta.close();
-    else gaveta.removeAttribute('open');
-  };
-  $$('[data-open-order]').forEach((b) => b.addEventListener('click', abrePedido));
-  $$('[data-close-order]').forEach((b) => b.addEventListener('click', fechaPedido));
-  gaveta.addEventListener('click', (e) => {
-    if (e.target === gaveta) fechaPedido();
-  });
-  gaveta.addEventListener('close', () => {
-    document.body.classList.remove('pedido-aberto');
-    if (toast.parentElement === gaveta) document.body.append(toast);
-  });
-  $('[data-go-menu]').addEventListener('click', () => {
-    fechaPedido();
-    $('#cardapio').scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' });
-  });
-
-  const campoEndereco = form.elements.endereco;
-  const erroEndereco = $('[data-address-error]');
-  function atualizaModo() {
-    const entrega = form.elements.modo.value === 'entrega';
-    $('[data-address]').hidden = !entrega;
-    $('[data-fee]').hidden = !entrega;
-    if (!entrega) limpaErroEndereco();
-  }
-  function limpaErroEndereco() {
-    erroEndereco.hidden = true;
-    campoEndereco.removeAttribute('aria-invalid');
-  }
-  form.addEventListener('change', (e) => {
-    if (e.target.name !== 'modo') return;
-    modoEscolhido = true;
-    atualizaModo();
-  });
-  campoEndereco.addEventListener('input', () => {
-    if (campoEndereco.value.trim()) limpaErroEndereco();
-  });
-
-  function mensagemPedido() {
-    const f = form.elements;
-    const entrega = f.modo.value === 'entrega';
-    const nome = f.nome.value.trim();
-    const obs = f.obs.value.trim();
-    const itens = pedido.map((l) => {
-      const item = ITENS.get(l.id);
-      return `• ${l.qtd}x ${item.nome}${l.sabor ? ` (${l.sabor})` : ''}: ${brl.format(item.preco * l.qtd)}`;
+    // Itens da vitrine e do cardápio usam o mesmo pedido.
+    document.addEventListener('click', (e) => {
+      const botao = e.target.closest('[data-add]');
+      if (!botao) return;
+      const item = botao.closest('[data-item]');
+      adiciona(botao.dataset.add, item.querySelector('[data-sabor]:checked')?.value || '');
+      if (!reduzMovimento) {
+        item.classList.remove('is-pop');
+        void item.offsetWidth;
+        item.classList.add('is-pop');
+      }
     });
-    return [
-      'Olá, Maria Gula! Quero fazer um pedido:',
-      '',
-      ...itens,
-      '',
-      `Subtotal: ${brl.format(subtotal())}${entrega ? ' + taxa de entrega' : ''}`,
-      nome ? `Nome: ${nome}` : null,
-      entrega ? `Entrega em: ${f.endereco.value.trim()}` : 'Vou retirar na loja.',
-      obs ? `Observações: ${obs}` : null,
-    ]
-      .filter((linha) => linha !== null)
-      .join('\n');
+
+    lista.addEventListener('click', (e) => {
+      const botao = e.target.closest('[data-step]');
+      if (!botao) return;
+      const i = Number(botao.dataset.index);
+      const delta = Number(botao.dataset.step);
+      altera(i, delta);
+      // A lista é redesenhada: devolve o foco ao mesmo controle, ou ao título se a linha saiu.
+      const mesmo = lista.querySelector(`[data-index="${i}"][data-step="${delta}"]`);
+      (mesmo || lista.querySelector('[data-step]') || $('#pedido-titulo')).focus();
+    });
+
+    /* Gaveta do pedido */
+    const campoEndereco = form.elements.endereco;
+    const erroEndereco = $('[data-address-error]');
+    const limpaErroEndereco = () => {
+      erroEndereco.hidden = true;
+      campoEndereco.removeAttribute('aria-invalid');
+    };
+    const atualizaModo = () => {
+      const entrega = form.elements.modo.value === 'entrega';
+      $('[data-address]').hidden = !entrega;
+      $('[data-fee]').hidden = !entrega;
+      if (!entrega) limpaErroEndereco();
+    };
+
+    let modoEscolhido = false;
+    const abrePedido = () => {
+      atualizaStatus();
+      // Com a loja aberta e o delivery fechado, a retirada é o caminho que funciona agora.
+      if (!modoEscolhido && !deliveryAberto && lojaAberta) form.elements.modo.value = 'retirada';
+      atualizaModo();
+      if (typeof gaveta.showModal === 'function') gaveta.showModal();
+      else gaveta.setAttribute('open', '');
+      document.body.classList.add('pedido-aberto');
+      $('#pedido-titulo').focus();
+    };
+    const fechaPedido = () => {
+      if (typeof gaveta.close === 'function') gaveta.close();
+      else gaveta.removeAttribute('open');
+    };
+    $$('[data-open-order]').forEach((b) => b.addEventListener('click', abrePedido));
+    $$('[data-close-order]').forEach((b) => b.addEventListener('click', fechaPedido));
+    gaveta.addEventListener('click', (e) => {
+      if (e.target === gaveta) fechaPedido();
+    });
+    gaveta.addEventListener('close', () => {
+      document.body.classList.remove('pedido-aberto');
+      if (toast.parentElement === gaveta) document.body.append(toast);
+    });
+    $('[data-go-menu]').addEventListener('click', () => {
+      fechaPedido();
+      rola($('#cardapio'));
+    });
+
+    form.addEventListener('change', (e) => {
+      if (e.target.name !== 'modo') return;
+      modoEscolhido = true;
+      atualizaModo();
+    });
+    campoEndereco.addEventListener('input', () => {
+      if (campoEndereco.value.trim()) limpaErroEndereco();
+    });
+
+    const mensagemPedido = () => {
+      const f = form.elements;
+      const entrega = f.modo.value === 'entrega';
+      const nome = f.nome.value.trim();
+      const obs = f.obs.value.trim();
+      const itens = pedido.map((l) => {
+        const item = ITENS.get(l.id);
+        return `• ${l.qtd}x ${item.nome}${l.sabor ? ` (${l.sabor})` : ''}: ${brl.format(item.preco * l.qtd)}`;
+      });
+      return [
+        'Olá, Maria Gula! Quero fazer um pedido:',
+        '',
+        ...itens,
+        '',
+        `Subtotal: ${brl.format(subtotal())}${entrega ? ' + taxa de entrega' : ''}`,
+        nome ? `Nome: ${nome}` : null,
+        entrega ? `Entrega em: ${f.endereco.value.trim()}` : 'Vou retirar na loja.',
+        obs ? `Observações: ${obs}` : null,
+      ]
+        .filter((linha) => linha !== null)
+        .join('\n');
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!pedido.length) return;
+      if (form.elements.modo.value === 'entrega' && !campoEndereco.value.trim()) {
+        erroEndereco.hidden = false;
+        campoEndereco.setAttribute('aria-invalid', 'true');
+        campoEndereco.focus();
+        return;
+      }
+      window.open(linkWhats(mensagemPedido()), '_blank', 'noopener');
+    });
+
+    atualizaModo();
+    desenha();
   }
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!pedido.length) return;
-    if (form.elements.modo.value === 'entrega' && !campoEndereco.value.trim()) {
-      erroEndereco.hidden = false;
-      campoEndereco.setAttribute('aria-invalid', 'true');
-      campoEndereco.focus();
-      return;
-    }
-    window.open(linkWhats(mensagemPedido()), '_blank', 'noopener');
-  });
-
-  /* Orçamento de encomendas */
+  /* Orçamento de encomendas (página de encomendas) */
   const orc = $('[data-orcamento]');
-  const selectOcasiao = $('[data-ocasiao-select]');
-  selectOcasiao.innerHTML = [...(D.ocasioes || []).map((o) => `<option value="${o.id}">${esc(o.nome)}</option>`), '<option value="outra">Outra</option>'].join('');
-  const selectTorta = $('[data-torta-select]');
-  selectTorta.insertAdjacentHTML(
-    'beforeend',
-    D.tortas.map((t) => `<option value="${t.id}">${esc(t.nome)} (${precoKg(t.precoKg)})</option>`).join('')
-  );
+  if (orc) {
+    const selectOcasiao = $('[data-ocasiao-select]');
+    selectOcasiao.innerHTML = [...(D.ocasioes || []).map((o) => `<option value="${o.id}">${esc(o.nome)}</option>`), '<option value="outra">Outra</option>'].join('');
+    const selectTorta = $('[data-torta-select]');
+    selectTorta.insertAdjacentHTML(
+      'beforeend',
+      D.tortas.map((t) => `<option value="${t.id}">${esc(t.nome)} (${precoKg(t.precoKg)})</option>`).join('')
+    );
 
-  // Data mínima: hoje + antecedência, no fuso da loja.
-  const hojeLoja = new Intl.DateTimeFormat('en-CA', { timeZone: D.fusoHorario }).format(new Date());
-  const minima = new Date(`${hojeLoja}T12:00:00`);
-  minima.setDate(minima.getDate() + D.regrasEncomenda.antecedenciaDias);
-  const isoMinima = minima.toISOString().slice(0, 10);
-  const dataBR = (iso) => {
-    const [a, m, d] = iso.split('-');
-    const dia = new Date(`${iso}T12:00:00`).toLocaleDateString('pt-BR', { weekday: 'long' });
-    return `${d}/${m}/${a} (${dia})`;
-  };
-  orc.elements.data.min = isoMinima;
-  $('[data-data-minima]').textContent = dataBR(isoMinima);
+    // Data mínima: hoje + antecedência, no fuso da loja.
+    const hojeLoja = new Intl.DateTimeFormat('en-CA', { timeZone: D.fusoHorario }).format(new Date());
+    const minima = new Date(`${hojeLoja}T12:00:00`);
+    minima.setDate(minima.getDate() + D.regrasEncomenda.antecedenciaDias);
+    const isoMinima = minima.toISOString().slice(0, 10);
+    const dataBR = (iso) => {
+      const [a, m, d] = iso.split('-');
+      const dia = new Date(`${iso}T12:00:00`).toLocaleDateString('pt-BR', { weekday: 'long' });
+      return `${d}/${m}/${a} (${dia})`;
+    };
+    orc.elements.data.min = isoMinima;
+    $('[data-data-minima]').textContent = dataBR(isoMinima);
 
-  function escolheTorta(id) {
-    selectTorta.value = id;
-    $('#orcamento').scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' });
-    aviso(`Torta ${TORTAS.get(id).nome} escolhida no orçamento.`);
-  }
-  function escolheTamanho(id) {
-    orc.elements.tamanho.value = id;
-    $$('[data-plate]').forEach((p) => p.classList.toggle('is-chosen', p.dataset.plate === id));
-    aviso(`Forma de ${id} cm escolhida no orçamento.`);
-  }
-  function escolheOcasiao(id) {
-    selectOcasiao.value = id;
-    $('#orcamento').scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' });
-    aviso(`Orçamento para ${D.ocasioes.find((o) => o.id === id).nome.toLowerCase()}.`);
-  }
-  document.addEventListener('click', (e) => {
-    const quero = e.target.closest('[data-quero]');
-    if (quero) escolheTorta(quero.dataset.quero);
-    const ocasiao = e.target.closest('[data-ocasiao]');
-    if (ocasiao) escolheOcasiao(ocasiao.dataset.ocasiao);
-    const prato = e.target.closest('.plate__btn');
-    if (prato) escolheTamanho(prato.closest('[data-plate]').dataset.plate);
-  });
-  const marcaPrato = () => $$('[data-plate]').forEach((p) => p.classList.toggle('is-chosen', p.dataset.plate === orc.elements.tamanho.value));
-  orc.addEventListener('change', (e) => {
-    if (e.target.name === 'tamanho') marcaPrato();
-  });
-  marcaPrato();
+    const marcaPrato = () => $$('[data-plate]').forEach((p) => p.classList.toggle('is-chosen', p.dataset.plate === orc.elements.tamanho.value));
+    const escolheTorta = (id) => {
+      selectTorta.value = id;
+      rola($('#orcamento'));
+      aviso(`Torta ${TORTAS.get(id).nome} escolhida no orçamento.`);
+    };
+    const escolheTamanho = (id) => {
+      orc.elements.tamanho.value = id;
+      marcaPrato();
+      aviso(`Forma de ${id} cm escolhida no orçamento.`);
+    };
+    const escolheOcasiao = (id) => {
+      selectOcasiao.value = id;
+      rola($('#orcamento'));
+      aviso(`Orçamento para ${D.ocasioes.find((o) => o.id === id).nome.toLowerCase()}.`);
+    };
+    document.addEventListener('click', (e) => {
+      const quero = e.target.closest('[data-quero]');
+      if (quero) escolheTorta(quero.dataset.quero);
+      const ocasiao = e.target.closest('[data-ocasiao]');
+      if (ocasiao) escolheOcasiao(ocasiao.dataset.ocasiao);
+      const prato = e.target.closest('.plate__btn');
+      if (prato) escolheTamanho(prato.closest('[data-plate]').dataset.plate);
+    });
+    orc.addEventListener('change', (e) => {
+      if (e.target.name === 'tamanho') marcaPrato();
+    });
+    marcaPrato();
 
-  function marcaErro(campo, erro, temErro) {
-    $(erro).hidden = !temErro;
-    if (temErro) campo.setAttribute('aria-invalid', 'true');
-    else campo.removeAttribute('aria-invalid');
-  }
-  orc.addEventListener('input', (e) => {
-    if (e.target.name === 'nome' && e.target.value.trim()) marcaErro(e.target, '#erro-nome', false);
-    if (e.target.name === 'data' && e.target.value >= isoMinima) marcaErro(e.target, '#erro-data', false);
-  });
+    const marcaErro = (campo, erro, temErro) => {
+      $(erro).hidden = !temErro;
+      if (temErro) campo.setAttribute('aria-invalid', 'true');
+      else campo.removeAttribute('aria-invalid');
+    };
+    orc.addEventListener('input', (e) => {
+      if (e.target.name === 'nome' && e.target.value.trim()) marcaErro(e.target, '#erro-nome', false);
+      if (e.target.name === 'data' && e.target.value >= isoMinima) marcaErro(e.target, '#erro-data', false);
+    });
 
-  orc.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const f = orc.elements;
-    const nome = f.nome.value.trim();
-    const data = f.data.value;
-    const semNome = !nome;
-    const dataRuim = !data || data < isoMinima;
-    marcaErro(f.nome, '#erro-nome', semNome);
-    marcaErro(f.data, '#erro-data', dataRuim);
-    if (semNome || dataRuim) {
-      (semNome ? f.nome : f.data).focus();
-      return;
-    }
-    const torta = TORTAS.get(f.torta.value);
-    const tamanho = D.tamanhos.find((t) => t.id === f.tamanho.value);
-    const textoTamanho = tamanho ? `${tamanho.forma.toLowerCase()} (até ${tamanho.fatias} fatias)` : 'tamanho maior ou bolo de andar';
-    const linhas = [
-      'Olá, Maria Gula! Gostaria de um orçamento:',
-      '',
-      `Nome: ${nome}`,
-      `Ocasião: ${f.ocasiao.options[f.ocasiao.selectedIndex].text}`,
-      `Data do evento: ${dataBR(data)}`,
-      f.pessoas.value ? `Pessoas: ${f.pessoas.value}` : null,
-      `Torta: ${torta ? `${torta.nome}, ${textoTamanho}` : 'sem torta'}`,
-      f.docinhos.value.trim() ? `Docinhos: ${f.docinhos.value.trim()}` : null,
-      `Receber: ${f.receber.value === 'entrega' ? 'delivery' : 'retirada na loja'}`,
-      f.obs.value.trim() ? `Observações: ${f.obs.value.trim()}` : null,
-    ].filter((l) => l !== null);
-    window.open(linkWhats(linhas.join('\n')), '_blank', 'noopener');
-  });
+    orc.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = orc.elements;
+      const nome = f.nome.value.trim();
+      const data = f.data.value;
+      const semNome = !nome;
+      const dataRuim = !data || data < isoMinima;
+      marcaErro(f.nome, '#erro-nome', semNome);
+      marcaErro(f.data, '#erro-data', dataRuim);
+      if (semNome || dataRuim) {
+        (semNome ? f.nome : f.data).focus();
+        return;
+      }
+      const torta = TORTAS.get(f.torta.value);
+      const tamanho = D.tamanhos.find((t) => t.id === f.tamanho.value);
+      const textoTamanho = tamanho ? `${tamanho.forma.toLowerCase()} (até ${tamanho.fatias} fatias)` : 'tamanho maior ou bolo de andar';
+      const linhas = [
+        'Olá, Maria Gula! Gostaria de um orçamento:',
+        '',
+        `Nome: ${nome}`,
+        `Ocasião: ${f.ocasiao.options[f.ocasiao.selectedIndex].text}`,
+        `Data do evento: ${dataBR(data)}`,
+        f.pessoas.value ? `Pessoas: ${f.pessoas.value}` : null,
+        `Torta: ${torta ? `${torta.nome}, ${textoTamanho}` : 'sem torta'}`,
+        f.docinhos.value.trim() ? `Docinhos: ${f.docinhos.value.trim()}` : null,
+        `Receber: ${f.receber.value === 'entrega' ? 'delivery' : 'retirada na loja'}`,
+        f.obs.value.trim() ? `Observações: ${f.obs.value.trim()}` : null,
+      ].filter((l) => l !== null);
+      window.open(linkWhats(linhas.join('\n')), '_blank', 'noopener');
+    });
+  }
 
   /* Menu no celular */
   const botaoMenu = $('[data-menu-toggle]');
@@ -596,7 +638,7 @@
 
   /* 1. A vitrine acende */
   const vitrine = $('[data-case]');
-  requestAnimationFrame(() => setTimeout(() => vitrine.classList.add('is-lit'), 120));
+  if (vitrine) requestAnimationFrame(() => setTimeout(() => vitrine.classList.add('is-lit'), 120));
 
   /* 2. Entradas: cada parte sobe em sequência, uma vez */
   const blocos = $$('[data-reveal]');
@@ -626,6 +668,7 @@
   const trilhoTrack = $('[data-trilho-track]');
   let trilhoDist = 0;
   function preparaTrilho() {
+    if (!trilho) return;
     const vivo = !reduzMovimento && telaGrande.matches;
     trilho.classList.toggle('is-live', vivo);
     trilhoTrack.style.transform = '';
@@ -642,7 +685,7 @@
     trilho.style.setProperty('--trilho-altura', `${trilhoDist + window.innerHeight}px`);
   }
   function quadroTrilho() {
-    if (!trilho.classList.contains('is-live')) return;
+    if (!trilho?.classList.contains('is-live')) return;
     const topo = trilho.getBoundingClientRect().top;
     const percurso = trilho.offsetHeight - (window.innerHeight - alturaCabecalho());
     const p = clamp((alturaCabecalho() - topo) / Math.max(1, percurso));
@@ -658,10 +701,11 @@
 
   // Mesa de doces: os docinhos chegam espalhados e pousam em fileiras.
   const mesa = $('[data-mesa]');
-  const tiles = $$('.tile', mesa);
-  const mesaTampo = $('.mesa__tiles', mesa);
+  const tiles = mesa ? $$('.tile', mesa) : [];
+  const mesaTampo = mesa ? $('.mesa__tiles', mesa) : null;
   let espalhado = [];
   function preparaMesa() {
+    if (!mesa) return;
     const vivo = !reduzMovimento && telaGrande.matches;
     mesa.classList.toggle('is-live', vivo);
     mesaTampo.style.removeProperty('--abre');
@@ -683,7 +727,7 @@
     }));
   }
   function quadroMesa() {
-    if (!mesa.classList.contains('is-live')) return;
+    if (!mesa?.classList.contains('is-live')) return;
     const topo = mesa.getBoundingClientRect().top;
     const percurso = mesa.offsetHeight - (window.innerHeight - alturaCabecalho());
     const inicio = window.innerHeight;
@@ -724,6 +768,15 @@
     anelSelo.style.setProperty('--giro', `${(window.scrollY * 0.25).toFixed(1)}deg`);
   }
 
+  // Ponte para as encomendas: as fotos chegam empilhadas e se abrem em leque ao subir na tela.
+  const leque = $('[data-leque]');
+  function quadroLeque() {
+    if (reduzMovimento || !leque) return;
+    const r = leque.getBoundingClientRect();
+    const p = clamp((window.innerHeight - r.top) / (window.innerHeight * 0.6));
+    leque.style.setProperty('--abre', (0.06 + 0.94 * easeOut(p)).toFixed(3));
+  }
+
   // Adesivos: andam um pouco mais devagar que a página e giram de leve (medidos pelo pai, que não se mexe).
   const adesivos = $$('[data-adesivo]');
   function quadroAdesivos() {
@@ -748,7 +801,7 @@
   let faixaRodando = false;
   let faixaVisivel = false;
   const medeFaixa = () => {
-    faixaLargura = faixaTrilho.firstElementChild.getBoundingClientRect().width;
+    if (faixaTrilho) faixaLargura = faixaTrilho.firstElementChild.getBoundingClientRect().width;
   };
   function animaFaixa() {
     const y = window.scrollY;
@@ -763,7 +816,7 @@
     if (faixaVisivel) requestAnimationFrame(animaFaixa);
     else faixaRodando = false;
   }
-  if (!reduzMovimento && 'IntersectionObserver' in window) {
+  if (faixa && !reduzMovimento && 'IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => {
       faixaVisivel = en.isIntersecting;
       if (faixaVisivel && !faixaRodando) {
@@ -781,6 +834,7 @@
     quadroTrilho();
     quadroMesa();
     quadroSelo();
+    quadroLeque();
     quadroAdesivos();
   }
   const agenda = () => {
@@ -798,14 +852,14 @@
   window.addEventListener('scroll', agenda, { passive: true });
   window.addEventListener('resize', prepara);
   telaGrande.addEventListener?.('change', prepara);
-  window.addEventListener('load', prepara);
+  window.addEventListener('load', () => {
+    prepara();
+    setTimeout(() => document.documentElement.classList.add('suave'), 0);
+  });
   document.fonts?.ready.then(prepara);
   prepara();
 
   $$('[data-year]').forEach((el) => {
     el.textContent = new Date().getFullYear();
   });
-
-  atualizaModo();
-  desenha();
 })();

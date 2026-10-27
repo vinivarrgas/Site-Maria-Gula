@@ -167,15 +167,23 @@ The palette comes from her opening poster ("Abertura", 26/09): raspberry and win
 
 ## Layout
 
-A 12-column grid inside a 1320px container, with equal outer gutters (clamp 16–40px) and column gaps (clamp 16–32px). Sections are separated by their colour change and clamp(88px, 11vw, 160px) of padding. Each section has its own composition:
-- **First screen:** copy in 5 columns beside the display case in 7.
-- **Delivery menu:** a sticky heading block in 4 columns beside shelves in 8. Shelves are four-column item grids; single-item shelves pair up as half shelves; an item with flavours spans two columns, with its photo beside its plaque.
-- **Tortas:** a horizontal run of cake cards, plus a final "Mais sabores" list card.
-- **Tamanhos:** copy beside three plates drawn to scale.
-- **Docinhos:** groups with prices in 4 columns beside a five-column table of sweets.
-- **Orçamento:** sticky rules in 5 columns beside the form panel in 6.
+A 12-column grid inside a 1320px container, with equal outer gutters (clamp 16–40px) and column gaps (clamp 16–32px). Sections are separated by their colour change and clamp(88px, 11vw, 160px) of padding.
+
+The site has two pages, one per job, sharing the sign bar, the footer, the stylesheet and the script:
+- **Hoje** (`index.html`): what you can buy today. Vitrine, phrase strip, cardápio do dia, a bridge to orders, Maria, visit. Grounds: pêssego, framboesa, pêssego claro, espresso, pêssego, vinho, espresso footer.
+- **Encomendas** (`encomendas.html`): what you plan ahead. Occasions under the same awning, tortas, tamanhos, docinhos, orçamento. Grounds: pêssego, vinho, pêssego claro, espresso, framboesa, espresso footer.
+
+Each section has its own composition:
+- **First screen (Hoje):** copy in 5 columns beside the display case in 7.
+- **Day's menu:** a sticky heading block in 4 columns beside dishes in 8. Rows of four round dishes; single-item rows pair up as half rows.
+- **Bridge to orders:** copy in 5 columns beside a fan of three framed product photos in 7.
 - **Maria:** copy with a strip of her own photos beside a large portrait.
 - **Visit:** the map beside the address and hours.
+- **First screen (Encomendas):** the awning, then the h1 in 7 columns beside the lead, actions and in-page links in 5 (bottom-aligned), then the four occasion cards in a staggered row.
+- **Tortas:** a horizontal run of cake cards, plus a final "Mais sabores" list card.
+- **Tamanhos:** copy beside three plates drawn to scale.
+- **Docinhos:** groups with prices in 4 columns beside a four-column table of sweets.
+- **Orçamento:** sticky rules in 5 columns beside the form panel in 6.
 
 At 1023px and below every pair stacks to one column. At 760px and below:
 - the navigation collapses behind a menu button;
@@ -270,15 +278,20 @@ The awning copies the one over the shop door: 24px stripes, alternating yellow a
 - An arched 4:5 photo, the occasion name in Title, one line of text and a framboesa "Pedir orçamento" button that preselects the occasion in the quote form.
 - Even cards sit 64px lower, so the row reads as a staggered line instead of a grid.
 
+### Bridge to Orders
+- An espresso field on the Hoje page, right after the day's menu: "Tem festa chegando?", one sentence, a pêssego claro "Ver encomendas" button with an arrow and a "Pedir orçamento" link.
+- Three product photos in 8px pêssego claro frames, like prints on a table. They arrive stacked and fan out (±10°) as the section rises into view; reduced motion shows them already fanned.
+
 ### Paper Grain
 - A fixed fractal-noise overlay at 32% over the whole page, like the printed poster.
 
 ### Navigation
 - A framboesa sign bar, 64px, sticky, holding:
   - the hat-and-name wordmark in Gloock;
-  - five Jost links with a 2px pêssego underline on hover;
-  - one "Fazer pedido" button.
+  - four Jost links (Cardápio do dia, Encomendas, A Maria, Visite) with a 2px pêssego underline on hover; the current page keeps it;
+  - one button for the page's job: "Fazer pedido" on Hoje, "Pedir orçamento" on Encomendas (shortened to "Orçamento" on phones).
 - On phones the links drop into a full-width framboesa panel.
+- Smooth scrolling turns on only after the page loads, so a link from the other page (`encomendas.html#docinhos`) lands in place instead of sliding through the scenes.
 
 ### Order Bar and Drawer
 - **Order bar:** a floating espresso pill with the count in a framboesa circle, "Ver pedido", and the total in Gloock.
@@ -291,7 +304,8 @@ The awning copies the one over the shop door: 24px stripes, alternating yellow a
 - **One focal move per scene:**
   - the case lighting up;
   - the cake counter sliding while each photo drifts slightly slower than its card;
-  - the sweets landing on the table.
+  - the sweets landing on the table;
+  - the bridge photos fanning out.
 - **Quiet layer:**
   - headings and text rise 28px in order (90ms apart);
   - photos open like a curtain (clip-path on the image, scale 1.12 to 1);
