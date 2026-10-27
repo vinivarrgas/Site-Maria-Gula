@@ -169,6 +169,38 @@ window.MG_CREDITOS = [
     "source_page": "https://commons.wikimedia.org/wiki/File:Camafeus_de_nozes.jpg"
   },
   {
+    "id": "ocasiao-aniversario",
+    "title": "Birthday cheesecake (3693256250).jpg",
+    "creator": "Marit &amp; Toomas Hinnosaar",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Birthday_cheesecake_(3693256250).jpg"
+  },
+  {
+    "id": "ocasiao-casamento",
+    "title": "White wedding cake with pink flower.jpg",
+    "creator": "Kimberly Vardeman",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source_page": "https://commons.wikimedia.org/wiki/File:White_wedding_cake_with_pink_flower.jpg"
+  },
+  {
+    "id": "ocasiao-empresas",
+    "title": "Coffee and dessert served on a table with small cakes, cream, and jam alongside a cup of strong drink.jpg",
+    "creator": "Shixart1985",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Coffee_and_dessert_served_on_a_table_with_small_cakes,_cream,_and_jam_alongside_a_cup_of_strong_drink.jpg"
+  },
+  {
+    "id": "ocasiao-pascoa",
+    "title": "Chocolate easter egg.jpg",
+    "creator": "Myrabella",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Chocolate_easter_egg.jpg"
+  },
+  {
     "id": "torta-pistache-dubai",
     "title": "Pistachio & Chocolate Mousse Cake - Caffè Nero 2025-01-14",
     "creator": "Andy Li",

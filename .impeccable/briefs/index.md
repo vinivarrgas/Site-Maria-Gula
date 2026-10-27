@@ -26,3 +26,4 @@ UPDATE 27/10/2026 (user request: "sofisticado", "WOW", scroll effects, a photo f
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 - Awning (27/10, user's choice after seeing the real storefront): yellow #E3B03A and white #FFFBF4 stripes, straight edge, 6px #C9952A hem. Yellow is used only in the awning.
+- 27/10 round from the user's chosen references (Bernice Bakery, Crumbl, Milk Bar): rotating badge on the case, phrase strip under the first screen, logo doodles as stickers, arches for people and occasions, the day's menu as round dishes with descriptions (sample copy, CONFIRMAR), orders by occasion feeding the quote form, paper grain overall.

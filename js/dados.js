@@ -27,22 +27,26 @@ window.MARIA_GULA = {
   // Itens que aparecem na vitrine da primeira tela (ids do cardápio abaixo).
   destaques: ['vulcao-chocolate', 'bolo-nuvem', 'cookie'],
 
+  // Frases da faixa que corre abaixo da vitrine.
+  frases: ['Seu doce favorito, hoje', 'Feito à mão em Meia Praia', 'Vulcões, cucas e cookies', 'Tortas por encomenda', 'Docinhos de festa', 'Delivery das 9h às 18h', 'By Maria Baramarchi'],
+
   // Cardápio de delivery: cada categoria é uma prateleira da vitrine.
+  // CONFIRMAR: as descrições são textos de exemplo, escritos para a demonstração.
   cardapio: [
     {
       id: 'bolos',
       nome: 'Bolos e vulcões',
       itens: [
-        { id: 'vulcao-cenoura', nome: 'Vulcão de cenoura com chocolate', preco: 35 },
-        { id: 'vulcao-chocolate', nome: 'Vulcão de chocolate', preco: 35 },
-        { id: 'vulcao-choconinho', nome: 'Vulcão Choconinho', preco: 35 },
-        { id: 'piscininha-cenoura', nome: 'Piscininha de cenoura', preco: 25 },
+        { id: 'vulcao-cenoura', nome: 'Vulcão de cenoura com chocolate', descricao: 'Bolo de cenoura fofinho com calda de chocolate escorrendo pelo meio.', preco: 35 },
+        { id: 'vulcao-chocolate', nome: 'Vulcão de chocolate', descricao: 'Bolo de chocolate com ganache brilhante transbordando do centro.', preco: 35 },
+        { id: 'vulcao-choconinho', nome: 'Vulcão Choconinho', descricao: 'Chocolate por dentro e creme de Ninho escorrendo por cima.', preco: 35 },
+        { id: 'piscininha-cenoura', nome: 'Piscininha de cenoura', descricao: 'Bolo de cenoura na forma, com uma piscina de brigadeiro em cima.', preco: 25 },
       ],
     },
     {
       id: 'especiais',
       nome: 'Especiais',
-      itens: [{ id: 'bolo-nuvem', nome: 'Bolo Nuvem', nota: 'o hypado', preco: 22 }],
+      itens: [{ id: 'bolo-nuvem', nome: 'Bolo Nuvem', descricao: 'Massa leve e muito creme, alto como uma nuvem.', nota: 'o hypado', preco: 22 }],
     },
     {
       id: 'cucas',
@@ -51,6 +55,7 @@ window.MARIA_GULA = {
         {
           id: 'cuca-alema',
           nome: 'Cuca alemã',
+          descricao: 'Massa amanteigada, recheio cremoso e farofa crocante por cima.',
           preco: 25,
           sabores: ['Abacaxi com coco e creme belga', 'Creme belga com chocolate branco'],
         },
@@ -60,11 +65,12 @@ window.MARIA_GULA = {
       id: 'doces',
       nome: 'Doces',
       itens: [
-        { id: 'brownie', nome: 'Brownie tradicional', preco: 7 },
-        { id: 'cookie', nome: 'Cookie tradicional', preco: 14 },
+        { id: 'brownie', nome: 'Brownie tradicional', descricao: 'Casquinha fina por fora e molhadinho por dentro.', preco: 7 },
+        { id: 'cookie', nome: 'Cookie tradicional', descricao: 'Bordas crocantes, centro macio e gotas de chocolate.', preco: 14 },
         {
           id: 'big-cookie',
           nome: 'Big Cookie recheado',
+          descricao: 'Cookie grande e grosso, com recheio generoso.',
           preco: 22,
           sabores: ['Bueno', 'Nutella', 'Red Velvet com chocolate branco', 'Black com marshmallow'],
         },
@@ -74,9 +80,9 @@ window.MARIA_GULA = {
       id: 'salgados',
       nome: 'Salgados',
       itens: [
-        { id: 'esfiha-carne', nome: 'Esfiha de carne', preco: 7 },
-        { id: 'esfiha-frango', nome: 'Esfiha de frango', preco: 7 },
-        { id: 'empadao-frango', nome: 'Empadão de frango com requeijão', preco: 18 },
+        { id: 'esfiha-carne', nome: 'Esfiha de carne', descricao: 'Esfiha aberta de carne bem temperada.', preco: 7 },
+        { id: 'esfiha-frango', nome: 'Esfiha de frango', descricao: 'Esfiha fechada de frango desfiado.', preco: 7 },
+        { id: 'empadao-frango', nome: 'Empadão de frango com requeijão', descricao: 'Massa dourada que esfarela, frango cremoso com requeijão.', preco: 18 },
       ],
     },
   ],
@@ -166,6 +172,15 @@ window.MARIA_GULA = {
         { id: 'bombom-cereja', nome: 'Bombom de cereja', preco: 4.2 },
       ],
     },
+  ],
+
+  // Encomendas por ocasião (foto: assets/img/cardapio/ocasiao-<id>.jpg).
+  // CONFIRMAR: o que a loja faz para empresas e eventos.
+  ocasioes: [
+    { id: 'aniversario', nome: 'Aniversário', texto: 'Torta ou bolo de andar do seu sabor favorito, com docinhos para a mesa.' },
+    { id: 'casamento', nome: 'Casamento', texto: 'Bolo para os noivos e doces finos para a mesa da festa.' },
+    { id: 'empresas', nome: 'Empresas e eventos', texto: 'Café da tarde e caixas de doces para a equipe ou para os clientes.' },
+    { id: 'pascoa', nome: 'Páscoa', texto: 'Ovos e doces de Páscoa, sob encomenda na temporada.' },
   ],
 
   regrasEncomenda: {

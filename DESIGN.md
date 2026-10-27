@@ -110,6 +110,7 @@ The page moves like a shop you walk past. The case lights up when the page opens
 The world refuses the generic bakery template: no cream page with a centred hero photo, no icon cards, no eyebrows above headings, no gradients or glass.
 
 **Key Characteristics:**
+- References chosen with the user: Bernice Bakery (rotating badge, arches, doodle stickers), Crumbl (the day's lineup as round top-down plates), Milk Bar (orders by occasion, a running phrase strip).
 - Whole-section colour fields from the opening-poster palette.
 - Shop objects drawn in CSS: the sign bar, the real yellow-and-white awning, the case's light strip and shelves, plates drawn to scale.
 - Every menu item has a 4:5 photo with its price plaque in front.
@@ -197,6 +198,12 @@ Flat by default. Depth comes from tone steps between surfaces (plaque over photo
 
 ## Shapes
 
+Three shapes, each with one job:
+- **Square:** product photos in the display case and the tortas run, plaques, fields and panels.
+- **Circle:** the day's menu dishes, seen from above like plates, and the rotating badge.
+- **Arch** (999px 999px 0 0): people and occasions (the Maria portrait, her strip of photos, the occasion cards).
+
+
 Two corner values only:
 - **Square (0):** photos, plaques, fields, inputs, the case and the form panel.
 - **Fully round (999px):** every button, chip, stepper and the order bar.
@@ -243,6 +250,29 @@ The awning copies the one over the shop door: 24px stripes, alternating yellow a
 - **Error:** error red border and message, tied with aria-describedby.
 - **Choice chips:** pêssego escuro pills; the selected one turns espresso.
 
+### Rotating Badge
+- A 132px framboesa disc pinned to the top-right corner of the display case, with "FEITO HOJE • MEIA PRAIA • ITAPEMA •" in pêssego claro around the chef's hat.
+- It spins slowly (28s) and turns further as the page scrolls. It stays still under reduced motion.
+
+### Phrase Strip
+- A framboesa band right under the first screen, with brand phrases in Gloock at headline size, separated by the hat icon.
+- It runs on its own and speeds up or reverses with the scroll. It pauses off screen and is static under reduced motion.
+
+### Doodle Stickers
+- The logo's line drawings (hat, whisk, cupcake, heart, cake slice, strawberry), drawn twice: an 11px outline in the ground's light tone under a 3.2px coloured line, so they read as die-cut stickers.
+- One or two per section, beside text and never over it. They drift slower than the page and tilt slightly.
+
+### Dish (day's menu)
+- A round top-down photo (up to 196px) with the name in Jost 600, a one-line description, optional flavour chips, a Gloock price and the round add button.
+- On hover the photo turns 8° and zooms; once in the order it gets a rosé ring.
+
+### Occasion Card
+- An arched 4:5 photo, the occasion name in Title, one line of text and a framboesa "Pedir orçamento" button that preselects the occasion in the quote form.
+- Even cards sit 64px lower, so the row reads as a staggered line instead of a grid.
+
+### Paper Grain
+- A fixed fractal-noise overlay at 32% over the whole page, like the printed poster.
+
 ### Navigation
 - A framboesa sign bar, 64px, sticky, holding:
   - the hat-and-name wordmark in Gloock;
@@ -284,3 +314,4 @@ The awning copies the one over the shop door: 24px stripes, alternating yellow a
 - **Don't** add a third typeface or use tracked uppercase labels.
 - **Don't** use a medium radius: corners are square or fully round.
 - **Don't** let anything move across a heading or a statement while it is being read.
+- **Don't** place a doodle sticker over text, or use more than two in one section.

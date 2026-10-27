@@ -219,40 +219,48 @@ input, select, textarea { caret-color: var(--framboesa); }
 .item.is-pop .item__tag { animation: pop 0.45s var(--ease-out); }
 @keyframes pop { 30% { transform: translateY(-6px); } }
 
-/* Cardápio de delivery: as prateleiras da vitrine, sobre espresso */
-.menu { --focus: var(--pessego); background: var(--espresso); color: var(--pessego-claro); padding-block: var(--section); }
+/* Cardápio do dia, no estilo de um "lineup": pratos redondos vistos de cima, sobre pêssego claro */
+.menu { --focus: var(--espresso); position: relative; background: var(--pessego-claro); color: var(--espresso); padding-block: var(--section); }
 .menu__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); }
 .menu__head { grid-column: 1 / 5; align-self: start; position: sticky; top: calc(var(--header) + 40px); }
 .menu__head p { margin-top: 24px; max-width: 26em; }
-.menu__head .menu__aside { color: var(--ink-escuro); font-size: var(--t-small); }
-.menu__head a { color: var(--pessego-2); }
+.menu__head .menu__data { margin-top: 14px; font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--framboesa); }
+.menu__head .menu__data::first-letter { text-transform: uppercase; }
+.menu__head .menu__aside { color: var(--ink-claro); font-size: var(--t-small); }
+.menu__head a { color: var(--framboesa); }
+.menu__head .adesivo { position: static; display: block; margin-top: 40px; --tam: 112px; }
 .shelves {
   grid-column: 5 / 13; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(56px, 5vw, 80px) 16px; align-items: stretch;
+  gap: clamp(56px, 5vw, 80px) var(--gap); align-items: start;
 }
-.shelf { grid-column: 1 / -1; display: flex; flex-direction: column; }
-.shelf .shelf__row { flex: 1; margin-bottom: 14px; }
-/* Prateleira de um item só: estreita ao lado da próxima, com o vidro na mesma linha. */
-.shelf--um { grid-column: span 1; }
-.shelf--um .shelf__row { --cols: 1; }
-.shelf--um-sabores { grid-column: span 3; }
-.shelf--um-sabores .shelf__row { --cols: 2; }
-.shelf__name { font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--rose); margin-bottom: 18px; }
+.shelf { grid-column: 1 / -1; }
+.shelf--um, .shelf--um-sabores { grid-column: span 2; }
+.shelf__name { font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--framboesa); margin-bottom: 28px; }
 .shelf__row {
   --cols: 4;
   list-style: none; padding: 0; margin: 0;
-  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 16px; align-items: stretch;
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 44px var(--gap); align-items: start;
 }
-.shelf__glass { height: 14px; background: var(--vinho-escuro); }
+.shelf--um .shelf__row, .shelf--um-sabores .shelf__row { --cols: 2; }
 
-/* Itens com sabores: foto ao lado da plaquinha, ocupando duas colunas */
-.shelf__row .item--sabores { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
-.shelf--um-sabores .shelf__row .item--sabores { grid-template-columns: 46% 1fr; }
-.shelf__row .item--sabores .item__pic img { height: 100%; aspect-ratio: auto; }
-.shelf__row .item--sabores .item__tag { margin: 0; justify-content: center; }
-.shelf__row .item--sabores .item__foot { margin-top: 8px; }
+.prato { --focus: var(--espresso); display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.prato__foto {
+  width: min(100%, 196px); aspect-ratio: 1; border-radius: 50%; overflow: hidden;
+  background: var(--pessego-2); transition: box-shadow 0.3s var(--ease-out);
+}
+.prato__foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease-out); }
+.prato:hover .prato__foto img { transform: rotate(8deg) scale(1.07); }
+.prato.is-in-order .prato__foto { box-shadow: 0 0 0 5px var(--rose); }
+.prato.is-pop .prato__foto { animation: pop 0.45s var(--ease-out); }
+.prato__nome { margin: 6px 0 0; font: 600 var(--t-body) / 1.25 var(--f-text); text-wrap: balance; }
+.prato__nota { display: block; font-size: var(--t-small); font-weight: 400; color: var(--framboesa); }
+.prato__desc { font-size: var(--t-small); line-height: 1.4; color: var(--ink-claro); max-width: 24ch; }
+.prato .item__flavors { justify-content: center; }
+.prato .item__flavors legend { width: 100%; text-align: center; }
+.prato__foot { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 4px; }
+.prato__preco { font: 400 var(--t-h3) / 1 var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .noscript { font-size: var(--t-h3); font-family: var(--f-display); }
-.noscript a { color: var(--pessego-2); }
+.noscript a { color: var(--framboesa); }
 
 /* Tortas: o trilho que corre na horizontal, sobre vinho */
 .tortas { --focus: var(--pessego); background: var(--vinho); color: var(--pessego-claro); }
@@ -556,6 +564,72 @@ input, select, textarea { caret-color: var(--framboesa); }
 .choice__note { flex-basis: 100%; font-size: var(--t-small); color: var(--ink-claro); }
 .choice__note[hidden] { display: none; }
 
+
+/* Selo girando: um adesivo redondo preso no canto da vitrine */
+.case { position: relative; }
+.selo { position: absolute; z-index: 4; top: -56px; right: -44px; width: 132px; aspect-ratio: 1; }
+.selo__anel { width: 100%; height: 100%; animation: girar 28s linear infinite; rotate: var(--giro, 0deg); }
+.selo__anel circle { fill: var(--framboesa); }
+.selo__anel text { font: 600 15px var(--f-text); letter-spacing: 0.14em; fill: var(--pessego-claro); }
+.selo__chapeu { position: absolute; left: 31%; top: 30%; width: 38%; height: 38%; color: var(--pessego-claro); }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* Faixa de frases que corre abaixo da vitrine */
+.faixa { background: var(--framboesa); color: var(--pessego-claro); overflow: hidden; padding: 20px 0; }
+.faixa__trilho { display: flex; width: max-content; will-change: transform; }
+.faixa__grupo {
+  display: flex; align-items: center; gap: 32px; padding-right: 32px;
+  font: 400 var(--t-h2) / 1 var(--f-display); letter-spacing: -0.015em; white-space: nowrap;
+}
+.faixa__grupo svg { width: 0.7em; height: 0.7em; color: var(--pessego-2); flex: none; }
+
+/* Adesivos: os desenhos do logo, com contorno de adesivo recortado */
+.adesivo {
+  --tam: 96px; --cor: var(--framboesa); --borda: var(--pessego-claro);
+  position: absolute; z-index: 3; width: var(--tam); pointer-events: none;
+  transform: translate3d(0, var(--sobe, 0px), 0) rotate(calc(var(--rot, 0deg) + var(--gira, 0deg)));
+}
+.adesivo svg { display: block; width: 100%; height: auto; overflow: visible; }
+.adesivo use { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.adesivo__borda { stroke: var(--borda); stroke-width: 11; }
+.adesivo__traco { stroke: var(--cor); stroke-width: 3.2; }
+.tortas__intro .adesivo, .sizes__copy .adesivo { position: static; display: block; margin-top: 36px; --tam: 104px; }
+.adesivos-par { display: flex; gap: 28px; margin-top: 36px; }
+.adesivos-par .adesivo { position: static; --tam: 84px; }
+.ocasioes__head { position: relative; }
+.ocasioes__head .adesivo { top: -20px; right: -140px; --tam: 110px; }
+.maria__photo { position: relative; }
+.maria__photo .adesivo { left: -48px; bottom: 56px; --tam: 120px; }
+.footer .wrap { position: relative; }
+.footer .adesivo { top: -24px; right: 0; --tam: 120px; }
+
+/* Arcos: pessoas e ocasiões em janelas arredondadas; produtos continuam retos */
+.maria__photo { overflow: visible; }
+.maria__photo img, .maria__strip img, .ocasiao__foto img { border-radius: 999px 999px 0 0; }
+
+/* Encomendas por ocasião */
+.ocasioes { --focus: var(--espresso); background: var(--pessego); padding-block: var(--section); }
+.ocasioes__head { max-width: 40em; }
+.ocasioes__head p { margin-top: 20px; max-width: 32em; }
+.ocasioes__lista {
+  list-style: none; padding: 0; margin: 56px 0 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px var(--gap); align-items: start;
+}
+.ocasiao { display: flex; flex-direction: column; gap: 12px; }
+.ocasiao:nth-child(even) { margin-top: 64px; }
+.ocasiao__foto { margin: 0 0 8px; }
+.ocasiao__foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.9s var(--ease-out); }
+.ocasiao:hover .ocasiao__foto img { transform: translateY(-6px); }
+.ocasiao h3 { font: 400 var(--t-h3) / 1.1 var(--f-display); }
+.ocasiao p { font-size: var(--t-small); color: var(--ink-claro); }
+.ocasiao .btn { align-self: flex-start; margin-top: 6px; }
+
+/* Grão de papel impresso por cima de tudo, como o cartaz */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 80; pointer-events: none; opacity: 0.32;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.23  0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") repeat;
+}
+
 /* Movimento */
 /* 1. A vitrine acende ao abrir a página */
 .js .case__light { opacity: 0.15; }
@@ -569,27 +643,28 @@ input, select, textarea { caret-color: var(--framboesa); }
 .js .case.is-lit .item:hover .item__pic img { transform: scale(1.04); transition-delay: 0s; }
 
 /* 2. Entradas: as prateleiras assentam (sempre visíveis); fotos abrem como uma cortina */
-.js [data-reveal] > * { transform: translateY(28px); }
-.js [data-reveal].is-in > * {
+.js [data-reveal] > :not(.adesivo) { transform: translateY(28px); }
+.js [data-reveal].is-in > :not(.adesivo) {
   transform: none;
   transition: transform 1s var(--ease-out);
   transition-delay: calc(var(--i, 0) * 90ms);
 }
 /* A cortina fica no filho: o observador olha o pai, que nunca é recortado. */
-.js [data-reveal='foto'] > * { opacity: 1; clip-path: inset(100% 0 0 0); transform: scale(1.12); }
-.js [data-reveal='foto'].is-in > * {
+.js [data-reveal='foto'] > :not(.adesivo) { opacity: 1; clip-path: inset(100% 0 0 0); transform: scale(1.12); }
+.js [data-reveal='foto'].is-in > :not(.adesivo) {
   clip-path: inset(0 0 0 0); transform: none;
   transition: clip-path 1.2s var(--ease-out), transform 1.6s var(--ease-out);
 }
 
-.sem-animacao [data-reveal] > *,
+.sem-animacao [data-reveal] > :not(.adesivo),
 .sem-animacao .case .item__pic img,
 .sem-animacao .case__light { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .selo__anel { rotate: 0deg; }
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
-  .js [data-reveal] > *, .js .case .item__pic img, .js .case__light { opacity: 1; transform: none; filter: none; clip-path: none; }
+  .js [data-reveal] > :not(.adesivo), .js .case .item__pic img, .js .case__light { opacity: 1; transform: none; filter: none; clip-path: none; }
 }
 
 /* Tablet */
@@ -598,6 +673,9 @@ input, select, textarea { caret-color: var(--framboesa); }
   .hero__copy { padding-bottom: 0; }
   .menu__head, .shelves { grid-column: 1 / -1; }
   .menu__head { position: static; }
+  .menu__head .adesivo { position: absolute; top: calc(var(--section) - 20px); right: var(--gutter); margin: 0; --tam: 88px; }
+  .ocasioes__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ocasioes__head .adesivo { right: 0; top: -70px; --tam: 90px; }
   .sizes__copy, .plates { grid-column: 1 / -1; }
   .mesa__copy, .mesa__tiles { grid-column: 1 / -1; justify-self: start; }
   .orcamento__copy, .quote { grid-column: 1 / -1; }
@@ -650,7 +728,14 @@ input, select, textarea { caret-color: var(--framboesa); }
 
   .shelves { grid-template-columns: 1fr; }
   .shelf--um, .shelf--um-sabores { grid-column: 1 / -1; }
-  .shelf__row, .shelf--um .shelf__row, .shelf--um-sabores .shelf__row { --cols: 2; gap: 12px; }
+  .shelf__row, .shelf--um .shelf__row, .shelf--um-sabores .shelf__row { --cols: 2; gap: 32px 14px; }
+  .prato__foto { width: min(100%, 150px); }
+  .selo { top: 22px; right: 14px; width: 92px; }
+  .faixa { padding: 14px 0; }
+  .faixa__grupo { font-size: 1.75rem; gap: 22px; padding-right: 22px; }
+  .ocasiao:nth-child(even) { margin-top: 32px; }
+  .maria__photo .adesivo { left: -10px; bottom: 30px; --tam: 88px; }
+  .footer .adesivo { --tam: 84px; top: -10px; }
   .torta { --w: 76vw; }
   .tortas__intro { flex-basis: 76vw; }
   .plates { justify-content: space-around; }

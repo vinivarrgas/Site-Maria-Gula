@@ -71,6 +71,12 @@
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
       <path d="M6 6l12 12M18 6 6 18"/>
     </symbol>
+    <symbol id="d-chapeu" viewBox="0 0 48 48"><path d="M14 30c-4.4 0-8-3.4-8-7.7 0-4.2 3.5-7.6 7.9-7.6.6 0 1.2.1 1.8.2C17 10.3 20.2 7 24 7s7 3.3 8.3 7.9c.6-.1 1.2-.2 1.8-.2 4.4 0 7.9 3.4 7.9 7.6 0 4.3-3.6 7.7-8 7.7"/><path d="M14 27v13h20V27M14 35h20M20 29v6M28 29v6"/></symbol>
+    <symbol id="d-batedor" viewBox="0 0 64 64"><path d="M32 40v20M32 4v36"/><path d="M32 40C18 34 18 8 32 4C46 8 46 34 32 40Z"/><path d="M32 40C25 32 25 12 32 4C39 12 39 32 32 40Z"/></symbol>
+    <symbol id="d-cupcake" viewBox="0 0 64 64"><path d="M14 32h36l-5 24H19Z"/><path d="M24 32l2 24M32 32v24M40 32l-2 24"/><path d="M12 32c0-10 8-17 20-17s20 7 20 17"/><path d="M22 25c4-4 16-4 20 0"/><circle cx="32" cy="9" r="4"/></symbol>
+    <symbol id="d-coracao" viewBox="0 0 64 64"><path d="M32 54S8 40 8 24a12 12 0 0 1 24-5 12 12 0 0 1 24 5c0 16-24 30-24 30Z"/></symbol>
+    <symbol id="d-fatia" viewBox="0 0 64 64"><path d="M8 34 52 18l4 12v20H8Z"/><path d="M8 42h48M8 34h48"/><circle cx="40" cy="15" r="5"/><path d="M40 10l2-4"/></symbol>
+    <symbol id="d-morango" viewBox="0 0 64 64"><path d="M32 58C18 50 12 36 16 26c4-8 28-8 32 0 4 10-2 24-16 32Z"/><path d="M22 22l10-8 10 8M32 14V6"/><path d="M26 34v2M38 34v2M32 42v2M26 46v2M38 46v2"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M5 12h14M13 6l6 6-6 6"/>
     </symbol>
@@ -88,7 +94,7 @@
         <a href="#cardapio">Cardápio</a>
         <a href="#tortas">Tortas</a>
         <a href="#docinhos">Docinhos</a>
-        <a href="#orcamento">Orçamento</a>
+        <a href="#encomendas">Encomendas</a>
         <a href="#visite">Visite</a>
       </nav>
       <a class="btn btn--sign btn--sm sign__action" href="#cardapio">Fazer pedido</a>
@@ -117,6 +123,14 @@
         </div>
 
         <div class="case" role="group" aria-label="Na vitrine hoje" data-case>
+          <div class="selo" aria-hidden="true" data-selo>
+            <svg class="selo__anel" viewBox="0 0 200 200">
+              <defs><path id="selo-circulo" d="M100 100m-72 0a72 72 0 1 1 144 0a72 72 0 1 1-144 0"/></defs>
+              <circle cx="100" cy="100" r="99"/>
+              <text><textPath href="#selo-circulo" textLength="446" lengthAdjust="spacing">FEITO HOJE • MEIA PRAIA • ITAPEMA •</textPath></text>
+            </svg>
+            <svg class="selo__chapeu"><use href="#i-hat"/></svg>
+          </div>
           <div class="case__light" aria-hidden="true"></div>
           <ul class="case__shelf" data-destaques></ul>
           <div class="case__base" aria-hidden="true"></div>
@@ -124,12 +138,16 @@
       </div>
     </section>
 
+    <div class="faixa" aria-hidden="true" data-faixa><div class="faixa__trilho" data-faixa-trilho></div></div>
+
     <section class="menu" id="cardapio" aria-labelledby="cardapio-titulo">
       <div class="wrap menu__grid">
         <header class="menu__head">
-          <h2 class="h2" id="cardapio-titulo">Cardápio de delivery</h2>
+          <h2 class="h2" id="cardapio-titulo">Cardápio do dia</h2>
+          <p class="menu__data" data-menu-date>segunda, 26/10</p>
           <p>Entregamos das 9h às 18h. Adicione o que quiser e envie o pedido pronto para o nosso WhatsApp. A taxa de entrega a gente informa na conversa.</p>
-          <p class="menu__aside">Cardápio de <span data-menu-date>segunda, 26/10</span>. Ele muda com a produção do dia, e o de hoje sai nos stories do <a href="https://www.instagram.com/mariagulagula/" target="_blank" rel="noopener">@mariagulagula</a>.</p>
+          <p class="menu__aside">O cardápio muda com a produção do dia, e o de hoje sai nos stories do <a href="https://www.instagram.com/mariagulagula/" target="_blank" rel="noopener">@mariagulagula</a>.</p>
+          <span class="adesivo" style="--rot:-14deg; --cor:var(--framboesa)" aria-hidden="true" data-adesivo="0.05"><svg viewBox="0 0 64 64"><use href="#d-cupcake" class="adesivo__borda"/><use href="#d-cupcake" class="adesivo__traco"/></svg></span>
         </header>
         <div class="shelves" data-menu>
           <noscript>
@@ -146,6 +164,7 @@
             <h2 class="h2" id="tortas-titulo">Tortas por encomenda</h2>
             <p>Três camadas de massa e duas de recheio, montadas para a sua data. São 21 sabores, cobrados por quilo.</p>
             <p class="tortas__nota">Encomendas com pelo menos 2 dias de antecedência.</p>
+            <span class="adesivo" style="--rot:10deg; --cor:var(--rose); --borda:var(--vinho-escuro)" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#d-fatia" class="adesivo__borda"/><use href="#d-fatia" class="adesivo__traco"/></svg></span>
           </div>
           <div class="tortas__cards" data-tortas></div>
         </div>
@@ -157,6 +176,7 @@
         <div class="sizes__copy">
           <h2 class="h2" id="tamanhos-titulo">Tamanhos das tortas</h2>
           <p>O rendimento varia com a espessura das fatias. Os três tamanhos abaixo são os mais pedidos; também fazemos tortas maiores e bolos de andar.</p>
+          <span class="adesivo" style="--rot:-8deg; --cor:var(--vinho)" aria-hidden="true" data-adesivo="0.06"><svg viewBox="0 0 64 64"><use href="#d-batedor" class="adesivo__borda"/><use href="#d-batedor" class="adesivo__traco"/></svg></span>
         </div>
         <ul class="plates" data-tamanhos></ul>
       </div>
@@ -169,9 +189,24 @@
             <h2 class="h2" id="docinhos-titulo">Docinhos de festa</h2>
             <p>Vendidos a partir de 25 unidades por sabor, com pelo menos 2 dias de antecedência.</p>
             <dl class="grupos" data-grupos></dl>
+            <div class="adesivos-par" aria-hidden="true">
+              <span class="adesivo" style="--rot:-12deg; --cor:var(--rose); --borda:var(--espresso-2)"><svg viewBox="0 0 64 64"><use href="#d-coracao" class="adesivo__borda"/><use href="#d-coracao" class="adesivo__traco"/></svg></span>
+              <span class="adesivo" style="--rot:14deg; --cor:var(--framboesa); --borda:var(--pessego-claro)"><svg viewBox="0 0 64 64"><use href="#d-morango" class="adesivo__borda"/><use href="#d-morango" class="adesivo__traco"/></svg></span>
+            </div>
           </div>
           <ul class="mesa__tiles" data-docinhos></ul>
         </div>
+      </div>
+    </section>
+
+    <section class="ocasioes" id="encomendas" aria-labelledby="ocasioes-titulo">
+      <div class="wrap">
+        <header class="ocasioes__head">
+          <h2 class="h2" id="ocasioes-titulo">Encomendas para cada ocasião</h2>
+          <p>Bolos, tortas e docinhos feitos para a sua data. Escolha a ocasião e a gente monta o orçamento com você.</p>
+          <span class="adesivo" style="--rot:12deg; --cor:var(--framboesa)" aria-hidden="true" data-adesivo="0.07"><svg viewBox="0 0 48 48"><use href="#d-chapeu" class="adesivo__borda"/><use href="#d-chapeu" class="adesivo__traco"/></svg></span>
+        </header>
+        <ul class="ocasioes__lista" data-ocasioes></ul>
       </div>
     </section>
 
@@ -205,6 +240,10 @@
               <input name="pessoas" type="number" min="1" inputmode="numeric" placeholder="Ex.: 20">
             </label>
           </div>
+          <label class="field">
+            <span class="field__label">Ocasião</span>
+            <select name="ocasiao" data-ocasiao-select></select>
+          </label>
           <label class="field">
             <span class="field__label">Torta</span>
             <select name="torta" data-torta-select>
@@ -254,6 +293,7 @@
         </div>
         <figure class="maria__photo" data-reveal="foto">
           <img src="assets/img/maria.jpg" alt="Maria Baramarchi de dólmã lilás, segurando um batedor de arame" width="656" height="820" loading="lazy">
+          <span class="adesivo" style="--rot:-16deg; --cor:var(--framboesa)" aria-hidden="true" data-adesivo="0.08"><svg viewBox="0 0 64 64"><use href="#d-batedor" class="adesivo__borda"/><use href="#d-batedor" class="adesivo__traco"/></svg></span>
         </figure>
       </div>
     </section>
@@ -284,6 +324,7 @@
   <footer class="footer">
     <div class="wrap">
       <p class="footer__name">Maria Gula</p>
+      <span class="adesivo" style="--rot:-10deg; --cor:var(--rose); --borda:var(--espresso-2)" aria-hidden="true" data-adesivo="0.06"><svg viewBox="0 0 64 64"><use href="#d-cupcake" class="adesivo__borda"/><use href="#d-cupcake" class="adesivo__traco"/></svg></span>
       <p class="footer__by">Confeitaria, por Maria Baramarchi</p>
       <div class="footer__cols">
         <div>

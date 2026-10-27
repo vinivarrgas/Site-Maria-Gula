@@ -105,13 +105,54 @@
     .join('')
     .replaceAll('loading="lazy"', 'loading="eager"');
 
+  // Cardápio do dia: cada item é um prato redondo visto de cima, com nome, descrição e preço.
+  function pratoHTML(item) {
+    const grupo = `sabor-${item.id}-${grupoSabor++}`;
+    const sabores = item.sabores
+      ? `<fieldset class="item__flavors"><legend>Sabor</legend>${item.sabores
+          .map((s, k) => `<label><input type="radio" name="${grupo}" value="${esc(s)}" data-sabor${k === 0 ? ' checked' : ''}><span>${esc(s)}</span></label>`)
+          .join('')}</fieldset>`
+      : '';
+    return `<li class="prato" data-item="${item.id}">
+        <figure class="prato__foto"><img src="${foto(item.id)}" alt="${esc(item.nome)}" width="800" height="1000" loading="lazy"></figure>
+        <h4 class="prato__nome">${esc(item.nome)}${item.nota ? `<span class="prato__nota">${esc(item.nota)}</span>` : ''}</h4>
+        ${item.descricao ? `<p class="prato__desc">${esc(item.descricao)}</p>` : ''}
+        ${sabores}
+        <div class="prato__foot">
+          <span class="prato__preco">${precoCurto(item.preco)}</span>
+          <button type="button" class="add" data-add="${item.id}" aria-label="Adicionar ${esc(item.nome)} ao pedido">
+            <svg aria-hidden="true"><use href="#i-plus"></use></svg>
+            <span class="add__count" data-count="${item.id}" aria-hidden="true"></span>
+          </button>
+        </div>
+      </li>`;
+  }
+
   $('[data-menu]').innerHTML = D.cardapio
     .map(
       (cat) => `<section class="shelf${cat.itens.length === 1 ? (cat.itens[0].sabores ? ' shelf--um-sabores' : ' shelf--um') : ''}" aria-labelledby="prateleira-${cat.id}" data-reveal>
         <h3 class="shelf__name" id="prateleira-${cat.id}">${esc(cat.nome)}</h3>
-        <ul class="shelf__row">${cat.itens.map((item) => itemHTML(item)).join('')}</ul>
-        <div class="shelf__glass" aria-hidden="true"></div>
+        <ul class="shelf__row">${cat.itens.map(pratoHTML).join('')}</ul>
       </section>`
+    )
+    .join('');
+
+  /* Faixa de frases */
+  const faixaTrilho = $('[data-faixa-trilho]');
+  const grupoFaixa = `<div class="faixa__grupo">${(D.frases || [])
+    .map((f) => `<span>${esc(f)}</span><svg aria-hidden="true"><use href="#i-hat"></use></svg>`)
+    .join('')}</div>`;
+  faixaTrilho.innerHTML = grupoFaixa + grupoFaixa;
+
+  /* Encomendas por ocasião */
+  $('[data-ocasioes]').innerHTML = (D.ocasioes || [])
+    .map(
+      (o) => `<li class="ocasiao">
+        <figure class="ocasiao__foto"><img src="${foto(`ocasiao-${o.id}`)}" alt="${esc(o.nome)}" width="800" height="1000" loading="lazy"></figure>
+        <h3>${esc(o.nome)}</h3>
+        <p>${esc(o.texto)}</p>
+        <button type="button" class="btn btn--primary btn--sm" data-ocasiao="${o.id}">Pedir orçamento</button>
+      </li>`
     )
     .join('');
 
@@ -180,6 +221,7 @@
     ...D.cardapio.flatMap((c) => c.itens.map((i) => [i.id, i.nome])),
     ...D.tortas.map((t) => [`torta-${t.id}`, `Torta ${t.nome}`]),
     ...D.docinhos.flatMap((g) => g.itens.filter((i) => i.foto).map((i) => [`${i.foto}-${i.id}`, i.nome])),
+    ...(D.ocasioes || []).map((o) => [`ocasiao-${o.id}`, o.nome]),
   ]);
   const creditos = (window.MG_CREDITOS || []).filter((c) => nomesPorFoto.has(c.id));
   $('[data-creditos]').innerHTML = creditos
@@ -228,7 +270,7 @@
       const id = el.dataset.count;
       const q = pedido.filter((l) => l.id === id).reduce((soma, l) => soma + l.qtd, 0);
       el.textContent = q || '';
-      el.closest('.item').classList.toggle('is-in-order', q > 0);
+      el.closest('[data-item]').classList.toggle('is-in-order', q > 0);
       el.closest('.add').setAttribute('aria-label', `Adicionar ${ITENS.get(id).nome} ao pedido${q ? `, ${q} no pedido` : ''}`);
     });
 
@@ -303,7 +345,7 @@
   document.addEventListener('click', (e) => {
     const botao = e.target.closest('[data-add]');
     if (!botao) return;
-    const item = botao.closest('.item');
+    const item = botao.closest('[data-item]');
     adiciona(botao.dataset.add, item.querySelector('[data-sabor]:checked')?.value || '');
     if (!reduzMovimento) {
       item.classList.remove('is-pop');
@@ -437,6 +479,8 @@
 
   /* Orçamento de encomendas */
   const orc = $('[data-orcamento]');
+  const selectOcasiao = $('[data-ocasiao-select]');
+  selectOcasiao.innerHTML = [...(D.ocasioes || []).map((o) => `<option value="${o.id}">${esc(o.nome)}</option>`), '<option value="outra">Outra</option>'].join('');
   const selectTorta = $('[data-torta-select]');
   selectTorta.insertAdjacentHTML(
     'beforeend',
@@ -466,9 +510,16 @@
     $$('[data-plate]').forEach((p) => p.classList.toggle('is-chosen', p.dataset.plate === id));
     aviso(`Forma de ${id} cm escolhida no orçamento.`);
   }
+  function escolheOcasiao(id) {
+    selectOcasiao.value = id;
+    $('#orcamento').scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' });
+    aviso(`Orçamento para ${D.ocasioes.find((o) => o.id === id).nome.toLowerCase()}.`);
+  }
   document.addEventListener('click', (e) => {
     const quero = e.target.closest('[data-quero]');
     if (quero) escolheTorta(quero.dataset.quero);
+    const ocasiao = e.target.closest('[data-ocasiao]');
+    if (ocasiao) escolheOcasiao(ocasiao.dataset.ocasiao);
     const prato = e.target.closest('.plate__btn');
     if (prato) escolheTamanho(prato.closest('[data-plate]').dataset.plate);
   });
@@ -508,6 +559,7 @@
       'Olá, Maria Gula! Gostaria de um orçamento:',
       '',
       `Nome: ${nome}`,
+      `Ocasião: ${f.ocasiao.options[f.ocasiao.selectedIndex].text}`,
       `Data do evento: ${dataBR(data)}`,
       f.pessoas.value ? `Pessoas: ${f.pessoas.value}` : null,
       `Torta: ${torta ? `${torta.nome}, ${textoTamanho}` : 'sem torta'}`,
@@ -665,12 +717,71 @@
     heroCopy.style.opacity = clamp(1 - y / (window.innerHeight * 0.9)).toFixed(3);
   }
 
+  // Selo da vitrine: além do giro lento, gira mais quando a página rola.
+  const anelSelo = $('[data-selo] .selo__anel');
+  function quadroSelo() {
+    if (reduzMovimento || !anelSelo) return;
+    anelSelo.style.setProperty('--giro', `${(window.scrollY * 0.25).toFixed(1)}deg`);
+  }
+
+  // Adesivos: andam um pouco mais devagar que a página e giram de leve (medidos pelo pai, que não se mexe).
+  const adesivos = $$('[data-adesivo]');
+  function quadroAdesivos() {
+    if (reduzMovimento) return;
+    const meio = window.innerHeight / 2;
+    adesivos.forEach((a) => {
+      const r = a.parentElement.getBoundingClientRect();
+      if (r.bottom < -300 || r.top > window.innerHeight + 300) return;
+      const d = r.top + r.height / 2 - meio;
+      const f = Number(a.dataset.adesivo) || 0.05;
+      a.style.setProperty('--sobe', `${(-d * f).toFixed(1)}px`);
+      a.style.setProperty('--gira', `${(d * f * 0.1).toFixed(2)}deg`);
+    });
+  }
+
+  // Faixa de frases: corre sozinha e acelera (ou volta) conforme a rolagem.
+  const faixa = $('[data-faixa]');
+  let faixaX = 0;
+  let faixaVel = 0;
+  let faixaUltimoY = window.scrollY;
+  let faixaLargura = 0;
+  let faixaRodando = false;
+  let faixaVisivel = false;
+  const medeFaixa = () => {
+    faixaLargura = faixaTrilho.firstElementChild.getBoundingClientRect().width;
+  };
+  function animaFaixa() {
+    const y = window.scrollY;
+    faixaVel += ((y - faixaUltimoY) * 0.6 - faixaVel) * 0.12;
+    faixaUltimoY = y;
+    faixaX -= 0.7 + faixaVel;
+    if (faixaLargura) {
+      if (faixaX <= -faixaLargura) faixaX += faixaLargura;
+      if (faixaX > 0) faixaX -= faixaLargura;
+    }
+    faixaTrilho.style.transform = `translate3d(${faixaX.toFixed(1)}px, 0, 0)`;
+    if (faixaVisivel) requestAnimationFrame(animaFaixa);
+    else faixaRodando = false;
+  }
+  if (!reduzMovimento && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([en]) => {
+      faixaVisivel = en.isIntersecting;
+      if (faixaVisivel && !faixaRodando) {
+        faixaRodando = true;
+        faixaUltimoY = window.scrollY;
+        requestAnimationFrame(animaFaixa);
+      }
+    }).observe(faixa);
+  }
+
   let pedidoQuadro = false;
   function quadro() {
     pedidoQuadro = false;
     quadroHero();
     quadroTrilho();
     quadroMesa();
+    quadroSelo();
+    quadroAdesivos();
   }
   const agenda = () => {
     if (pedidoQuadro) return;
@@ -680,6 +791,7 @@
   const prepara = () => {
     preparaTrilho();
     preparaMesa();
+    medeFaixa();
     quadro();
   };
 

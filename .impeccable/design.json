@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-27T16:44:51+00:00",
+  "generatedAt": "2026-10-27T17:36:59+00:00",
   "title": "Design System: Maria Gula Confeitaria",
   "extensions": {
     "colorMeta": {
@@ -253,6 +253,7 @@
     "northStar": "A Vitrine da Maria",
     "overview": "The site is the front of Maria Gula's shop on Av. Nereu Ramos, painted in the colours of her opening poster. A framboesa sign bar sits over the shop's real awning, yellow and white stripes with a straight edge; behind the glass, a lit display case holds the sweets. Every item on every menu is a photo standing in the case with a cream price plaque stuck in front of it, so choosing feels like pointing at the vitrine.\n\nThe page moves like a shop you walk past. The case lights up when the page opens. The cake section holds still while the cakes slide past like a counter. The party sweets arrive scattered and land in rows on the table. Between these two scenes, quiet sections let each one land. Colour works in whole fields: each section takes one ground (pêssego, espresso, vinho, pêssego claro, framboesa) and changes at its edge with no blending. Type is two voices: Gloock for titles, prices and the name; Jost for everything read or operated.\n\nThe world refuses the generic bakery template: no cream page with a centred hero photo, no icon cards, no eyebrows above headings, no gradients or glass.",
     "keyCharacteristics": [
+      "References chosen with the user: Bernice Bakery (rotating badge, arches, doodle stickers), Crumbl (the day's lineup as round top-down plates), Milk Bar (orders by occasion, a running phrase strip).",
       "Whole-section colour fields from the opening-poster palette.",
       "Shop objects drawn in CSS: the sign bar, the real yellow-and-white awning, the case's light strip and shelves, plates drawn to scale.",
       "Every menu item has a 4:5 photo with its price plaque in front.",
@@ -304,7 +305,8 @@
       "Don't use gradients, glass, glows or shadows on anything that sits in the page.",
       "Don't add a third typeface or use tracked uppercase labels.",
       "Don't use a medium radius: corners are square or fully round.",
-      "Don't let anything move across a heading or a statement while it is being read."
+      "Don't let anything move across a heading or a statement while it is being read.",
+      "Don't place a doodle sticker over text, or use more than two in one section."
     ]
   }
 }

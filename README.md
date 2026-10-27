@@ -18,7 +18,9 @@ e acesse http://localhost:5173.
 
 Tudo fica em [`js/dados.js`](js/dados.js):
 
-- `cardapio`: categorias (prateleiras) e itens do delivery, com `nome`, `preco` e, quando houver, `sabores` e `nota`.
+- `cardapio`: categorias e itens do delivery, com `nome`, `descricao`, `preco` e, quando houver, `sabores` e `nota`.
+- `frases`: as frases da faixa que corre abaixo da primeira tela.
+- `ocasioes`: as encomendas por ocasião (foto em `assets/img/cardapio/ocasiao-<id>.jpg`).
 - `destaques`: os três itens da vitrine na primeira tela.
 - `tortas`: os 21 sabores, com `precoKg` e `descricao`. Os que têm `foto: true` aparecem como cartão no trilho; os outros entram na lista "Mais sabores".
 - `tamanhos` e `docinhos` (clássicos, especiais e finos, com preços): os docinhos com `foto` aparecem na mesa.
