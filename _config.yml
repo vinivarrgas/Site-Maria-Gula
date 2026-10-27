@@ -1,0 +1,5 @@
+# GitHub Pages: publica só o site, não os arquivos de trabalho.
+exclude:
+  - README.md
+  - PRODUCT.md
+  - DESIGN.md

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "doce-brigadeiro-milk",
+    "file": "assets/img/cardapio/doce-brigadeiro-milk.jpg",
+    "title": "A white plate topped with chocolate covered donuts (brigadeiros with chocolate sprinkles)",
+    "creator": "Felippe Lopes",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/a-white-plate-topped-with-chocolate-covered-donuts-PcU475vki3Q",
+    "image_url": "https://images.unsplash.com/photo-1702982852429-e0d0b27eb990?w=2800&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-brigadeiro-50",
+    "file": "assets/img/cardapio/doce-brigadeiro-50.jpg",
+    "title": "Chocolate brigadeiros in red paper cups arranged on a wooden table",
+    "creator": "Rafael Rodrigues",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/chocolate-brigadeiros-on-wooden-table-STJw8WHVYtc",
+    "image_url": "https://images.unsplash.com/photo-1787788630019-fc6a044797b4?w=2800&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-beijinho",
+    "file": "assets/img/cardapio/doce-beijinho.jpg",
+    "title": "A group of chocolate brigadeiros and coconut beijinhos in small paper cups",
+    "creator": "Rodrigo Rodrigues | WOLF Λ R T",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/chocolate-brigadeiros-and-coconut-beijinhos-oB91sx2TpwE",
+    "image_url": "https://images.unsplash.com/photo-1788876892970-c35bf88e09f6?w=1400&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-casadinho",
+    "file": "assets/img/cardapio/doce-casadinho.jpg",
+    "title": "Assorted brigadeiro truffles with chocolate sprinkles and coconut shavings on a wooden surface",
+    "creator": "Rafael Rodrigues",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/brigadeiro-truffles-with-chocolate-and-coconut-AITsaiSIjfk",
+    "image_url": "https://images.unsplash.com/photo-1787788629776-e0f74ead0110?w=2800&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-ninho",
+    "file": "assets/img/cardapio/doce-ninho.jpg",
+    "title": "A wooden tray filled with white brigadeiro sweets in green paper cups at a wedding celebration",
+    "creator": "Rodrigo Rodrigues | WOLF Λ R T",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/brigadeiro-sweets-on-wooden-tray-7vhQNI134Ow",
+    "image_url": "https://images.unsplash.com/photo-1792488954347-fc43884b394d?w=3200&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-pacoca",
+    "file": "assets/img/cardapio/doce-pacoca.jpg",
+    "title": "Chocolate truffles covered in chopped peanuts and white sweets topped with red fruit",
+    "creator": "Rafael Rodrigues",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/chocolate-truffles-and-fruit-sweets-UIGL0AgJK8o",
+    "image_url": "https://images.unsplash.com/photo-1787788629593-b036f31597e3?w=2800&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-churros",
+    "file": "assets/img/cardapio/doce-churros.jpg",
+    "title": "A close up of some food on a plate (sugar-coated truffles with a dot of doce de leite)",
+    "creator": "Jonathan Borba",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/a-close-up-of-some-food-on-a-plate-rV9Xf3pEzYg",
+    "image_url": "https://images.unsplash.com/photo-1729875748360-e1d7b91a411a?w=1400&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-oreo",
+    "file": "assets/img/cardapio/doce-oreo.jpg",
+    "title": "brown cookies on white textile (cookies-and-cream truffle cut open, with sandwich cookies)",
+    "creator": "Nathana Rebouças",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "source_page": "https://unsplash.com/photos/brown-cookies-on-white-textile-d2IoNOVm5pE",
+    "image_url": "https://images.unsplash.com/photo-1590892708448-c977d1047812?w=1400&q=85&fm=jpg"
+  },
+  {
+    "id": "doce-camafeu",
+    "file": "assets/img/cardapio/doce-camafeu.jpg",
+    "title": "Camafeus de nozes",
+    "creator": "Fabiobarros (Wikimedia Commons user)",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Camafeus_de_nozes.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Camafeus_de_nozes.jpg/1920px-Camafeus_de_nozes.jpg"
+  }
+]
