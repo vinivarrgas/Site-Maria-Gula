@@ -24,13 +24,7 @@ window.MARIA_GULA = {
   // Data do cardápio publicado nos stories. Atualize junto com os preços.
   dataCardapio: 'segunda, 26/10',
 
-  // Itens que aparecem na vitrine da primeira tela (ids do cardápio abaixo).
-  destaques: ['vulcao-chocolate', 'bolo-nuvem', 'cookie'],
-
-  // Frases da faixa que corre abaixo da vitrine.
-  frases: ['Seu doce favorito, hoje', 'Feito à mão em Meia Praia', 'Vulcões, cucas e cookies', 'Tortas por encomenda', 'Docinhos de festa', 'Delivery das 9h às 18h', 'By Maria Baramarchi'],
-
-  // Cardápio de delivery: cada categoria é uma prateleira da vitrine.
+  // Cardápio de delivery: cada categoria vira um botão de filtro no "Cardápio do dia".
   // CONFIRMAR: as descrições são textos de exemplo, escritos para a demonstração.
   cardapio: [
     {

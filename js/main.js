@@ -24,6 +24,14 @@
   const precoKg = (v) => `${brl.format(v)} o kg`;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const rola = (alvo) => alvo.scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' });
+  const alturaCabecalho = () => $('[data-topo]').offsetHeight;
+  const precosTortas = D.tortas.map((t) => t.precoKg);
+  const precoDoce = (g) => {
+    if (g.preco) return `${brl.format(g.preco)} cada`;
+    const valores = g.itens.map((i) => i.preco);
+    return `${brl.format(Math.min(...valores))} a ${brl.format(Math.max(...valores))}`;
+  };
+  const menorPrecoDoce = Math.min(...D.docinhos.flatMap((g) => (g.preco ? [g.preco] : g.itens.map((i) => i.preco))));
 
   /* Links de WhatsApp */
   $$('[data-wa]').forEach((a) => {
@@ -107,24 +115,25 @@
 
   /* ——— Página de hoje ——— */
 
-  /* Itens do delivery: a foto do doce e a plaquinha de preço */
+  // Cardápio do dia: categorias à esquerda, produtos com foto, descrição, preço e "Adicionar".
   let grupoSabor = 0;
-  function itemHTML(item, i = 0) {
+  function produtoHTML(item) {
     const grupo = `sabor-${item.id}-${grupoSabor++}`;
     const sabores = item.sabores
-      ? `<fieldset class="item__flavors"><legend>Sabor</legend>${item.sabores
+      ? `<fieldset class="sabores"><legend>Sabor</legend>${item.sabores
           .map((s, k) => `<label><input type="radio" name="${grupo}" value="${esc(s)}" data-sabor${k === 0 ? ' checked' : ''}><span>${esc(s)}</span></label>`)
           .join('')}</fieldset>`
       : '';
-    return `<li class="item${item.sabores ? ' item--sabores' : ''}" data-item="${item.id}" style="--i:${i}">
-        <figure class="item__pic"><img src="${foto(item.id)}" alt="${esc(item.nome)}" width="800" height="1000" loading="lazy"></figure>
-        <div class="item__tag">
-          <p class="item__name">${esc(item.nome)}${item.nota ? `<span class="item__note">${esc(item.nota)}</span>` : ''}</p>
+    return `<li class="produto" data-item="${item.id}">
+        <figure class="produto__foto"><img src="${foto(item.id)}" alt="${esc(item.nome)}" width="800" height="1000" loading="lazy"></figure>
+        <div class="produto__info">
+          <h4 class="produto__nome">${esc(item.nome)}${item.nota ? `<span class="produto__nota">${esc(item.nota)}</span>` : ''}</h4>
+          ${item.descricao ? `<p class="produto__desc">${esc(item.descricao)}</p>` : ''}
           ${sabores}
-          <div class="item__foot">
-            <span class="item__price">${precoCurto(item.preco)}</span>
+          <div class="produto__pe">
+            <span class="produto__preco">${precoCurto(item.preco)}</span>
             <button type="button" class="add" data-add="${item.id}" aria-label="Adicionar ${esc(item.nome)} ao pedido">
-              <svg aria-hidden="true"><use href="#i-plus"></use></svg>
+              <svg aria-hidden="true"><use href="#i-plus"></use></svg>Adicionar
               <span class="add__count" data-count="${item.id}" aria-hidden="true"></span>
             </button>
           </div>
@@ -132,99 +141,98 @@
       </li>`;
   }
 
-  const destaques = $('[data-destaques]');
-  if (destaques) {
-    destaques.innerHTML = (D.destaques || [])
-      .filter((id) => ITENS.has(id))
-      .map((id, i) => itemHTML(ITENS.get(id), i))
-      .join('')
-      .replaceAll('loading="lazy"', 'loading="eager"');
-  }
-
-  // Cardápio do dia: cada item é um prato redondo visto de cima, com nome, descrição e preço.
-  function pratoHTML(item) {
-    const grupo = `sabor-${item.id}-${grupoSabor++}`;
-    const sabores = item.sabores
-      ? `<fieldset class="item__flavors"><legend>Sabor</legend>${item.sabores
-          .map((s, k) => `<label><input type="radio" name="${grupo}" value="${esc(s)}" data-sabor${k === 0 ? ' checked' : ''}><span>${esc(s)}</span></label>`)
-          .join('')}</fieldset>`
-      : '';
-    return `<li class="prato" data-item="${item.id}">
-        <figure class="prato__foto"><img src="${foto(item.id)}" alt="${esc(item.nome)}" width="800" height="1000" loading="lazy"></figure>
-        <h4 class="prato__nome">${esc(item.nome)}${item.nota ? `<span class="prato__nota">${esc(item.nota)}</span>` : ''}</h4>
-        ${item.descricao ? `<p class="prato__desc">${esc(item.descricao)}</p>` : ''}
-        ${sabores}
-        <div class="prato__foot">
-          <span class="prato__preco">${precoCurto(item.preco)}</span>
-          <button type="button" class="add" data-add="${item.id}" aria-label="Adicionar ${esc(item.nome)} ao pedido">
-            <svg aria-hidden="true"><use href="#i-plus"></use></svg>
-            <span class="add__count" data-count="${item.id}" aria-hidden="true"></span>
-          </button>
-        </div>
-      </li>`;
-  }
-
+  // Uma grade só; os botões de categoria filtram o que aparece.
   const cardapio = $('[data-menu]');
   if (cardapio) {
-    cardapio.innerHTML = D.cardapio
-      .map(
-        (cat) => `<section class="shelf${cat.itens.length === 1 ? (cat.itens[0].sabores ? ' shelf--um-sabores' : ' shelf--um') : ''}" aria-labelledby="prateleira-${cat.id}" data-reveal>
-          <h3 class="shelf__name" id="prateleira-${cat.id}">${esc(cat.nome)}</h3>
-          <ul class="shelf__row">${cat.itens.map(pratoHTML).join('')}</ul>
-        </section>`
-      )
+    cardapio.innerHTML = `<ul class="produtos" id="produtos" data-reveal>${D.cardapio
+      .flatMap((cat) => cat.itens.map((item) => produtoHTML(item).replace('<li class="produto"', `<li class="produto" data-cat="${cat.id}"`)))
+      .join('')}</ul>`;
+    const filtros = $('[data-filtros]');
+    filtros.innerHTML = [{ id: '', nome: 'Tudo' }, ...D.cardapio]
+      .map((cat) => `<button type="button" class="chip" data-filtro="${cat.id}" aria-pressed="${cat.id === ''}" aria-controls="produtos">${esc(cat.nome)}</button>`)
       .join('');
+    filtros.addEventListener('click', (e) => {
+      const botao = e.target.closest('[data-filtro]');
+      if (!botao) return;
+      const cat = botao.dataset.filtro;
+      $$('[data-filtro]', filtros).forEach((b) => b.setAttribute('aria-pressed', String(b === botao)));
+      $$('.produto', cardapio).forEach((li) => {
+        li.hidden = Boolean(cat) && li.dataset.cat !== cat;
+      });
+      // Se a pessoa já desceu pela grade, volta para o começo dela.
+      const grade = $('#produtos');
+      if (grade.getBoundingClientRect().top < alturaCabecalho()) rola(grade);
+    });
   }
 
-  /* Faixa de frases */
-  const faixaTrilho = $('[data-faixa-trilho]');
-  if (faixaTrilho) {
-    const grupoFaixa = `<div class="faixa__grupo">${(D.frases || [])
-      .map((f) => `<span>${esc(f)}</span><svg aria-hidden="true"><use href="#i-hat"></use></svg>`)
-      .join('')}</div>`;
-    faixaTrilho.innerHTML = grupoFaixa + grupoFaixa;
-  }
+  // A chamada para as encomendas usa os preços reais.
+  const fatoTortas = $('[data-fato-tortas]');
+  if (fatoTortas) fatoTortas.textContent = `${D.tortas.length} sabores, de ${brl.format(Math.min(...precosTortas))} a ${brl.format(Math.max(...precosTortas))} o kg`;
+  const fatoDoces = $('[data-fato-doces]');
+  if (fatoDoces) fatoDoces.textContent = `A partir de 25 unidades por sabor, desde ${brl.format(menorPrecoDoce)} cada`;
 
   /* ——— Página de encomendas ——— */
 
-  /* Encomendas por ocasião */
-  const ocasioes = $('[data-ocasioes]');
-  if (ocasioes) {
-    ocasioes.innerHTML = (D.ocasioes || [])
+  /* Ocasiões: uma aberta por vez; a foto da escolhida ocupa a direita */
+  const listaOcasioes = $('[data-ocasioes]');
+  if (listaOcasioes) {
+    listaOcasioes.innerHTML = (D.ocasioes || [])
       .map(
-        (o) => `<li class="ocasiao">
-          <figure class="ocasiao__foto"><img src="${foto(`ocasiao-${o.id}`)}" alt="${esc(o.nome)}" width="800" height="1000"></figure>
-          <h3>${esc(o.nome)}</h3>
-          <p>${esc(o.texto)}</p>
-          <button type="button" class="btn btn--primary btn--sm" data-ocasiao="${o.id}">Pedir orçamento</button>
+        (o, i) => `<li class="ocasiao${i === 0 ? ' is-ativa' : ''}" data-ocasiao-item="${o.id}">
+          <button type="button" class="ocasiao__nome" aria-expanded="${i === 0}" aria-controls="ocasiao-${o.id}">${esc(o.nome)}<svg aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+          <div class="ocasiao__corpo" id="ocasiao-${o.id}"${i === 0 ? '' : ' hidden'}>
+            <img class="ocasiao__foto-celular" src="${foto(`ocasiao-${o.id}`)}" alt="${esc(o.nome)}" width="800" height="1000" loading="lazy">
+            <p>${esc(o.texto)}</p>
+            <button type="button" class="btn btn--primario btn--p" data-ocasiao="${o.id}">Pedir orçamento</button>
+          </div>
         </li>`
       )
       .join('');
+    $('[data-ocasioes-fotos]').innerHTML = (D.ocasioes || [])
+      .map((o, i) => `<img src="${foto(`ocasiao-${o.id}`)}" alt="" width="800" height="1000"${i === 0 ? ' class="is-ativa"' : ''} data-foto-ocasiao="${o.id}">`)
+      .join('');
+    listaOcasioes.addEventListener('click', (e) => {
+      const nome = e.target.closest('.ocasiao__nome');
+      if (!nome) return;
+      const id = nome.closest('[data-ocasiao-item]').dataset.ocasiaoItem;
+      $$('[data-ocasiao-item]').forEach((li) => {
+        const ativa = li.dataset.ocasiaoItem === id;
+        li.classList.toggle('is-ativa', ativa);
+        $('.ocasiao__nome', li).setAttribute('aria-expanded', String(ativa));
+        $('.ocasiao__corpo', li).hidden = !ativa;
+      });
+      $$('[data-foto-ocasiao]').forEach((img) => img.classList.toggle('is-ativa', img.dataset.fotoOcasiao === id));
+    });
   }
 
-  /* Tortas: cartões com foto; as outras entram numa lista */
+  /* Tortas: os mais pedidos no trilho, com foto; depois a lista com todos os sabores */
   const tortas = $('[data-tortas]');
   if (tortas) {
-    const comFoto = D.tortas.filter((t) => t.foto);
-    const semFoto = D.tortas.filter((t) => !t.foto);
-    tortas.innerHTML =
-      comFoto
-        .map(
-          (t) => `<article class="torta">
-            <figure class="torta__pic"><img src="${foto(`torta-${t.id}`)}" alt="Torta ${esc(t.nome)}" width="800" height="1000" loading="lazy"></figure>
-            <div class="torta__body">
-              <div class="torta__head"><h3 class="torta__name">${esc(t.nome)}</h3><span class="torta__price">${precoKg(t.precoKg)}</span></div>
-              <p class="torta__desc">${esc(t.descricao)}</p>
-              <button type="button" class="btn btn--light btn--sm" data-quero="${t.id}">Quero esta torta</button>
-            </div>
-          </article>`
-        )
-        .join('') +
-      `<article class="torta torta--mais">
-        <h3 class="torta__name">E mais ${semFoto.length} sabores</h3>
-        <p class="torta__desc">São ${D.tortas.length} tortas ao todo, de ${brl.format(Math.min(...D.tortas.map((t) => t.precoKg)))} a ${brl.format(Math.max(...D.tortas.map((t) => t.precoKg)))} o kg. Escolha a sua no orçamento.</p>
-        <a class="btn btn--light btn--sm" href="#orcamento">Ver todos os sabores</a>
-      </article>`;
+    tortas.innerHTML = D.tortas
+      .filter((t) => t.foto)
+      .map(
+        (t) => `<article class="torta">
+          <figure class="torta__pic"><img src="${foto(`torta-${t.id}`)}" alt="Torta ${esc(t.nome)}" width="800" height="1000" loading="lazy"></figure>
+          <div class="torta__body">
+            <div class="torta__head"><h3 class="torta__name">${esc(t.nome)}</h3><span class="torta__price">${precoKg(t.precoKg)}</span></div>
+            <p class="torta__desc">${esc(t.descricao)}</p>
+            <button type="button" class="btn btn--claro btn--p" data-quero="${t.id}">Quero esta torta</button>
+          </div>
+        </article>`
+      )
+      .join('');
+  }
+  const listaSabores = $('[data-lista-sabores]');
+  if (listaSabores) {
+    listaSabores.innerHTML = D.tortas
+      .map(
+        (t) => `<li>
+          <div><h4>${esc(t.nome)}</h4><span>${precoKg(t.precoKg)}</span></div>
+          <p>${esc(t.descricao)}</p>
+        </li>`
+      )
+      .join('');
+    $('[data-faixa-precos]').textContent = `${D.tortas.length} sabores, de ${brl.format(Math.min(...precosTortas))} a ${brl.format(Math.max(...precosTortas))} o quilo.`;
   }
 
   /* Tamanhos: pratos desenhados em escala */
@@ -241,14 +249,9 @@
       .join('');
   }
 
-  /* Docinhos: grupos com preço e a mesa de fotos */
+  /* Docinhos: grupos com preço e as fotos */
   const grupos = $('[data-grupos]');
   if (grupos) {
-    const precoDoce = (g) => {
-      if (g.preco) return `${brl.format(g.preco)} cada`;
-      const valores = g.itens.map((i) => i.preco);
-      return `${brl.format(Math.min(...valores))} a ${brl.format(Math.max(...valores))}`;
-    };
     grupos.innerHTML = D.docinhos
       .map(
         (g) => `<div class="grupo">
@@ -263,7 +266,7 @@
     docinhos.innerHTML = D.docinhos
       .flatMap((g) => g.itens.filter((i) => i.foto).map((i) => ({ ...i, preco: i.preco ?? g.preco })))
       .map(
-        (i) => `<li class="tile">
+        (i) => `<li class="doce">
           <figure>
             <img src="${foto(`${i.foto}-${i.id}`)}" alt="${esc(i.nome)}" width="800" height="1000" loading="lazy">
             <figcaption>${esc(i.nome)}<span>${brl.format(i.preco)}</span></figcaption>
@@ -290,7 +293,6 @@
           `<li>${esc(nomesPorFoto.get(c.id))}: <a href="${esc(c.source_page)}" target="_blank" rel="noopener">${esc(c.creator || 'autor desconhecido')}</a>, ${esc(c.license)}</li>`
       )
       .join('');
-    listaCreditos.closest('.credits').hidden = creditos.length === 0;
   }
 
   /* Pedido do delivery (página de hoje) */
@@ -402,7 +404,6 @@
       });
     };
 
-    // Itens da vitrine e do cardápio usam o mesmo pedido.
     document.addEventListener('click', (e) => {
       const botao = e.target.closest('[data-add]');
       if (!botao) return;
@@ -555,7 +556,7 @@
     const escolheOcasiao = (id) => {
       selectOcasiao.value = id;
       rola($('#orcamento'));
-      aviso(`Orçamento para ${D.ocasioes.find((o) => o.id === id).nome.toLowerCase()}.`);
+      aviso(`Orçamento para ${D.ocasioes.find((o) => o.id === id).nome}.`);
     };
     document.addEventListener('click', (e) => {
       const quero = e.target.closest('[data-quero]');
@@ -634,13 +635,9 @@
     }
   });
 
-  /* ——— Movimento ——— */
+  /* ——— Movimento e rolagem ——— */
 
-  /* 1. A vitrine acende */
-  const vitrine = $('[data-case]');
-  if (vitrine) requestAnimationFrame(() => setTimeout(() => vitrine.classList.add('is-lit'), 120));
-
-  /* 2. Entradas: cada parte sobe em sequência, uma vez */
+  /* Entradas: cada parte sobe em sequência, uma vez */
   const blocos = $$('[data-reveal]');
   blocos.forEach((bloco) => [...bloco.children].forEach((filho, i) => filho.style.setProperty('--i', i)));
   if (reduzMovimento || !('IntersectionObserver' in window)) {
@@ -658,10 +655,51 @@
     blocos.forEach((b) => observador.observe(b));
   }
 
-  /* 3. Cenas de rolagem: só no computador e sem "reduzir movimento" */
+  // Cabeçalho: transparente sobre a capa, sólido depois dela.
+  const topo = $('[data-topo]');
+  const capa = $('.capa');
+  function quadroTopo() {
+    const passou = !capa || capa.getBoundingClientRect().bottom <= alturaCabecalho() + 1;
+    topo.classList.toggle('is-solido', passou);
+  }
+
+  // Capa: a foto desce mais devagar que a página e chega um pouco mais perto.
+  const fotoCapa = $('[data-capa-foto]');
+  function quadroCapa() {
+    if (reduzMovimento || !fotoCapa) return;
+    const y = window.scrollY;
+    if (y > window.innerHeight * 1.2) return;
+    fotoCapa.style.setProperty('--desce', `${(y * 0.28).toFixed(1)}px`);
+    fotoCapa.style.setProperty('--zoom', (1 + (y / window.innerHeight) * 0.06).toFixed(4));
+  }
+
+  // Atalhos da página de encomendas: marca a parte em que a pessoa está.
+  const espioes = $$('[data-espiao]').map((barra) => {
+    const links = $$('a[href^="#"]', barra);
+    return { barra, links, alvos: links.map((a) => document.getElementById(a.getAttribute('href').slice(1))) };
+  });
+  function quadroEspioes() {
+    const linha = alturaCabecalho() + 140;
+    espioes.forEach(({ barra, links, alvos }) => {
+      let atual = -1;
+      alvos.forEach((alvo, i) => {
+        if (alvo && alvo.getBoundingClientRect().top <= linha) atual = i;
+      });
+      // Depois do fim do último alvo, nenhum fica marcado.
+      const ultimo = alvos[alvos.length - 1];
+      if (ultimo && ultimo.getBoundingClientRect().bottom < alturaCabecalho()) atual = -1;
+      links.forEach((a, i) => {
+        const ativo = i === atual;
+        if (ativo && !a.classList.contains('is-ativo')) barra.scrollTo({ left: a.offsetLeft - 16, behavior: 'smooth' });
+        a.classList.toggle('is-ativo', ativo);
+        if (ativo) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    });
+  }
+
+  /* Cenas de rolagem: só no computador e sem "reduzir movimento" */
   const telaGrande = window.matchMedia('(min-width: 900px) and (min-height: 620px)');
-  const alturaCabecalho = () => $('.sign').offsetHeight;
-  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
   // Trilho de tortas: o palco para e as tortas correm da direita para a esquerda.
   const trilho = $('[data-trilho]');
@@ -686,9 +724,11 @@
   }
   function quadroTrilho() {
     if (!trilho?.classList.contains('is-live')) return;
-    const topo = trilho.getBoundingClientRect().top;
-    const percurso = trilho.offsetHeight - (window.innerHeight - alturaCabecalho());
-    const p = clamp((alturaCabecalho() - topo) / Math.max(1, percurso));
+    // O palco prende abaixo do cabeçalho e da barra de atalhos.
+    const preso = parseFloat(getComputedStyle(trilho.querySelector('.tortas__stage')).top) || alturaCabecalho();
+    const topoTrilho = trilho.getBoundingClientRect().top;
+    const percurso = trilho.offsetHeight - (window.innerHeight - preso);
+    const p = clamp((preso - topoTrilho) / Math.max(1, percurso));
     trilhoTrack.style.transform = `translate3d(${(-p * trilhoDist).toFixed(1)}px, 0, 0)`;
     // As fotos correm um pouco mais devagar que os cartões: dá profundidade.
     const meio = window.innerWidth / 2;
@@ -699,143 +739,13 @@
     });
   }
 
-  // Mesa de doces: os docinhos chegam espalhados e pousam em fileiras.
-  const mesa = $('[data-mesa]');
-  const tiles = mesa ? $$('.tile', mesa) : [];
-  const mesaTampo = mesa ? $('.mesa__tiles', mesa) : null;
-  let espalhado = [];
-  function preparaMesa() {
-    if (!mesa) return;
-    const vivo = !reduzMovimento && telaGrande.matches;
-    mesa.classList.toggle('is-live', vivo);
-    mesaTampo.style.removeProperty('--abre');
-    tiles.forEach((t) => {
-      t.style.transform = '';
-      t.style.opacity = '';
-      t.querySelector('figcaption').style.opacity = '';
-    });
-    if (!vivo) return;
-    let semente = 7;
-    const acaso = () => ((semente = (semente * 16807) % 2147483647) / 2147483647);
-    const W = window.innerWidth;
-    const H = window.innerHeight;
-    // Chegam pela direita, de cima e de baixo; nunca atravessam o texto da esquerda.
-    espalhado = tiles.map(() => ({
-      x: (0.08 + acaso() * 0.3) * W,
-      y: (acaso() - 0.5) * H * 1.1,
-      r: (acaso() - 0.5) * 50,
-    }));
-  }
-  function quadroMesa() {
-    if (!mesa?.classList.contains('is-live')) return;
-    const topo = mesa.getBoundingClientRect().top;
-    const percurso = mesa.offsetHeight - (window.innerHeight - alturaCabecalho());
-    const inicio = window.innerHeight;
-    const fim = alturaCabecalho() - percurso;
-    const p = clamp((inicio - topo) / (inicio - fim));
-    // Ponto em que o palco prende no topo: tudo acontece em volta dele.
-    const pPreso = (window.innerHeight - alturaCabecalho()) / (inicio - fim);
-    // O tampo da mesa sobe pouco antes; os doces pousam logo em seguida, nunca numa mesa vazia por muito tempo.
-    mesaTampo.style.setProperty('--abre', easeOut(clamp((p - (pPreso - 0.2)) / 0.15)).toFixed(3));
-    tiles.forEach((t, i) => {
-      const local = clamp((p - (pPreso - 0.15) - i * 0.02) / 0.3);
-      const e = easeOut(local);
-      const s = espalhado[i];
-      t.style.opacity = clamp(local * 3).toFixed(2);
-      t.style.transform =
-        `translate3d(${(s.x * (1 - e)).toFixed(1)}px, ${(s.y * (1 - e)).toFixed(1)}px, 0) ` +
-        `rotate(${(s.r * (1 - e)).toFixed(2)}deg) scale(${(0.8 + 0.2 * e).toFixed(3)})`;
-      // O nome só aparece quando o doce já pousou: nada voa por cima de texto.
-      t.querySelector('figcaption').style.opacity = clamp((local - 0.85) / 0.15).toFixed(2);
-    });
-  }
-
-  // A primeira tela sai mais devagar que a página: o texto parece ficar para trás.
-  const heroCopy = $('[data-parallax]');
-  const fator = Number(heroCopy?.dataset.parallax || 0);
-  function quadroHero() {
-    if (reduzMovimento || !heroCopy) return;
-    const y = window.scrollY;
-    if (y > window.innerHeight * 1.2) return;
-    heroCopy.style.transform = `translate3d(0, ${(y * fator).toFixed(1)}px, 0)`;
-    heroCopy.style.opacity = clamp(1 - y / (window.innerHeight * 0.9)).toFixed(3);
-  }
-
-  // Selo da vitrine: além do giro lento, gira mais quando a página rola.
-  const anelSelo = $('[data-selo] .selo__anel');
-  function quadroSelo() {
-    if (reduzMovimento || !anelSelo) return;
-    anelSelo.style.setProperty('--giro', `${(window.scrollY * 0.25).toFixed(1)}deg`);
-  }
-
-  // Ponte para as encomendas: as fotos chegam empilhadas e se abrem em leque ao subir na tela.
-  const leque = $('[data-leque]');
-  function quadroLeque() {
-    if (reduzMovimento || !leque) return;
-    const r = leque.getBoundingClientRect();
-    const p = clamp((window.innerHeight - r.top) / (window.innerHeight * 0.6));
-    leque.style.setProperty('--abre', (0.06 + 0.94 * easeOut(p)).toFixed(3));
-  }
-
-  // Adesivos: andam um pouco mais devagar que a página e giram de leve (medidos pelo pai, que não se mexe).
-  const adesivos = $$('[data-adesivo]');
-  function quadroAdesivos() {
-    if (reduzMovimento) return;
-    const meio = window.innerHeight / 2;
-    adesivos.forEach((a) => {
-      const r = a.parentElement.getBoundingClientRect();
-      if (r.bottom < -300 || r.top > window.innerHeight + 300) return;
-      const d = r.top + r.height / 2 - meio;
-      const f = Number(a.dataset.adesivo) || 0.05;
-      a.style.setProperty('--sobe', `${(-d * f).toFixed(1)}px`);
-      a.style.setProperty('--gira', `${(d * f * 0.1).toFixed(2)}deg`);
-    });
-  }
-
-  // Faixa de frases: corre sozinha e acelera (ou volta) conforme a rolagem.
-  const faixa = $('[data-faixa]');
-  let faixaX = 0;
-  let faixaVel = 0;
-  let faixaUltimoY = window.scrollY;
-  let faixaLargura = 0;
-  let faixaRodando = false;
-  let faixaVisivel = false;
-  const medeFaixa = () => {
-    if (faixaTrilho) faixaLargura = faixaTrilho.firstElementChild.getBoundingClientRect().width;
-  };
-  function animaFaixa() {
-    const y = window.scrollY;
-    faixaVel += ((y - faixaUltimoY) * 0.6 - faixaVel) * 0.12;
-    faixaUltimoY = y;
-    faixaX -= 0.7 + faixaVel;
-    if (faixaLargura) {
-      if (faixaX <= -faixaLargura) faixaX += faixaLargura;
-      if (faixaX > 0) faixaX -= faixaLargura;
-    }
-    faixaTrilho.style.transform = `translate3d(${faixaX.toFixed(1)}px, 0, 0)`;
-    if (faixaVisivel) requestAnimationFrame(animaFaixa);
-    else faixaRodando = false;
-  }
-  if (faixa && !reduzMovimento && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([en]) => {
-      faixaVisivel = en.isIntersecting;
-      if (faixaVisivel && !faixaRodando) {
-        faixaRodando = true;
-        faixaUltimoY = window.scrollY;
-        requestAnimationFrame(animaFaixa);
-      }
-    }).observe(faixa);
-  }
-
   let pedidoQuadro = false;
   function quadro() {
     pedidoQuadro = false;
-    quadroHero();
+    quadroTopo();
+    quadroCapa();
+    quadroEspioes();
     quadroTrilho();
-    quadroMesa();
-    quadroSelo();
-    quadroLeque();
-    quadroAdesivos();
   }
   const agenda = () => {
     if (pedidoQuadro) return;
@@ -844,8 +754,6 @@
   };
   const prepara = () => {
     preparaTrilho();
-    preparaMesa();
-    medeFaixa();
     quadro();
   };
 

@@ -1,74 +1,73 @@
-/* Maria Gula Confeitaria: a vitrine da loja, nas cores do cartaz de abertura */
+/* Maria Gula Confeitaria
+   Três chãos que se alternam com contraste forte: escuro (chocolate), claro (creme) e cor (vinho, framboesa).
+   Uma cor de ação (framboesa). Títulos em Gloock, texto em Jost. Fotos com canto reto, sem enfeites. */
 
 :root {
-  /* Paleta da marca (cartaz de abertura) */
-  --pessego: #fce8d8;
-  --pessego-2: #f9d8c2;
-  --pessego-claro: #fdefe0;
-  --rose: #c66d63;
+  --noite: #0f0909;        /* chão da capa: o preto do fundo da foto */
+  --espresso: #2b120d;     /* seções escuras */
+  --espresso-2: #3d1d16;   /* um passo acima do espresso */
+  --vinho: #7e2a2f;
   --framboesa: #b83a48;
-  --vinho: #892d32;
-  --vinho-escuro: #5e2420;
-  --espresso: #3a140e;
-  --espresso-2: #4d1f17;
+  --framboesa-2: #9b2f3c;
+  --creme: #fdf2e7;        /* chão claro */
+  --creme-2: #f5e0cf;      /* um passo abaixo do creme */
+  --branco: #fffaf5;
+  --rose: #eaa69c;         /* destaque pequeno sobre o escuro */
 
-  /* Texto secundário, tingido do fundo em que aparece */
-  --ink-claro: #7a3a30;
-  --ink-escuro: #ecc9b8;
+  --tinta: #2b120d;        /* texto sobre o claro */
+  --tinta-2: #6b463c;      /* texto secundário sobre o claro */
+  --claro: #fdf2e7;        /* texto sobre o escuro */
+  --claro-2: #dcc3b6;      /* texto secundário sobre o escuro */
   --erro: #a3263f;
 
   --f-display: 'Gloock', 'Times New Roman', serif;
   --f-text: 'Jost', 'Segoe UI', system-ui, sans-serif;
 
-  /* Cinco tamanhos de texto, bem separados */
-  --t-display: clamp(2.75rem, 6vw - 4px, 5.25rem);
-  --t-h2: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
-  --t-h3: clamp(1.5rem, 1.25rem + 0.7vw, 1.875rem);
-  --t-body: 1.125rem;
-  --t-small: 0.9375rem;
+  /* Cinco tamanhos: o nome, os títulos, os subtítulos, o texto e as notas */
+  --t-capa: clamp(4.25rem, 10.4vw, 10rem);
+  --t-titulo: clamp(2.5rem, 1.5rem + 3.6vw, 4.75rem);
+  --t-sub: clamp(1.375rem, 1.15rem + 0.8vw, 1.875rem);
+  --t-texto: 1.125rem;
+  --t-nota: 0.9375rem;
 
-  --gutter: clamp(16px, 4vw, 40px);
+  --gutter: clamp(20px, 4vw, 48px);
   --wrap: 1320px;
   --gap: clamp(16px, 2.4vw, 32px);
-  --section: clamp(88px, 11vw, 160px);
-  --header: 64px;
+  --secao: clamp(96px, 11vw, 168px);
+  --header: 76px;
+  --barra: 66px;           /* atalhos da página de encomendas */
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --focus: var(--espresso);
+  --focus: var(--tinta);
 }
 
 /* Base */
 *, *::before, *::after { box-sizing: border-box; }
-
 html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: var(--header);
-  scrollbar-color: var(--vinho) var(--pessego-2);
+  scrollbar-color: var(--vinho) var(--creme-2);
   accent-color: var(--framboesa);
 }
-
 /* Suave só depois de carregar: quem chega por um link com âncora (encomendas.html#docinhos) cai direto no lugar. */
 html.suave { scroll-behavior: smooth; }
-
 body {
   margin: 0;
-  background: var(--pessego);
-  color: var(--espresso);
-  font: 400 var(--t-body) / 1.55 var(--f-text);
+  background: var(--creme);
+  color: var(--tinta);
+  font: 400 var(--t-texto) / 1.55 var(--f-text);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }
-p, h1, h2, h3, ul, dl, dd, figure, blockquote { margin: 0; }
+p, h1, h2, h3, h4, ul, ol, dl, dd, figure, blockquote { margin: 0; }
 a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 2px; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-h1, h2, h3 { text-wrap: balance; font-weight: 400; }
+h1, h2, h3, h4 { text-wrap: balance; font-weight: 400; }
 p { text-wrap: pretty; }
-
-::selection { background: var(--rose); color: var(--espresso); }
+::selection { background: var(--rose); color: var(--tinta); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 input, select, textarea { caret-color: var(--framboesa); }
 
@@ -76,198 +75,276 @@ input, select, textarea { caret-color: var(--framboesa); }
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-
 .skip {
   position: absolute; left: var(--gutter); top: -100px; z-index: 100;
-  background: var(--pessego-claro); color: var(--espresso); padding: 12px 18px; font-weight: 600;
+  background: var(--creme); color: var(--tinta); padding: 12px 18px; font-weight: 600;
 }
 .skip:focus { top: 12px; }
-
 .wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
+.grade { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); }
 
 /* Tipos */
-.display { font: 400 var(--t-display) / 0.98 var(--f-display); letter-spacing: -0.02em; }
-.h2 { font: 400 var(--t-h2) / 1.02 var(--f-display); letter-spacing: -0.015em; }
+.titulo { font: 400 var(--t-titulo) / 1 var(--f-display); letter-spacing: -0.02em; }
+.sub { font: 400 var(--t-sub) / 1.15 var(--f-display); letter-spacing: -0.01em; }
+.cur { font: 500 0.55em / 1 var(--f-text); vertical-align: 0.38em; margin-right: 0.12em; }
+
+/* Chãos */
+.chao-escuro { --focus: var(--claro); background: var(--espresso); color: var(--claro); }
+.chao-vinho { --focus: var(--claro); background: var(--vinho); color: var(--claro); }
+.chao-claro { --focus: var(--tinta); background: var(--creme); color: var(--tinta); }
+.secao { padding-block: var(--secao); }
 
 /* Botões: pílula cheia, uma cor */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.55em;
-  min-height: 54px; padding: 0 1.6em;
+  min-height: 56px; padding: 0 1.75em;
   border: 0; border-radius: 999px;
-  font: 500 var(--t-body) / 1 var(--f-text);
+  font: 500 var(--t-texto) / 1 var(--f-text);
   text-decoration: none; white-space: nowrap;
-  transition: background-color 0.2s, transform 0.2s var(--ease-out);
+  transition: background-color 0.2s, color 0.2s, transform 0.2s var(--ease-out);
 }
-.btn svg { width: 1.25em; height: 1.25em; flex: none; }
+.btn svg { width: 1.2em; height: 1.2em; flex: none; transition: transform 0.25s var(--ease-out); }
+.btn:hover svg { transform: translateX(3px); }
 .btn:active { transform: scale(0.96); }
-.btn--primary { background: var(--framboesa); color: var(--pessego-claro); }
-.btn--primary:hover { background: var(--vinho); }
-.btn--sign { background: var(--pessego); color: var(--vinho); }
-.btn--sign:hover { background: var(--pessego-claro); }
-.btn--light { background: var(--pessego-claro); color: var(--vinho); }
-.btn--light:hover { background: var(--pessego-2); }
-.btn--sm { min-height: 42px; padding: 0 1.15em; font-size: var(--t-small); }
-.btn--block { width: 100%; }
+.btn--primario { background: var(--framboesa); color: var(--claro); }
+.btn--primario:hover { background: var(--framboesa-2); }
+.btn--claro { background: var(--creme); color: var(--tinta); }
+.btn--claro:hover { background: var(--creme-2); }
+.btn--escuro { background: var(--tinta); color: var(--claro); }
+.btn--escuro:hover { background: var(--espresso-2); }
+.btn--p { min-height: 44px; padding: 0 1.25em; font-size: var(--t-nota); }
+.btn--bloco { width: 100%; }
+.link { font-weight: 500; text-decoration: underline; text-decoration-color: var(--rose); transition: text-decoration-color 0.2s; }
+.link:hover { text-decoration-color: currentColor; }
+.acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
 
-.link {
-  font-weight: 500; text-decoration: underline;
-  text-decoration-color: currentColor; transition: text-decoration-color 0.2s;
+/* Cabeçalho: transparente sobre a capa, espresso depois dela */
+.topo {
+  --focus: var(--claro);
+  position: fixed; inset: 0 0 auto; z-index: 40;
+  color: var(--claro);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
-.link:hover { text-decoration-color: var(--rose); }
-
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
-.cur { font: 500 0.55em / 1 var(--f-text); vertical-align: 0.38em; margin-right: 0.1em; }
-
-/* Placa da loja (cabeçalho): a faixa framboesa do cartaz */
-.sign {
-  --focus: var(--pessego);
-  position: sticky; top: 0; z-index: 40;
-  background: var(--framboesa); color: var(--pessego-claro);
-}
-.sign__in { display: flex; align-items: center; gap: 28px; min-height: var(--header); }
-.wordmark {
+.topo.is-solido { background: var(--espresso); box-shadow: 0 10px 30px -18px rgba(15, 9, 9, 0.7); }
+.topo__in { display: flex; align-items: center; gap: 36px; min-height: var(--header); }
+.marca {
   display: inline-flex; align-items: center; gap: 10px;
-  font: 400 1.5rem / 1 var(--f-display); text-decoration: none; white-space: nowrap;
+  font: 400 1.625rem / 1 var(--f-display); letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
 }
-.wordmark svg { width: 34px; height: 34px; flex: none; color: var(--pessego-2); }
-.so-celular { display: none; }
-.nav { display: flex; gap: 28px; margin-left: auto; }
+.marca svg { width: 32px; height: 32px; flex: none; color: var(--rose); }
+.nav { display: flex; gap: 32px; margin-left: auto; }
 .nav a {
-  font-size: var(--t-small); font-weight: 500; text-decoration: none;
+  font-size: var(--t-nota); font-weight: 500; text-decoration: none;
   padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color 0.2s;
 }
-.nav a:hover, .nav a[aria-current='page'] { border-bottom-color: var(--pessego); }
+.nav a:hover, .nav a[aria-current='page'] { border-bottom-color: var(--rose); }
 .menu-toggle { display: none; }
+.so-celular { display: none; }
 
-/* Toldo da fachada, como o real: listras amarelo (#E3B03A) e branco (#FFFBF4), borda reta
-   e uma barra amarela mais escura (#C9952A) que dá o contorno sobre o pêssego.
-   O amarelo aparece só aqui. */
-.awning {
-  height: 32px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='32' viewBox='0 0 48 32'%3E%3Crect width='24' height='26' fill='%23E3B03A'/%3E%3Crect x='24' width='24' height='26' fill='%23FFFBF4'/%3E%3Crect y='26' width='48' height='6' fill='%23C9952A'/%3E%3C/svg%3E") repeat-x left top / 48px 32px;
+/* Capa: o doce ocupa o fundo; o nome e o slogan à esquerda */
+.capa {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: max(640px, 100svh);
+  display: flex; align-items: center;
+  background: var(--noite); color: var(--claro);
 }
+.capa__foto {
+  position: absolute; z-index: -1; top: 0; right: 0; width: 66%; height: 100%;
+  object-fit: cover; object-position: 50% 50%;
+  /* a borda da foto se funde ao preto do fundo */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
+  mask-image: linear-gradient(to right, transparent, #000 30%);
+  transform: translate3d(0, var(--desce, 0px), 0) scale(var(--zoom, 1));
+  transform-origin: 60% 50%;
+}
+.capa__conteudo { padding-block: calc(var(--header) + 56px) 72px; }
+.capa__bloco { max-width: min(46%, 38rem); }
+.capa__nome { font: 400 var(--t-capa) / 0.9 var(--f-display); letter-spacing: -0.035em; }
+.capa__slogan { margin-top: 28px; font: 400 var(--t-sub) / 1.15 var(--f-display); color: var(--rose); }
+.capa__texto { margin-top: 20px; max-width: 30em; color: var(--claro-2); }
+.capa .acoes { margin-top: 40px; }
+.capa__status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 36px; font-size: var(--t-nota); color: var(--claro-2); }
+.capa__status [data-status] { color: var(--claro); font-weight: 500; }
+.ponto { width: 9px; height: 9px; border-radius: 50%; background: var(--claro-2); }
+.capa__status:has(.is-open) .ponto { background: #7fd19b; }
+.capa--encomendas .capa__foto { object-position: 38% 50%; }
+/* Uma palavra só e mais longa que o nome: encolhe junto com a tela para nunca passar da borda */
+.capa--encomendas .capa__nome { font-size: min(var(--t-capa), 15vw); }
 
-/* Primeira tela: a vitrine sobre o pêssego */
-.hero { background: var(--pessego); overflow: hidden; }
-.hero__grid {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 40px var(--gap); align-items: start;
-  padding-top: clamp(36px, 4.4vw, 64px);
+/* Navegação dentro da página de encomendas: fica presa sob o cabeçalho */
+.secoes {
+  position: sticky; top: var(--header); z-index: 20;
+  background: var(--creme-2); color: var(--tinta);
 }
-.hero__copy { grid-column: 1 / 6; padding-bottom: 48px; }
-.lead { margin-top: 28px; max-width: 30em; }
-.hero__copy .actions { margin-top: 32px; }
-.facts { list-style: none; padding: 0; margin-top: 40px; display: grid; gap: 10px; color: var(--ink-claro); }
-.facts li { display: flex; align-items: center; gap: 10px; }
-.facts svg { width: 22px; height: 22px; flex: none; color: var(--espresso); }
-.facts .is-open { color: var(--espresso); font-weight: 600; }
+.secoes__in { display: flex; align-items: center; gap: 8px; min-height: var(--barra); overflow-x: auto; scrollbar-width: none; }
+html:has(.secoes) { scroll-padding-top: calc(var(--header) + var(--barra)); }
+.secoes__in::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none; padding: 10px 18px; border-radius: 999px;
+  font-size: var(--t-nota); font-weight: 500; text-decoration: none; white-space: nowrap;
+  background: var(--creme); color: var(--tinta);
+  transition: background-color 0.2s, color 0.2s;
+}
+.chip:hover { background: var(--branco); }
+.chip.is-ativo { background: var(--tinta); color: var(--claro); }
 
-.case {
-  --case-pad: clamp(14px, 1.6vw, 22px);
-  grid-column: 6 / 13; align-self: end;
-  background: var(--espresso);
-  padding: 14px var(--case-pad) 0;
-}
-.case__light { height: 8px; background: var(--pessego-claro); margin-bottom: clamp(16px, 2vw, 24px); }
-.case__shelf {
-  list-style: none; padding: 0; margin: 0;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 18px);
-}
-.case__base { height: 18px; background: var(--vinho-escuro); margin: 18px calc(-1 * var(--case-pad)) 0; }
+button.chip { border: 0; font-family: inherit; line-height: inherit; }
 
-/* Item da vitrine: a foto do doce e a plaquinha de preço presa na frente */
-.item { --focus: var(--espresso); display: flex; flex-direction: column; }
-.item__pic { overflow: hidden; background: var(--espresso-2); }
-.item__pic img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.8s var(--ease-out); }
-.item:hover .item__pic img { transform: scale(1.04); }
-.item__tag {
-  position: relative; z-index: 1;
-  margin: -26px 10px 0;
-  flex: 1; display: flex; flex-direction: column; gap: 10px;
-  background: var(--pessego-claro); color: var(--espresso);
-  padding: 14px 14px 12px;
+/* Cardápio do dia: uma grade só, com filtro por categoria */
+.cardapio__topo { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 48px; }
+.cardapio__data { margin-top: 12px; font: 400 var(--t-sub) / 1.1 var(--f-display); color: var(--framboesa); }
+.cardapio__data::first-letter { text-transform: uppercase; }
+.cardapio__como { max-width: 27em; color: var(--tinta-2); }
+.filtros {
+  position: sticky; top: var(--header); z-index: 5;
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  margin-top: 48px; padding-block: 12px;
+  background: var(--creme);
 }
-.item__name { font-weight: 500; line-height: 1.3; }
-.item__note { display: block; font-size: var(--t-small); font-weight: 400; color: var(--ink-claro); }
-.item__flavors { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.item__flavors legend { padding: 0; margin-bottom: 4px; font-size: var(--t-small); color: var(--ink-claro); }
-.item__flavors label { position: relative; }
-.item__flavors input { position: absolute; inset: 0; opacity: 0; }
-.item__flavors span {
-  display: inline-block; padding: 6px 11px; border-radius: 999px;
-  background: var(--pessego-2); font-size: var(--t-small); line-height: 1.25;
+.filtros::-webkit-scrollbar { display: none; }
+.filtros .chip { background: var(--creme-2); }
+.filtros .chip:hover { background: var(--branco); }
+.filtros .chip[aria-pressed='true'] { background: var(--tinta); color: var(--claro); }
+.produtos {
+  list-style: none; padding: 0; margin-top: 36px;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 56px var(--gap);
+  scroll-margin-top: calc(var(--header) + 140px);
+}
+.produto[hidden] { display: none; }
+.produto { --focus: var(--tinta); display: flex; flex-direction: column; }
+.produto__foto { overflow: hidden; background: var(--creme-2); }
+.produto__foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.9s var(--ease-out); }
+.produto:hover .produto__foto img { transform: scale(1.05); }
+.produto__info { display: flex; flex-direction: column; gap: 8px; flex: 1; padding-top: 18px; }
+.produto__nome { font: 600 var(--t-texto) / 1.3 var(--f-text); }
+.produto__nota { margin-left: 8px; padding: 2px 9px; border-radius: 999px; background: var(--framboesa); color: var(--claro); font-size: 0.8125rem; font-weight: 500; vertical-align: 2px; }
+.produto__desc { font-size: var(--t-nota); line-height: 1.45; color: var(--tinta-2); }
+.produto__pe { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 10px; }
+.produto__preco { font: 400 var(--t-sub) / 1 var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sabores { border: 0; padding: 0; margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.sabores legend { padding: 0; margin-bottom: 6px; font-size: var(--t-nota); color: var(--tinta-2); }
+.sabores label { position: relative; }
+.sabores input { position: absolute; inset: 0; opacity: 0; }
+.sabores span {
+  display: inline-block; padding: 7px 12px; border-radius: 999px;
+  background: var(--creme-2); font-size: var(--t-nota); line-height: 1.25;
   transition: background-color 0.2s;
 }
-.item__flavors input:checked + span { background: var(--espresso); color: var(--pessego-claro); }
-.item__flavors input:focus-visible + span { outline: 3px solid var(--espresso); outline-offset: 2px; }
-.item__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
-.item__price { font: 400 var(--t-h3) / 1 var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sabores input:checked + span { background: var(--tinta); color: var(--claro); }
+.sabores input:focus-visible + span { outline: 3px solid var(--tinta); outline-offset: 2px; }
 .add {
-  position: relative; display: grid; place-items: center; flex: none;
-  width: 46px; height: 46px; border: 0; border-radius: 50%;
-  background: var(--framboesa); color: var(--pessego-claro);
+  position: relative; display: inline-flex; align-items: center; gap: 6px; flex: none;
+  min-height: 44px; padding: 0 16px 0 12px; border: 0; border-radius: 999px;
+  background: var(--framboesa); color: var(--claro);
+  font-size: var(--t-nota); font-weight: 500;
   transition: background-color 0.2s, transform 0.2s var(--ease-out);
 }
-.add svg { width: 22px; height: 22px; }
-.add:hover { background: var(--vinho); }
-.add:active { transform: scale(0.92); }
+.add svg { width: 18px; height: 18px; }
+.add:hover { background: var(--framboesa-2); }
+.add:active { transform: scale(0.94); }
 .add__count {
-  position: absolute; top: -8px; right: -8px;
+  position: absolute; top: -9px; right: -9px;
   min-width: 26px; height: 26px; padding: 0 6px; border-radius: 999px;
-  background: var(--espresso); color: var(--pessego-claro);
-  font: 600 var(--t-small) / 26px var(--f-text); text-align: center; font-variant-numeric: tabular-nums;
+  background: var(--tinta); color: var(--claro);
+  font: 600 var(--t-nota) / 26px var(--f-text); text-align: center; font-variant-numeric: tabular-nums;
 }
 .add__count:empty { display: none; }
-.item.is-in-order .item__tag { box-shadow: inset 0 -6px 0 var(--rose); }
-.item.is-pop .item__tag { animation: pop 0.45s var(--ease-out); }
-@keyframes pop { 30% { transform: translateY(-6px); } }
-
-/* Cardápio do dia, no estilo de um "lineup": pratos redondos vistos de cima, sobre pêssego claro */
-.menu { --focus: var(--espresso); position: relative; background: var(--pessego-claro); color: var(--espresso); padding-block: var(--section); }
-.menu__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); }
-.menu__head { grid-column: 1 / 5; align-self: start; position: sticky; top: calc(var(--header) + 40px); }
-.menu__head p { margin-top: 24px; max-width: 26em; }
-.menu__head .menu__data { margin-top: 14px; font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--framboesa); }
-.menu__head .menu__data::first-letter { text-transform: uppercase; }
-.menu__head .menu__aside { color: var(--ink-claro); font-size: var(--t-small); }
-.menu__head a { color: var(--framboesa); }
-.menu__head .adesivo { position: static; display: block; margin-top: 40px; --tam: 112px; }
-.shelves {
-  grid-column: 5 / 13; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(56px, 5vw, 80px) var(--gap); align-items: start;
-}
-.shelf { grid-column: 1 / -1; }
-.shelf--um, .shelf--um-sabores { grid-column: span 2; }
-.shelf__name { font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--framboesa); margin-bottom: 28px; }
-.shelf__row {
-  --cols: 4;
-  list-style: none; padding: 0; margin: 0;
-  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 44px var(--gap); align-items: start;
-}
-.shelf--um .shelf__row, .shelf--um-sabores .shelf__row { --cols: 2; }
-
-.prato { --focus: var(--espresso); display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
-.prato__foto {
-  width: min(100%, 196px); aspect-ratio: 1; border-radius: 50%; overflow: hidden;
-  background: var(--pessego-2); transition: box-shadow 0.3s var(--ease-out);
-}
-.prato__foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease-out); }
-.prato:hover .prato__foto img { transform: rotate(8deg) scale(1.07); }
-.prato.is-in-order .prato__foto { box-shadow: 0 0 0 5px var(--rose); }
-.prato.is-pop .prato__foto { animation: pop 0.45s var(--ease-out); }
-.prato__nome { margin: 6px 0 0; font: 600 var(--t-body) / 1.25 var(--f-text); text-wrap: balance; }
-.prato__nota { display: block; font-size: var(--t-small); font-weight: 400; color: var(--framboesa); }
-.prato__desc { font-size: var(--t-small); line-height: 1.4; color: var(--ink-claro); max-width: 24ch; }
-.prato .item__flavors { justify-content: center; }
-.prato .item__flavors legend { width: 100%; text-align: center; }
-.prato__foot { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 4px; }
-.prato__preco { font: 400 var(--t-h3) / 1 var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.noscript { font-size: var(--t-h3); font-family: var(--f-display); }
+.produto.is-in-order .produto__foto { outline: 4px solid var(--framboesa); outline-offset: -4px; }
+.produto.is-pop .produto__foto img { animation: pop 0.45s var(--ease-out); }
+@keyframes pop { 35% { transform: scale(1.06); } }
+.noscript { font: 400 var(--t-sub) / 1.3 var(--f-display); margin-top: 48px; }
 .noscript a { color: var(--framboesa); }
 
-/* Tortas: o trilho que corre na horizontal, sobre vinho */
-.tortas { --focus: var(--pessego); background: var(--vinho); color: var(--pessego-claro); }
-.tortas__stage { padding-block: var(--section); }
+/* Chamada para as encomendas: foto de ponta a ponta à esquerda, sobre vinho */
+.chamada { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chamada__foto { min-height: 100%; overflow: hidden; }
+.chamada__foto img { width: 100%; height: 100%; min-height: 640px; object-fit: cover; }
+.chamada__texto {
+  align-self: center;
+  padding: var(--secao) var(--gutter) var(--secao) clamp(40px, 6vw, 96px);
+  max-width: calc(var(--wrap) / 2 + var(--gutter));
+}
+.chamada__texto > p { margin-top: 24px; max-width: 28em; color: var(--claro-2); }
+.fatos { margin-top: 40px; display: grid; gap: 22px; }
+.fatos div { display: grid; grid-template-columns: 10rem 1fr; gap: 16px; align-items: baseline; }
+.fatos dt { font: 400 var(--t-sub) / 1.1 var(--f-display); color: var(--rose); }
+.fatos dd { color: var(--claro); }
+.chamada .acoes { margin-top: 44px; }
+
+/* A Maria: o retrato grande e a história */
+.maria__foto { grid-column: 1 / 6; }
+.maria__foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.maria__texto { grid-column: 7 / 13; align-self: center; }
+.maria__texto > p { margin-top: 28px; max-width: 32em; }
+.frase { margin-top: 44px; }
+.frase p { font: 400 var(--t-sub) / 1.25 var(--f-display); max-width: 20em; }
+.frase footer { margin-top: 12px; font-size: var(--t-nota); color: var(--tinta-2); }
+.maria__fotos { list-style: none; padding: 0; margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 480px; }
+.maria__fotos img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+
+/* Visite: endereço e horário ao lado do mapa, sobre espresso */
+.visite__texto { grid-column: 1 / 6; align-self: center; }
+.visite__endereco { margin-top: 28px; font: 400 var(--t-sub) / 1.25 var(--f-display); }
+.visite__ref { margin-top: 6px; color: var(--claro-2); }
+.horas { margin-top: 32px; display: grid; gap: 10px; }
+.horas div { display: grid; grid-template-columns: 6.5em 1fr; gap: 12px; }
+.horas dt { color: var(--claro-2); }
+.horas dd { font-weight: 500; }
+.status { margin-top: 20px; color: var(--claro-2); }
+.status.is-open { color: var(--rose); font-weight: 600; }
+.visite .acoes { margin-top: 36px; }
+.visite__mapa { grid-column: 7 / 13; min-height: 520px; background: var(--espresso-2); overflow: hidden; }
+.visite__mapa iframe { display: block; width: 100%; height: 100%; min-height: 520px; border: 0; filter: grayscale(0.35) contrast(1.05); }
+
+/* Rodapé: o nome volta em tamanho grande, sobre framboesa */
+.rodape {
+  --focus: var(--claro);
+  background: var(--framboesa); color: var(--claro);
+  padding: clamp(72px, 8vw, 120px) 0 calc(40px + 88px);
+}
+.rodape__nome { font: 400 clamp(4.25rem, 18.4vw, 16.8rem) / 0.82 var(--f-display); letter-spacing: -0.045em; margin-left: -0.04em; }
+.rodape__colunas { margin-top: 64px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px var(--gap); }
+.rodape__colunas h2 { font: 400 var(--t-sub) / 1.1 var(--f-display); margin-bottom: 12px; }
+.rodape__colunas a { display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; text-decoration: none; }
+.rodape__colunas a:hover { text-decoration: underline; }
+.rodape__colunas svg { width: 20px; height: 20px; }
+.rodape ul { list-style: none; padding: 0; }
+.creditos { margin-top: 56px; font-size: var(--t-nota); }
+.creditos summary { cursor: pointer; font-weight: 500; }
+.creditos p { margin-top: 12px; max-width: 64em; }
+.creditos ul { margin-top: 10px; padding-left: 1.1em; list-style: disc; columns: 2; column-gap: 32px; }
+.creditos li { break-inside: avoid; padding: 2px 0; }
+.rodape__legal { margin-top: 40px; font-size: var(--t-nota); }
+
+/* ——— Página de encomendas ——— */
+
+/* Ocasiões: a lista à esquerda abre uma por vez; a foto da escolhida ocupa a direita */
+.ocasioes__esq { grid-column: 1 / 6; }
+.ocasioes__esq > p { margin-top: 24px; max-width: 28em; color: var(--tinta-2); }
+.ocasioes__lista { list-style: none; padding: 0; margin-top: 40px; display: grid; gap: 6px; }
+.ocasiao { background: var(--creme-2); transition: background-color 0.25s; }
+.ocasiao.is-ativa { background: var(--branco); }
+.ocasiao__nome {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
+  padding: 20px 24px; border: 0; background: none; text-align: left;
+  font: 400 var(--t-sub) / 1.15 var(--f-display);
+}
+.ocasiao__nome svg { width: 22px; height: 22px; flex: none; transition: transform 0.3s var(--ease-out); }
+.ocasiao.is-ativa .ocasiao__nome { color: var(--framboesa); }
+.ocasiao.is-ativa .ocasiao__nome svg { transform: rotate(90deg); }
+.ocasiao__corpo { padding: 0 24px 24px; display: grid; gap: 16px; justify-items: start; }
+.ocasiao__corpo[hidden] { display: none; }
+.ocasiao__corpo p { color: var(--tinta-2); max-width: 30em; }
+.ocasiao__foto-celular { display: none; }
+.ocasioes__fotos { grid-column: 7 / 13; position: relative; align-self: start; aspect-ratio: 5 / 6; overflow: hidden; background: var(--creme-2); }
+.ocasioes__fotos img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.06); transition: opacity 0.6s, transform 1.2s var(--ease-out);
+}
+.ocasioes__fotos img.is-ativa { opacity: 1; transform: none; }
+
+/* Tortas: o trilho que corre na horizontal e, depois, todos os sabores, sobre espresso */
+.tortas__stage { padding-block: var(--secao) 72px; }
 .tortas__track {
   display: flex; gap: clamp(28px, 3vw, 48px); align-items: stretch;
   overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
@@ -275,44 +352,39 @@ input, select, textarea { caret-color: var(--framboesa); }
   scroll-padding-inline: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
 }
 .tortas__track::-webkit-scrollbar { display: none; }
-.tortas__intro { flex: 0 0 min(400px, 80vw); align-self: center; scroll-snap-align: start; }
-.tortas__intro p { margin-top: 24px; max-width: 24em; }
-.tortas__intro .tortas__nota { color: var(--ink-escuro); font-size: var(--t-small); }
+.tortas__intro { flex: 0 0 min(420px, 80vw); align-self: center; scroll-snap-align: start; }
+.tortas__intro p { margin-top: 24px; max-width: 24em; color: var(--claro-2); }
 .tortas__cards { flex: none; display: flex; gap: clamp(28px, 3vw, 48px); }
-.torta {
-  --w: clamp(260px, 26vw, 380px);
-  flex: 0 0 var(--w); width: var(--w); scroll-snap-align: start;
-  display: flex; flex-direction: column;
-}
-.torta__pic { overflow: hidden; background: var(--vinho-escuro); }
+.torta { --w: clamp(260px, 25vw, 360px); flex: 0 0 var(--w); width: var(--w); scroll-snap-align: start; display: flex; flex-direction: column; }
+.torta__pic { overflow: hidden; background: var(--espresso-2); }
 .torta__pic img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; will-change: transform; }
 .torta__body { padding-top: 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .torta__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
-.torta__name { font: 400 var(--t-h3) / 1.1 var(--f-display); }
-.torta__price { font-size: var(--t-small); color: var(--ink-escuro); white-space: nowrap; }
-.torta__desc { font-size: var(--t-small); color: var(--ink-escuro); }
+.torta__name { font: 400 var(--t-sub) / 1.1 var(--f-display); }
+.torta__price { font-size: var(--t-nota); color: var(--rose); white-space: nowrap; font-weight: 500; }
+.torta__desc { font-size: var(--t-nota); color: var(--claro-2); }
 .torta .btn { margin-top: auto; align-self: flex-start; }
-.torta--mais {
-  justify-content: center; align-self: center; gap: 20px;
-  background: var(--vinho-escuro); padding: 40px 32px;
-}
-.torta--mais .btn { margin-top: 8px; }
-
-/* Trilho ao vivo: o palco fica parado e as tortas correm */
-.tortas.is-live { height: var(--trilho-altura, 300vh); }
-.tortas.is-live .tortas__stage {
-  position: sticky; top: var(--header);
-  height: calc(100vh - var(--header)); padding-block: 0;
+.tortas__trilho.is-live { height: var(--trilho-altura, 300vh); }
+.tortas__trilho.is-live .tortas__stage {
+  position: sticky; top: calc(var(--header) + var(--barra));
+  height: calc(100vh - var(--header) - var(--barra)); padding-block: 0;
   display: flex; align-items: center; overflow: hidden;
 }
-.tortas.is-live .tortas__track { overflow: visible; scroll-snap-type: none; will-change: transform; }
-.tortas.is-live .torta { --w: min(26vw, calc((100vh - var(--header) - 300px) * 0.8)); }
+.tortas__trilho.is-live .tortas__track { overflow: visible; scroll-snap-type: none; will-change: transform; }
+.tortas__trilho.is-live .torta { --w: min(25vw, calc((100vh - var(--header) - var(--barra) - 280px) * 0.8)); }
+.sabores-todos { padding-bottom: var(--secao); }
+.sabores-todos__topo { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px; }
+.sabores-todos__topo p { color: var(--claro-2); }
+.lista-sabores { list-style: none; padding: 0; margin-top: 36px; columns: 3; column-gap: var(--gap); }
+.lista-sabores li { break-inside: avoid; padding: 16px 0; }
+.lista-sabores li > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.lista-sabores h4 { font: 600 var(--t-texto) / 1.3 var(--f-text); }
+.lista-sabores span { font-size: var(--t-nota); color: var(--rose); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lista-sabores p { margin-top: 4px; font-size: var(--t-nota); line-height: 1.45; color: var(--claro-2); }
 
-/* Tamanhos: pratos em escala, sobre pêssego claro */
-.sizes { background: var(--pessego-claro); padding-block: var(--section); }
-.sizes__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: center; }
-.sizes__copy { grid-column: 1 / 6; }
-.sizes__copy p { margin-top: 24px; max-width: 28em; }
+/* Tamanhos: pratos em escala */
+.tamanhos__texto { grid-column: 1 / 6; align-self: center; }
+.tamanhos__texto p { margin-top: 24px; max-width: 28em; color: var(--tinta-2); }
 .plates {
   grid-column: 6 / 13; list-style: none; padding: 0; margin: 0;
   display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
@@ -321,142 +393,43 @@ input, select, textarea { caret-color: var(--framboesa); }
 .plate__btn {
   display: grid; place-items: center;
   width: var(--d); aspect-ratio: 1; border: 0; border-radius: 50%; padding: 0;
-  background: var(--pessego-2);
+  background: var(--creme-2);
   transition: transform 0.4s var(--ease-out), background-color 0.2s;
 }
-.plate__btn span {
-  display: block; width: 76%; aspect-ratio: 1; border-radius: 50%;
-  background: var(--rose); transition: background-color 0.2s;
-}
+.plate__btn span { display: block; width: 76%; aspect-ratio: 1; border-radius: 50%; background: var(--rose); transition: background-color 0.2s; }
 .plate__btn:hover { transform: scale(1.04); }
 .plate__btn:hover span, .plate.is-chosen .plate__btn span { background: var(--framboesa); }
-.plate__forma { font: 400 var(--t-h3) / 1.1 var(--f-display); }
-.plate__fatias { font-size: var(--t-small); color: var(--ink-claro); }
+.plate__forma { font: 400 var(--t-sub) / 1.1 var(--f-display); }
+.plate__fatias { font-size: var(--t-nota); color: var(--tinta-2); }
 
-/* Mesa de doces: os docinhos pousam na mesa, sobre espresso */
-.mesa { background: var(--espresso); color: var(--pessego-claro); --focus: var(--pessego); }
-.mesa__stage { padding-block: var(--section); }
-.mesa__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px var(--gap); align-items: center; }
-.mesa__copy { grid-column: 1 / 5; }
-.mesa__copy > p { margin-top: 20px; color: var(--ink-escuro); }
-.grupos { margin-top: 28px; display: grid; gap: 18px; }
-.grupo dt { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--rose); }
-.grupo dt span { font: 500 var(--t-small) / 1 var(--f-text); color: var(--pessego-claro); white-space: nowrap; }
-.grupo dd { margin-top: 6px; font-size: var(--t-small); color: var(--ink-escuro); }
-/* A mesa: um tampo vinho-escuro onde os docinhos pousam. Na cena, ele se abre antes deles chegarem. */
-.mesa__tiles {
-  --tile: clamp(96px, 9.4vw, 140px);
-  grid-column: 5 / 13; justify-self: end;
-  position: relative; isolation: isolate;
-  list-style: none; margin: 0; padding: clamp(18px, 2vw, 28px);
-  display: grid; grid-template-columns: repeat(4, var(--tile)); gap: 18px 14px;
-}
-.mesa__tiles::before {
-  content: ''; position: absolute; inset: 0; z-index: -1;
-  background: var(--vinho-escuro);
-  transform: scaleY(var(--abre, 1)); transform-origin: 50% 100%;
-}
-.tile figure { display: flex; flex-direction: column; gap: 8px; }
-.tile img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--espresso-2); }
-.tile figcaption { font-size: var(--t-small); line-height: 1.2; }
-.tile figcaption span { display: block; color: var(--ink-escuro); font-variant-numeric: tabular-nums; }
+/* Docinhos: os grupos com preço e as fotos, sobre vinho */
+.docinhos__texto { grid-column: 1 / 5; }
+.docinhos__texto > p { margin-top: 24px; color: var(--claro-2); }
+.grupos { margin-top: 36px; display: grid; gap: 22px; }
+.grupo dt { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font: 400 var(--t-sub) / 1.1 var(--f-display); }
+.grupo dt span { font: 500 var(--t-nota) / 1 var(--f-text); color: var(--rose); white-space: nowrap; }
+.grupo dd { margin-top: 6px; font-size: var(--t-nota); color: var(--claro-2); }
+.doces { grid-column: 5 / 13; list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 16px; }
+.doce figure { display: flex; flex-direction: column; gap: 10px; }
+.doce img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--espresso-2); }
+.doce figcaption { font-size: var(--t-nota); line-height: 1.3; font-weight: 500; }
+.doce figcaption span { display: block; font-weight: 400; color: var(--rose); font-variant-numeric: tabular-nums; }
 
-.mesa.is-live { height: 230vh; }
-.mesa.is-live .mesa__stage {
-  position: sticky; top: var(--header);
-  height: calc(100vh - var(--header)); padding-block: 0;
-  display: flex; align-items: center; overflow: hidden;
-}
-.mesa.is-live .mesa__grid { width: min(100% - 2 * var(--gutter), var(--wrap)); }
-.mesa.is-live .mesa__tiles { --tile: min(140px, calc(((100vh - var(--header) - 180px) / 3 - 52px) * 0.8)); }
-.mesa.is-live .tile { will-change: transform, opacity; }
-
-/* Orçamento: o formulário sobre framboesa */
-.orcamento { --focus: var(--pessego); background: var(--framboesa); color: var(--pessego-claro); padding-block: var(--section); }
-.orcamento__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: start; }
-.orcamento__copy { grid-column: 1 / 6; position: sticky; top: calc(var(--header) + 40px); }
-.orcamento__copy > p { margin-top: 24px; max-width: 28em; }
-.regras { margin-top: 28px; padding-left: 1.1em; display: grid; gap: 10px; }
-.regras li::marker { color: var(--pessego-2); }
+/* Orçamento: as regras ao lado do formulário */
+.orcamento__texto { grid-column: 1 / 6; align-self: start; position: sticky; top: calc(var(--header) + var(--barra) + 40px); }
+.orcamento__texto > p { margin-top: 24px; max-width: 28em; color: var(--tinta-2); }
+.regras { margin-top: 32px; padding-left: 1.1em; display: grid; gap: 12px; }
+.regras li::marker { color: var(--framboesa); }
 .quote {
-  --focus: var(--espresso);
+  --focus: var(--tinta);
   grid-column: 7 / 13;
-  background: var(--pessego-claro); color: var(--espresso);
-  padding: clamp(24px, 3vw, 40px); display: grid; gap: 22px;
+  background: var(--branco); color: var(--tinta);
+  padding: clamp(24px, 3vw, 44px); display: grid; gap: 22px;
 }
 .quote__row { display: grid; grid-template-columns: 1.4fr 1.2fr 0.7fr; gap: 16px; }
-.quote__help { font-size: var(--t-small); color: var(--ink-claro); margin-top: -8px; }
+.quote__help { font-size: var(--t-nota); color: var(--tinta-2); margin-top: -8px; }
 
-/* Ponte para as encomendas: três fotos que se abrem em leque, sobre espresso */
-.ponte { --focus: var(--pessego); background: var(--espresso); color: var(--pessego-claro); padding-block: var(--section); overflow: hidden; }
-.ponte__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: center; }
-.ponte__copy { grid-column: 1 / 6; }
-.ponte__copy > p { margin-top: 24px; max-width: 28em; color: var(--ink-escuro); }
-.ponte .actions { margin-top: 36px; }
-.ponte__leque {
-  --abre: 1; --foto: clamp(190px, 18vw, 270px);
-  grid-column: 6 / 13; position: relative; list-style: none; margin: 0; padding: 0;
-  height: calc(var(--foto) * 1.25 + 120px);
-}
-.ponte__leque li {
-  position: absolute; left: 50%; top: 50%; width: var(--foto);
-  padding: 8px; background: var(--pessego-claro);
-  transform: translate(-50%, -50%) translate(calc(var(--x) * var(--abre)), calc(var(--y) * var(--abre))) rotate(calc(var(--r) * var(--abre)));
-}
-.ponte__leque li:nth-child(1) { --x: -78%; --y: 9%; --r: -10deg; }
-.ponte__leque li:nth-child(2) { --x: 0%; --y: -4%; --r: 1deg; z-index: 2; }
-.ponte__leque li:nth-child(3) { --x: 78%; --y: 9%; --r: 10deg; }
-.ponte__leque img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-
-/* A Maria: pêssego, retrato grande */
-.maria { background: var(--pessego); padding-block: var(--section); }
-.maria__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: center; }
-.maria__copy { grid-column: 1 / 7; }
-.maria__copy > p { margin-top: 24px; max-width: 32em; }
-.statement { margin-top: 40px; }
-.statement p { font: 400 var(--t-h3) / 1.2 var(--f-display); max-width: 18em; }
-.statement footer { margin-top: 12px; font-size: var(--t-small); color: var(--ink-claro); }
-.maria__strip { list-style: none; padding: 0; margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 120px)); gap: 12px; }
-.maria__strip img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-.maria__photo { grid-column: 8 / 13; overflow: hidden; }
-.maria__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-
-/* Visite: vinho */
-.visit { --focus: var(--pessego); background: var(--vinho); color: var(--pessego-claro); padding-block: var(--section); }
-.visit__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--gap); align-items: stretch; }
-.visit__map { grid-column: 1 / 8; min-height: 460px; background: var(--vinho-escuro); }
-.visit__map iframe { width: 100%; height: 100%; min-height: 460px; border: 0; display: block; }
-.visit__copy { grid-column: 8 / 13; align-self: center; }
-.visit__address { margin-top: 28px; font: 400 var(--t-h3) / 1.2 var(--f-display); }
-.visit__copy > p:not(.visit__address):not(.status) { margin-top: 8px; color: var(--ink-escuro); }
-.hours { margin-top: 28px; display: grid; gap: 10px; }
-.hours div { display: grid; grid-template-columns: 6.5em 1fr; gap: 12px; }
-.hours dt { color: var(--ink-escuro); }
-.hours dd { font-weight: 500; }
-.status { margin-top: 20px; color: var(--ink-escuro); }
-.status.is-open { color: var(--pessego-2); font-weight: 600; }
-.visit .actions { margin-top: 36px; }
-
-/* Rodapé */
-.footer {
-  --focus: var(--pessego);
-  background: var(--espresso); color: var(--pessego-claro);
-  padding: clamp(80px, 9vw, 128px) 0 calc(40px + 88px);
-}
-.footer__name { font: 400 var(--t-display) / 0.9 var(--f-display); letter-spacing: -0.02em; color: var(--rose); }
-.footer__by { margin-top: 14px; color: var(--ink-escuro); }
-.footer__cols { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--gap); }
-.footer__cols h2 { font: 400 var(--t-h3) / 1.1 var(--f-display); color: var(--rose); margin-bottom: 12px; }
-.footer__cols a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 4px 0; }
-.footer__cols a:hover { text-decoration: underline; }
-.footer__cols svg { width: 20px; height: 20px; }
-.credits { margin-top: 56px; font-size: var(--t-small); color: var(--ink-escuro); }
-.credits summary { cursor: pointer; font-weight: 500; color: var(--pessego-claro); }
-.credits p { margin-top: 12px; max-width: 60em; }
-.credits ul { margin-top: 10px; padding-left: 1.1em; columns: 2; column-gap: 32px; }
-.credits li { break-inside: avoid; padding: 2px 0; }
-.credits a { color: var(--pessego-2); }
-.footer__legal { margin-top: 40px; font-size: var(--t-small); color: var(--ink-escuro); }
+/* ——— Pedido ——— */
 
 /* Barra do pedido */
 .orderbar {
@@ -466,21 +439,21 @@ input, select, textarea { caret-color: var(--framboesa); }
 }
 .orderbar[hidden], .pedido-aberto .orderbar { display: none; }
 .orderbar__btn {
-  --focus: var(--pessego);
+  --focus: var(--creme);
   display: flex; align-items: center; gap: 14px;
   min-height: 60px; padding: 8px 24px 8px 8px;
   border: 0; border-radius: 999px;
-  background: var(--espresso); color: var(--pessego-claro);
-  box-shadow: 0 0 0 3px var(--pessego-2), 0 14px 32px -12px rgba(58, 20, 14, 0.6);
+  background: var(--tinta); color: var(--claro);
+  box-shadow: 0 0 0 3px var(--creme-2), 0 14px 32px -12px rgba(43, 18, 13, 0.6);
   font-weight: 500; white-space: nowrap;
   transition: transform 0.2s var(--ease-out);
 }
 .orderbar__btn:active { transform: scale(0.97); }
 .orderbar__count {
   display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-  background: var(--framboesa); color: var(--pessego-claro); font-weight: 600; font-variant-numeric: tabular-nums;
+  background: var(--framboesa); color: var(--claro); font-weight: 600; font-variant-numeric: tabular-nums;
 }
-.orderbar__items { color: var(--ink-escuro); font-weight: 400; margin-left: 4px; }
+.orderbar__items { color: var(--claro-2); font-weight: 400; margin-left: 4px; }
 .orderbar__total { font: 400 1.5rem / 1 var(--f-display); font-variant-numeric: tabular-nums; }
 .orderbar.is-bump .orderbar__count { animation: bump 0.4s var(--ease-out); }
 @keyframes bump { 40% { transform: scale(1.25); } }
@@ -491,9 +464,9 @@ input, select, textarea { caret-color: var(--framboesa); }
   position: fixed; z-index: 60; left: 50%; bottom: calc(max(16px, env(safe-area-inset-bottom)) + 76px);
   display: flex; align-items: center; gap: 16px;
   max-width: calc(100% - 32px); padding: 12px 20px;
-  background: var(--pessego-claro); color: var(--espresso); border-radius: 999px;
-  box-shadow: 0 0 0 2px var(--espresso), 0 12px 28px -12px rgba(58, 20, 14, 0.5);
-  font-size: var(--t-small); font-weight: 500;
+  background: var(--creme); color: var(--tinta); border-radius: 999px;
+  box-shadow: 0 0 0 2px var(--tinta), 0 12px 28px -12px rgba(43, 18, 13, 0.5);
+  font-size: var(--t-nota); font-weight: 500;
   opacity: 0; pointer-events: none; transform: translate(-50%, 12px);
   transition: opacity 0.25s, transform 0.35s var(--ease-out);
 }
@@ -505,74 +478,74 @@ input, select, textarea { caret-color: var(--framboesa); }
 
 /* Gaveta do pedido */
 .drawer {
-  --focus: var(--espresso);
+  --focus: var(--tinta);
   width: min(460px, 100%); max-width: 100%; height: 100dvh; max-height: 100dvh;
   margin: 0 0 0 auto; padding: 0; border: 0;
-  background: var(--pessego-claro); color: var(--espresso);
-  box-shadow: -20px 0 48px -24px rgba(58, 20, 14, 0.5);
+  background: var(--creme); color: var(--tinta);
+  box-shadow: -20px 0 48px -24px rgba(43, 18, 13, 0.5);
 }
 .drawer[open] { animation: slide-in 0.4s var(--ease-out); }
-.drawer::backdrop { background: rgba(58, 20, 14, 0.55); }
+.drawer::backdrop { background: rgba(15, 9, 9, 0.6); }
 @keyframes slide-in { from { transform: translateX(100%); } }
 .drawer__inner { display: flex; flex-direction: column; height: 100%; }
 .drawer__head {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 20px 24px; background: var(--espresso); color: var(--pessego-claro);
+  padding: 20px 24px; background: var(--tinta); color: var(--claro);
 }
-.drawer__head h2 { font: 400 var(--t-h3) / 1.1 var(--f-display); outline: none; }
+.drawer__head h2 { font: 400 var(--t-sub) / 1.1 var(--f-display); outline: none; }
 .icon-btn {
-  --focus: var(--pessego);
+  --focus: var(--creme);
   display: grid; place-items: center; width: 44px; height: 44px;
-  border: 0; border-radius: 50%; background: var(--espresso-2); color: var(--pessego-claro);
+  border: 0; border-radius: 50%; background: var(--espresso-2); color: var(--claro);
 }
 .icon-btn svg { width: 22px; height: 22px; }
 .drawer__body { flex: 1; overflow-y: auto; padding: 8px 24px 24px; }
 .lines { list-style: none; padding: 0; }
 .line { display: flex; align-items: center; gap: 14px; padding: 16px 0; }
-.line + .line { border-top: 2px solid var(--pessego-2); }
+.line + .line { border-top: 2px solid var(--creme-2); }
 .line__pic { width: 52px; flex: none; aspect-ratio: 4 / 5; object-fit: cover; }
 .line__info { flex: 1; min-width: 0; }
 .line__name { font-weight: 500; line-height: 1.3; }
-.line__flavor { font-size: var(--t-small); color: var(--ink-claro); }
-.line__price { font-size: var(--t-small); font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
-.stepper { display: flex; align-items: center; gap: 4px; background: var(--pessego-2); border-radius: 999px; padding: 4px; flex: none; }
+.line__flavor { font-size: var(--t-nota); color: var(--tinta-2); }
+.line__price { font-size: var(--t-nota); font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.stepper { display: flex; align-items: center; gap: 4px; background: var(--creme-2); border-radius: 999px; padding: 4px; flex: none; }
 .stepper button {
   display: grid; place-items: center; width: 38px; height: 38px;
-  border: 0; border-radius: 50%; background: var(--pessego-claro); color: var(--espresso);
+  border: 0; border-radius: 50%; background: var(--creme); color: var(--tinta);
 }
-.stepper button:hover { background: var(--pessego); }
+.stepper button:hover { background: var(--branco); }
 .stepper svg { width: 18px; height: 18px; }
 .stepper output { min-width: 1.6em; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
 .empty { padding: 32px 0; display: grid; gap: 20px; justify-items: start; }
 .empty[hidden] { display: none; }
-.fields { margin-top: 16px; display: grid; gap: 20px; padding-top: 24px; border-top: 8px solid var(--pessego-2); }
+.fields { margin-top: 16px; display: grid; gap: 20px; padding-top: 24px; border-top: 8px solid var(--creme-2); }
 .fields[hidden] { display: none; }
-.drawer__foot { padding: 20px 24px max(20px, env(safe-area-inset-bottom)); background: var(--pessego-2); display: grid; gap: 10px; }
+.drawer__foot { padding: 20px 24px max(20px, env(safe-area-inset-bottom)); background: var(--creme-2); display: grid; gap: 10px; }
 .drawer__foot[hidden] { display: none; }
 .sum { display: flex; justify-content: space-between; align-items: baseline; }
-.sum strong { font: 400 var(--t-h3) / 1 var(--f-display); font-variant-numeric: tabular-nums; }
-.fee { font-size: var(--t-small); color: var(--ink-claro); }
+.sum strong { font: 400 var(--t-sub) / 1 var(--f-display); font-variant-numeric: tabular-nums; }
+.fee { font-size: var(--t-nota); color: var(--tinta-2); }
 .fee[hidden] { display: none; }
 
 /* Campos de formulário (gaveta e orçamento) */
 .field { display: grid; gap: 8px; align-content: start; }
 .field[hidden] { display: none; }
 .field__label { font-weight: 500; }
-.field__label em { font-style: normal; font-weight: 400; color: var(--ink-claro); }
+.field__label em { font-style: normal; font-weight: 400; color: var(--tinta-2); }
 .field input, .field textarea, .field select {
   width: 100%; padding: 13px 14px;
-  background: #fff; border: 2px solid var(--pessego-2); border-radius: 0;
+  background: #fff; border: 2px solid var(--creme-2); border-radius: 0;
   transition: border-color 0.2s;
 }
 .field select {
   appearance: none; padding-right: 40px;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%233A140E' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center / 12px 8px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%232B120D' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center / 12px 8px;
 }
-.field input::placeholder, .field textarea::placeholder { color: #946a5c; }
-.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--espresso); }
+.field input::placeholder, .field textarea::placeholder { color: #8f6d62; }
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--tinta); }
 .field [aria-invalid='true'] { border-color: var(--erro); }
-.field__help { font-size: var(--t-small); color: var(--ink-claro); }
-.field__error { color: var(--erro); font-size: var(--t-small); font-weight: 500; }
+.field__help { font-size: var(--t-nota); color: var(--tinta-2); }
+.field__error { color: var(--erro); font-size: var(--t-nota); font-weight: 500; }
 .field__error[hidden] { display: none; }
 .choice { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
 .choice legend { padding: 0; margin-bottom: 8px; }
@@ -580,165 +553,83 @@ input, select, textarea { caret-color: var(--framboesa); }
 .choice input { position: absolute; opacity: 0; inset: 0; }
 .choice span {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
-  border-radius: 999px; background: var(--pessego-2); font-weight: 500;
+  border-radius: 999px; background: var(--creme-2); font-weight: 500;
   transition: background-color 0.2s;
 }
-.choice input:checked + span { background: var(--espresso); color: var(--pessego-claro); }
-.choice input:focus-visible + span { outline: 3px solid var(--espresso); outline-offset: 3px; }
-.choice__note { flex-basis: 100%; font-size: var(--t-small); color: var(--ink-claro); }
+.choice input:checked + span { background: var(--tinta); color: var(--claro); }
+.choice input:focus-visible + span { outline: 3px solid var(--tinta); outline-offset: 3px; }
+.choice__note { flex-basis: 100%; font-size: var(--t-nota); color: var(--tinta-2); }
 .choice__note[hidden] { display: none; }
 
+/* ——— Movimento ——— */
 
-/* Selo girando: um adesivo redondo preso no canto da vitrine */
-.case { position: relative; }
-.selo { position: absolute; z-index: 4; top: -56px; right: -44px; width: 132px; aspect-ratio: 1; }
-.selo__anel { width: 100%; height: 100%; animation: girar 28s linear infinite; rotate: var(--giro, 0deg); }
-.selo__anel circle { fill: var(--framboesa); }
-.selo__anel text { font: 600 15px var(--f-text); letter-spacing: 0.14em; fill: var(--pessego-claro); }
-.selo__chapeu { position: absolute; left: 31%; top: 30%; width: 38%; height: 38%; color: var(--pessego-claro); }
-@keyframes girar { to { transform: rotate(360deg); } }
+/* A capa abre: a foto chega de perto, o texto sobe em ordem */
+.js .capa__foto { animation: capa-foto 2.4s var(--ease-out) both; }
+.js .capa__bloco > * { animation: subir 1s var(--ease-out) both; animation-delay: calc(0.25s + var(--i, 0) * 0.09s); }
+@keyframes capa-foto { from { opacity: 0; scale: 1.12; } }
+@keyframes subir { from { opacity: 0; transform: translateY(26px); } }
 
-/* Faixa de frases que corre abaixo da vitrine */
-.faixa { background: var(--framboesa); color: var(--pessego-claro); overflow: hidden; padding: 20px 0; }
-.faixa__trilho { display: flex; width: max-content; will-change: transform; }
-.faixa__grupo {
-  display: flex; align-items: center; gap: 32px; padding-right: 32px;
-  font: 400 var(--t-h2) / 1 var(--f-display); letter-spacing: -0.015em; white-space: nowrap;
-}
-.faixa__grupo svg { width: 0.7em; height: 0.7em; color: var(--pessego-2); flex: none; }
-
-/* Adesivos: os desenhos do logo, com contorno de adesivo recortado */
-.adesivo {
-  --tam: 96px; --cor: var(--framboesa); --borda: var(--pessego-claro);
-  position: absolute; z-index: 3; width: var(--tam); pointer-events: none;
-  transform: translate3d(0, var(--sobe, 0px), 0) rotate(calc(var(--rot, 0deg) + var(--gira, 0deg)));
-}
-.adesivo svg { display: block; width: 100%; height: auto; overflow: visible; }
-.adesivo use { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.adesivo__borda { stroke: var(--borda); stroke-width: 11; }
-.adesivo__traco { stroke: var(--cor); stroke-width: 3.2; }
-.tortas__intro .adesivo, .sizes__copy .adesivo { position: static; display: block; margin-top: 36px; --tam: 104px; }
-.adesivos-par { display: flex; gap: 28px; margin-top: 36px; }
-.adesivos-par .adesivo { position: static; --tam: 84px; }
-.ocasioes__head { position: relative; }
-/* No vão acima do quarto cartão, que fica mais baixo que os outros */
-.ocasioes__head .adesivo { right: 3%; bottom: -118px; --tam: 92px; }
-.maria__photo { position: relative; }
-.maria__photo .adesivo { left: -48px; bottom: 56px; --tam: 120px; }
-.footer .wrap { position: relative; }
-.footer .adesivo { top: -24px; right: 0; --tam: 120px; }
-
-/* Arcos: pessoas e ocasiões em janelas arredondadas; produtos continuam retos */
-.maria__photo { overflow: visible; }
-.maria__photo img, .maria__strip img, .ocasiao__foto img { border-radius: 999px 999px 0 0; }
-
-/* Encomendas por ocasião: a primeira tela da página de encomendas, sob o mesmo toldo */
-.ocasioes { --focus: var(--espresso); background: var(--pessego); padding-bottom: var(--section); }
-.ocasioes__head {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px var(--gap); align-items: end;
-  padding-top: clamp(36px, 4.4vw, 64px);
-}
-.ocasioes__head h1 { grid-column: 1 / 8; }
-.ocasioes__intro { grid-column: 8 / 13; }
-.ocasioes__intro .lead { margin-top: 0; }
-.ocasioes__intro .actions { margin-top: 28px; }
-.atalhos { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; font-size: var(--t-small); color: var(--ink-claro); }
-.atalhos a { font-weight: 500; text-decoration: underline; text-decoration-color: var(--rose); }
-.atalhos a:hover { color: var(--espresso); }
-.ocasioes__lista:focus { outline: none; }
-.ocasioes__lista {
-  list-style: none; padding: 0; margin: 56px 0 0;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px var(--gap); align-items: start;
-}
-.ocasiao { display: flex; flex-direction: column; gap: 12px; }
-.ocasiao:nth-child(even) { margin-top: 64px; }
-.ocasiao__foto { margin: 0 0 8px; }
-.ocasiao__foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.9s var(--ease-out); }
-.ocasiao:hover .ocasiao__foto img { transform: translateY(-6px); }
-.ocasiao h3 { font: 400 var(--t-h3) / 1.1 var(--f-display); }
-.ocasiao p { font-size: var(--t-small); color: var(--ink-claro); }
-.ocasiao .btn { align-self: flex-start; margin-top: 6px; }
-
-/* Grão de papel impresso por cima de tudo, como o cartaz */
-body::after {
-  content: ''; position: fixed; inset: 0; z-index: 80; pointer-events: none; opacity: 0.32;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.23  0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") repeat;
-}
-
-/* Movimento */
-/* 1. A vitrine acende ao abrir a página */
-.js .case__light { opacity: 0.15; }
-.js .case .item__pic img { filter: brightness(0.35) saturate(0.6); transform: scale(1.06); }
-.js .case.is-lit .case__light { opacity: 1; transition: opacity 0.5s ease-out; }
-.js .case.is-lit .item__pic img {
-  filter: none; transform: none;
-  transition: filter 1s var(--ease-out), transform 1.8s var(--ease-out);
-  transition-delay: calc(0.3s + var(--i, 0) * 0.16s);
-}
-.js .case.is-lit .item:hover .item__pic img { transform: scale(1.04); transition-delay: 0s; }
-
-/* 2. Entradas: as prateleiras assentam (sempre visíveis); fotos abrem como uma cortina */
-.js [data-reveal] > :not(.adesivo) { transform: translateY(28px); }
-.js [data-reveal].is-in > :not(.adesivo) {
+/* Entradas: as partes de cada bloco sobem em ordem (sempre visíveis, só deslocadas) */
+.js [data-reveal] > * { transform: translateY(28px); }
+.js [data-reveal].is-in > * {
   transform: none;
   transition: transform 1s var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 90ms);
+  transition-delay: calc(var(--i, 0) * 80ms);
 }
-/* A cortina fica no filho: o observador olha o pai, que nunca é recortado. */
-.js [data-reveal='foto'] > :not(.adesivo) { opacity: 1; clip-path: inset(100% 0 0 0); transform: scale(1.12); }
-.js [data-reveal='foto'].is-in > :not(.adesivo) {
+/* Fotos abrem como uma cortina; a cortina fica no filho, o observador olha o pai */
+.js [data-reveal='foto'] > * { clip-path: inset(100% 0 0 0); transform: scale(1.1); }
+.js [data-reveal='foto'].is-in > * {
   clip-path: inset(0 0 0 0); transform: none;
   transition: clip-path 1.2s var(--ease-out), transform 1.6s var(--ease-out);
 }
-
-.sem-animacao [data-reveal] > :not(.adesivo),
-.sem-animacao .case .item__pic img,
-.sem-animacao .case__light { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
+.sem-animacao [data-reveal] > *, .sem-animacao .capa__foto, .sem-animacao .capa__bloco > * {
+  opacity: 1 !important; transform: none !important; clip-path: none !important; animation: none !important;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html.suave { scroll-behavior: auto; }
-  .selo__anel { rotate: 0deg; }
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
-  .js [data-reveal] > :not(.adesivo), .js .case .item__pic img, .js .case__light { opacity: 1; transform: none; filter: none; clip-path: none; }
+  .js [data-reveal] > * { transform: none; clip-path: none; }
 }
 
 /* Tablet */
 @media (max-width: 1023px) {
-  .hero__copy, .case { grid-column: 1 / -1; }
-  .hero__copy { padding-bottom: 0; }
-  .menu__head, .shelves { grid-column: 1 / -1; }
-  .menu__head { position: static; }
-  .menu__head .adesivo { position: absolute; top: calc(var(--section) - 20px); right: var(--gutter); margin: 0; --tam: 88px; }
-  .ocasioes__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ocasioes__head h1, .ocasioes__intro { grid-column: 1 / -1; }
-  .ocasioes__intro .lead { max-width: 30em; }
-  .ponte__copy, .ponte__leque { grid-column: 1 / -1; }
-  .sizes__copy, .plates { grid-column: 1 / -1; }
-  .mesa__copy, .mesa__tiles { grid-column: 1 / -1; justify-self: start; }
-  .orcamento__copy, .quote { grid-column: 1 / -1; }
-  .orcamento__copy { position: static; }
-  .maria__copy, .maria__photo, .visit__map, .visit__copy { grid-column: 1 / -1; }
-  .maria__photo { max-width: 520px; }
-  .visit__copy { order: -1; }
+  .nav { gap: 22px; }
+  .capa__bloco { max-width: 60%; }
+  .produtos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .chamada { grid-template-columns: 1fr; }
+  .chamada__foto img { min-height: 0; aspect-ratio: 4 / 3; height: auto; }
+  .chamada__texto { padding: var(--secao) var(--gutter); max-width: none; }
+  .maria__foto, .maria__texto, .visite__texto, .visite__mapa,
+  .ocasioes__esq, .ocasioes__fotos, .tamanhos__texto, .plates,
+  .docinhos__texto, .doces, .orcamento__texto, .quote { grid-column: 1 / -1; }
+  .maria__foto { max-width: 520px; }
+  .ocasioes__fotos { display: none; }
+  .ocasiao__foto-celular { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .orcamento__texto { position: static; }
+  .lista-sabores { columns: 2; }
+  .rodape__colunas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* Celular */
 @media (max-width: 760px) {
-  :root { --header: 60px; }
+  :root { --header: 64px; }
+  .topo__in { gap: 14px; }
   .nav {
     position: absolute; left: 0; right: 0; top: 100%;
     flex-direction: column; gap: 0; margin: 0;
-    background: var(--framboesa); padding: 8px var(--gutter) 20px;
+    background: var(--espresso); padding: 8px var(--gutter) 20px;
     display: none;
   }
   .nav.is-open { display: flex; }
-  .nav a { font-size: var(--t-body); padding: 14px 0; border-bottom: 2px solid var(--vinho); }
-  .sign__action { margin-left: auto; }
+  .topo:has(.nav.is-open) { background: var(--espresso); }
+  .nav a { font-size: var(--t-texto); padding: 14px 0; border-bottom: 2px solid var(--espresso-2); }
+  .topo__acao { margin-left: auto; }
   .so-largo { display: none; }
   .so-celular { display: inline; }
   .menu-toggle {
     display: grid; place-items: center; width: 44px; height: 44px; margin-right: -8px;
-    border: 0; background: none; color: var(--pessego-claro);
+    border: 0; background: none; color: var(--claro);
   }
   .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after {
     display: block; width: 22px; height: 2px; background: currentColor; position: relative;
@@ -750,44 +641,40 @@ body::after {
   .menu-toggle[aria-expanded='true'] .menu-toggle__bars { background: transparent; }
   .menu-toggle[aria-expanded='true'] .menu-toggle__bars::before { transform: translateY(7px) rotate(45deg); }
   .menu-toggle[aria-expanded='true'] .menu-toggle__bars::after { transform: translateY(-7px) rotate(-45deg); }
-  .wordmark { font-size: 1.3rem; }
-  .wordmark svg { width: 30px; height: 30px; }
+  .marca { font-size: 1.375rem; }
+  .marca svg { width: 28px; height: 28px; }
 
-  /* A vitrine vira uma prateleira de arrastar e encosta no cardápio */
-  .case { margin-inline: calc(-1 * var(--gutter)); padding-inline: 0; }
-  .case__light { margin-inline: var(--gutter); }
-  .case__shelf {
-    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 64%;
-    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-    padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  /* Capa no celular: o doce em cima, o texto embaixo sobre o preto */
+  .capa { align-items: flex-end; min-height: 100svh; }
+  .capa__foto {
+    width: 100%; height: 64%;
+    object-position: 50% 45%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent);
   }
-  .case__shelf::-webkit-scrollbar { display: none; }
-  .case__shelf .item { scroll-snap-align: start; }
-  .case__base { margin-inline: 0; }
+  .capa--encomendas .capa__foto { object-position: 34% 50%; }
+  .capa__conteudo { padding-block: 0 40px; }
+  .capa__bloco { max-width: none; }
+  .capa__slogan { margin-top: 18px; }
+  .capa__texto { margin-top: 14px; }
+  .capa .acoes { margin-top: 28px; gap: 12px; }
+  .capa .acoes .btn { flex: 1 1 100%; }
+  .capa__status { margin-top: 24px; }
 
-  .shelves { grid-template-columns: 1fr; }
-  .shelf--um, .shelf--um-sabores { grid-column: 1 / -1; }
-  .shelf__row, .shelf--um .shelf__row, .shelf--um-sabores .shelf__row { --cols: 2; gap: 32px 14px; }
-  .prato__foto { width: min(100%, 150px); }
-  .selo { top: 22px; right: 14px; width: 92px; }
-  .faixa { padding: 14px 0; }
-  .faixa__grupo { font-size: 1.75rem; gap: 22px; padding-right: 22px; }
-  .ocasiao:nth-child(even) { margin-top: 32px; }
-  .ocasioes__head .adesivo { bottom: -78px; --tam: 64px; }
-  .ponte__leque { --foto: 38vw; height: calc(var(--foto) * 1.25 + 72px); }
-  .ponte__leque li { padding: 6px; }
-  .ponte__leque li:nth-child(1) { --x: -60%; }
-  .ponte__leque li:nth-child(3) { --x: 60%; }
-  .maria__photo .adesivo { left: -10px; bottom: 30px; --tam: 88px; }
-  .footer .adesivo { --tam: 84px; top: -10px; }
+  .produtos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 14px; }
+  .produto__pe { flex-wrap: wrap; }
+  .chamada__foto img { aspect-ratio: 4 / 5; }
+  .fatos div { grid-template-columns: 1fr; gap: 4px; }
+  .maria__fotos { max-width: none; }
+  .visite__mapa, .visite__mapa iframe { min-height: 340px; }
   .torta { --w: 76vw; }
   .tortas__intro { flex-basis: 76vw; }
+  .lista-sabores { columns: 1; }
   .plates { justify-content: space-around; }
-  .mesa__tiles { --tile: calc((100vw - 2 * var(--gutter) - 2 * 12px - 2 * 16px) / 3); padding: 16px; grid-template-columns: repeat(3, var(--tile)); gap: 16px 12px; }
+  .doces { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .quote__row { grid-template-columns: 1fr; }
-  .footer__cols { grid-template-columns: 1fr; }
-  .credits ul { columns: 1; }
-  .visit__map, .visit__map iframe { min-height: 320px; }
+  .rodape__colunas { grid-template-columns: 1fr; }
+  .creditos ul { columns: 1; }
   .orderbar { left: 16px; right: 16px; transform: none; animation-name: rise-sm; }
   .orderbar__btn { width: 100%; }
   .orderbar__total { margin-left: auto; }

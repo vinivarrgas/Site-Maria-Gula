@@ -5,16 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Encomendas · Maria Gula Confeitaria, Meia Praia, Itapema</title>
   <meta name="description" content="Tortas em 21 sabores, docinhos de festa e bolos para aniversário, casamento, empresas e Páscoa. Peça seu orçamento pelo WhatsApp com pelo menos 2 dias de antecedência.">
-  <meta name="theme-color" content="#B83A48">
+  <meta name="theme-color" content="#0F0909">
   <meta property="og:title" content="Encomendas · Maria Gula Confeitaria">
-  <meta property="og:description" content="Tortas, docinhos e bolos para a sua data, em Meia Praia, Itapema.">
-  <meta property="og:image" content="assets/img/torta-merengue.jpg">
+  <meta property="og:description" content="Tortas, docinhos e bolos para a sua festa, em Meia Praia, Itapema.">
+  <meta property="og:image" content="assets/img/capa-encomendas.jpg">
   <meta property="og:locale" content="pt_BR">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Jost:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preload" as="image" href="assets/img/capa-encomendas.jpg">
   <script>
     document.documentElement.classList.add('js');
     setTimeout(function () { if (!window.__mgPronto) document.documentElement.classList.add('sem-animacao'); }, 2500);
@@ -32,25 +33,16 @@
     <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6" fill="currentColor"/>
     </symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-      <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
     </symbol>
-    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-      <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>
-    </symbol>
-    <symbol id="d-chapeu" viewBox="0 0 48 48"><path d="M14 30c-4.4 0-8-3.4-8-7.7 0-4.2 3.5-7.6 7.9-7.6.6 0 1.2.1 1.8.2C17 10.3 20.2 7 24 7s7 3.3 8.3 7.9c.6-.1 1.2-.2 1.8-.2 4.4 0 7.9 3.4 7.9 7.6 0 4.3-3.6 7.7-8 7.7"/><path d="M14 27v13h20V27M14 35h20M20 29v6M28 29v6"/></symbol>
-    <symbol id="d-batedor" viewBox="0 0 64 64"><path d="M32 40v20M32 4v36"/><path d="M32 40C18 34 18 8 32 4C46 8 46 34 32 40Z"/><path d="M32 40C25 32 25 12 32 4C39 12 39 32 32 40Z"/></symbol>
-    <symbol id="d-cupcake" viewBox="0 0 64 64"><path d="M14 32h36l-5 24H19Z"/><path d="M24 32l2 24M32 32v24M40 32l-2 24"/><path d="M12 32c0-10 8-17 20-17s20 7 20 17"/><path d="M22 25c4-4 16-4 20 0"/><circle cx="32" cy="9" r="4"/></symbol>
-    <symbol id="d-coracao" viewBox="0 0 64 64"><path d="M32 54S8 40 8 24a12 12 0 0 1 24-5 12 12 0 0 1 24 5c0 16-24 30-24 30Z"/></symbol>
-    <symbol id="d-fatia" viewBox="0 0 64 64"><path d="M8 34 52 18l4 12v20H8Z"/><path d="M8 42h48M8 34h48"/><circle cx="40" cy="15" r="5"/><path d="M40 10l2-4"/></symbol>
-    <symbol id="d-morango" viewBox="0 0 64 64"><path d="M32 58C18 50 12 36 16 26c4-8 28-8 32 0 4 10-2 24-16 32Z"/><path d="M22 22l10-8 10 8M32 14V6"/><path d="M26 34v2M38 34v2M32 42v2M26 46v2M38 46v2"/></symbol>
   </svg>
 
-  <a class="skip" href="#ocasioes-lista">Pular para as encomendas</a>
+  <a class="skip" href="#ocasioes">Pular para as encomendas</a>
 
-  <header class="sign">
-    <div class="wrap sign__in">
-      <a class="wordmark" href="index.html" aria-label="Maria Gula Confeitaria, página inicial">
+  <header class="topo" data-topo>
+    <div class="wrap topo__in">
+      <a class="marca" href="index.html" aria-label="Maria Gula Confeitaria, página inicial">
         <svg aria-hidden="true"><use href="#i-hat"/></svg>
         <span>Maria Gula</span>
       </a>
@@ -60,7 +52,7 @@
         <a href="index.html#maria">A Maria</a>
         <a href="index.html#visite">Visite</a>
       </nav>
-      <a class="btn btn--sign btn--sm sign__action" href="#orcamento" aria-label="Pedir orçamento"><span class="so-largo" aria-hidden="true">Pedir orçamento</span><span class="so-celular" aria-hidden="true">Orçamento</span></a>
+      <a class="btn btn--primario btn--p topo__acao" href="#orcamento" aria-label="Pedir orçamento"><span class="so-largo" aria-hidden="true">Pedir orçamento</span><span class="so-celular" aria-hidden="true">Orçamento</span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" data-menu-toggle>
         <span class="sr-only">Menu</span>
         <span class="menu-toggle__bars" aria-hidden="true"></span>
@@ -68,80 +60,93 @@
     </div>
   </header>
 
-  <main id="topo">
-    <section class="ocasioes" id="encomendas" aria-labelledby="titulo">
-      <div class="awning" aria-hidden="true"></div>
-      <div class="wrap">
-        <header class="ocasioes__head">
-          <h1 class="display" id="titulo">Encomendas para cada ocasião</h1>
-          <div class="ocasioes__intro">
-            <p class="lead">Bolos, tortas e docinhos feitos para a sua data. Escolha a ocasião e a gente monta o orçamento com você.</p>
-            <div class="actions">
-              <a class="btn btn--primary" href="#orcamento">Pedir orçamento</a>
-              <a class="link" data-wa href="https://wa.me/5547997524457">Falar no WhatsApp</a>
-            </div>
-            <nav class="atalhos" aria-label="Nesta página">
-              <a href="#tortas">Tortas</a>
-              <a href="#tamanhos">Tamanhos</a>
-              <a href="#docinhos">Docinhos</a>
-            </nav>
-          </div>
-          <span class="adesivo" style="--rot:12deg; --cor:var(--framboesa)" aria-hidden="true" data-adesivo="0.03"><svg viewBox="0 0 48 48"><use href="#d-chapeu" class="adesivo__borda"/><use href="#d-chapeu" class="adesivo__traco"/></svg></span>
-        </header>
-        <ul class="ocasioes__lista" id="ocasioes-lista" tabindex="-1" data-ocasioes></ul>
-      </div>
-    </section>
-
-    <section class="tortas" id="tortas" aria-labelledby="tortas-titulo" data-trilho>
-      <div class="tortas__stage">
-        <div class="tortas__track" data-trilho-track>
-          <div class="tortas__intro">
-            <h2 class="h2" id="tortas-titulo">Tortas por encomenda</h2>
-            <p>Três camadas de massa e duas de recheio, montadas para a sua data. São 21 sabores, cobrados por quilo.</p>
-            <p class="tortas__nota">Encomendas com pelo menos 2 dias de antecedência.</p>
-            <span class="adesivo" style="--rot:10deg; --cor:var(--rose); --borda:var(--vinho-escuro)" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#d-fatia" class="adesivo__borda"/><use href="#d-fatia" class="adesivo__traco"/></svg></span>
-          </div>
-          <div class="tortas__cards" data-tortas>
-            <noscript>
-              <p class="noscript">Para ver os sabores e pedir seu orçamento, fale com a gente no WhatsApp: <a href="https://wa.me/5547997524457">(47) 99752-4457</a>.</p>
-            </noscript>
+  <main>
+    <section class="capa capa--encomendas" id="inicio" aria-labelledby="titulo">
+      <img class="capa__foto" src="assets/img/capa-encomendas.jpg" alt="Bolo de aniversário com velas acesas sendo levado à aniversariante" width="1600" height="1067" fetchpriority="high" data-capa-foto>
+      <div class="wrap capa__conteudo">
+        <div class="capa__bloco">
+          <h1 class="capa__nome" id="titulo" style="--i:0">Encomendas</h1>
+          <p class="capa__slogan" style="--i:1">Tortas, docinhos e bolos para a sua festa</p>
+          <p class="capa__texto" style="--i:2">21 sabores de torta, docinhos a partir de 25 unidades e bolos para aniversário, casamento, empresas e Páscoa. Peça com pelo menos 2 dias de antecedência.</p>
+          <div class="acoes" style="--i:3">
+            <a class="btn btn--primario" href="#orcamento">Pedir orçamento</a>
+            <a class="btn btn--claro" href="#tortas">Ver as tortas</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="sizes" id="tamanhos" aria-labelledby="tamanhos-titulo">
-      <div class="wrap sizes__grid">
-        <div class="sizes__copy">
-          <h2 class="h2" id="tamanhos-titulo">Tamanhos das tortas</h2>
-          <p>O rendimento varia com a espessura das fatias. Os três tamanhos abaixo são os mais pedidos; também fazemos tortas maiores e bolos de andar.</p>
-          <span class="adesivo" style="--rot:-8deg; --cor:var(--vinho)" aria-hidden="true" data-adesivo="0.06"><svg viewBox="0 0 64 64"><use href="#d-batedor" class="adesivo__borda"/><use href="#d-batedor" class="adesivo__traco"/></svg></span>
+    <nav class="secoes" aria-label="Nesta página">
+      <div class="wrap secoes__in" data-espiao>
+        <a class="chip" href="#ocasioes">Ocasiões</a>
+        <a class="chip" href="#tortas">Tortas</a>
+        <a class="chip" href="#tamanhos">Tamanhos</a>
+        <a class="chip" href="#docinhos">Docinhos</a>
+        <a class="chip" href="#orcamento">Orçamento</a>
+      </div>
+    </nav>
+
+    <section class="ocasioes chao-claro secao" id="ocasioes" aria-labelledby="ocasioes-titulo">
+      <div class="wrap grade">
+        <div class="ocasioes__esq">
+          <h2 class="titulo" id="ocasioes-titulo">Para cada ocasião</h2>
+          <p>Escolha a data que você vai comemorar e a gente monta o orçamento com você.</p>
+          <ul class="ocasioes__lista" data-ocasioes></ul>
+        </div>
+        <div class="ocasioes__fotos" aria-hidden="true" data-ocasioes-fotos></div>
+      </div>
+    </section>
+
+    <section class="tortas chao-escuro" id="tortas" aria-labelledby="tortas-titulo">
+      <div class="tortas__trilho" data-trilho>
+        <div class="tortas__stage">
+          <div class="tortas__track" data-trilho-track>
+            <div class="tortas__intro">
+              <h2 class="titulo" id="tortas-titulo">Tortas por encomenda</h2>
+              <p>Três camadas de massa e duas de recheio, montadas para a sua data. Os mais pedidos estão aqui; os 21 sabores vêm logo abaixo.</p>
+            </div>
+            <div class="tortas__cards" data-tortas>
+              <noscript>
+                <p class="noscript">Para ver os sabores e pedir seu orçamento, fale com a gente no WhatsApp: <a href="https://wa.me/5547997524457">(47) 99752-4457</a>.</p>
+              </noscript>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap sabores-todos">
+        <div class="sabores-todos__topo">
+          <h3 class="sub">Todos os sabores</h3>
+          <p data-faixa-precos>Cobrados por quilo.</p>
+        </div>
+        <ul class="lista-sabores" data-lista-sabores></ul>
+      </div>
+    </section>
+
+    <section class="tamanhos chao-claro secao" id="tamanhos" aria-labelledby="tamanhos-titulo">
+      <div class="wrap grade">
+        <div class="tamanhos__texto">
+          <h2 class="titulo" id="tamanhos-titulo">Tamanhos</h2>
+          <p>O rendimento varia com a espessura das fatias. Estes são os três tamanhos mais pedidos; também fazemos tortas maiores e bolos de andar. Toque em um para escolher no orçamento.</p>
         </div>
         <ul class="plates" data-tamanhos></ul>
       </div>
     </section>
 
-    <section class="mesa" id="docinhos" aria-labelledby="docinhos-titulo" data-mesa>
-      <div class="mesa__stage">
-        <div class="wrap mesa__grid">
-          <div class="mesa__copy">
-            <h2 class="h2" id="docinhos-titulo">Docinhos de festa</h2>
-            <p>Vendidos a partir de 25 unidades por sabor, com pelo menos 2 dias de antecedência.</p>
-            <dl class="grupos" data-grupos></dl>
-            <div class="adesivos-par" aria-hidden="true">
-              <span class="adesivo" style="--rot:-12deg; --cor:var(--rose); --borda:var(--espresso-2)"><svg viewBox="0 0 64 64"><use href="#d-coracao" class="adesivo__borda"/><use href="#d-coracao" class="adesivo__traco"/></svg></span>
-              <span class="adesivo" style="--rot:14deg; --cor:var(--framboesa); --borda:var(--pessego-claro)"><svg viewBox="0 0 64 64"><use href="#d-morango" class="adesivo__borda"/><use href="#d-morango" class="adesivo__traco"/></svg></span>
-            </div>
-          </div>
-          <ul class="mesa__tiles" data-docinhos></ul>
+    <section class="docinhos chao-vinho secao" id="docinhos" aria-labelledby="docinhos-titulo">
+      <div class="wrap grade">
+        <div class="docinhos__texto">
+          <h2 class="titulo" id="docinhos-titulo">Docinhos de festa</h2>
+          <p>Vendidos a partir de 25 unidades por sabor, com pelo menos 2 dias de antecedência.</p>
+          <dl class="grupos" data-grupos></dl>
         </div>
+        <ul class="doces" data-docinhos></ul>
       </div>
     </section>
 
-    <section class="orcamento" id="orcamento" aria-labelledby="orcamento-titulo">
-      <div class="wrap orcamento__grid">
-        <div class="orcamento__copy">
-          <h2 class="h2" id="orcamento-titulo">Peça seu orçamento</h2>
+    <section class="orcamento chao-claro secao" id="orcamento" aria-labelledby="orcamento-titulo">
+      <div class="wrap grade">
+        <div class="orcamento__texto">
+          <h2 class="titulo" id="orcamento-titulo">Peça seu orçamento</h2>
           <p>Conte o que você imagina e a gente responde no WhatsApp com valores e prazo.</p>
           <ul class="regras">
             <li>Pedidos com pelo menos 2 dias de antecedência.</li>
@@ -163,7 +168,7 @@
               <span class="field__help" id="ajuda-data">A partir de <span data-data-minima>daqui a 2 dias</span>.</span>
               <span class="field__error" id="erro-data" hidden>Escolha uma data com pelo menos 2 dias de antecedência.</span>
             </label>
-            <label class="field field--short">
+            <label class="field">
               <span class="field__label">Pessoas</span>
               <input name="pessoas" type="number" min="1" inputmode="numeric" placeholder="Ex.: 20">
             </label>
@@ -198,19 +203,17 @@
             <span class="field__label">Observações <em>(opcional)</em></span>
             <textarea name="obs" rows="2" placeholder="Tema da festa, cores, mensagem no bolo…"></textarea>
           </label>
-          <button class="btn btn--primary btn--block" type="submit"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir orçamento no WhatsApp</button>
+          <button class="btn btn--primario btn--bloco" type="submit"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir orçamento no WhatsApp</button>
           <p class="quote__help">Abre o WhatsApp com a mensagem pronta. É só tocar em enviar.</p>
         </form>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="rodape">
     <div class="wrap">
-      <p class="footer__name">Maria Gula</p>
-      <span class="adesivo" style="--rot:-10deg; --cor:var(--rose); --borda:var(--espresso-2)" aria-hidden="true" data-adesivo="0.06"><svg viewBox="0 0 64 64"><use href="#d-cupcake" class="adesivo__borda"/><use href="#d-cupcake" class="adesivo__traco"/></svg></span>
-      <p class="footer__by">Confeitaria, por Maria Baramarchi</p>
-      <div class="footer__cols">
+      <p class="rodape__nome" aria-hidden="true">Maria Gula</p>
+      <div class="rodape__colunas">
         <div>
           <h2>Endereço</h2>
           <p>Av. Nereu Ramos, 2880<br>Meia Praia, Itapema (SC)</p>
@@ -226,13 +229,21 @@
             <a href="https://www.instagram.com/mariagulagula/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-insta"/></svg>@mariagulagula</a>
           </p>
         </div>
+        <div>
+          <h2>Peça</h2>
+          <ul>
+            <li><a href="index.html#cardapio">Cardápio do dia</a></li>
+            <li><a href="encomendas.html">Encomendas</a></li>
+            <li><a href="#orcamento">Pedir orçamento</a></li>
+          </ul>
+        </div>
       </div>
-      <details class="credits">
+      <details class="creditos">
         <summary>Créditos das fotos</summary>
-        <p>As fotos das encomendas são ilustrativas, de bancos de imagens livres:</p>
+        <p>Foto da capa: Sergei Solovev, StockSnap, CC0. As fotos das encomendas são ilustrativas, de bancos de imagens livres:</p>
         <ul data-creditos></ul>
       </details>
-      <p class="footer__legal">© <span data-year>2026</span> Maria Gula Confeitaria.</p>
+      <p class="rodape__legal">© <span data-year>2026</span> Maria Gula Confeitaria · Meia Praia, Itapema (SC)</p>
     </div>
   </footer>
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-27T18:02:56+00:00",
+  "generatedAt": "2026-10-28T00:15:46+00:00",
   "title": "Design System: Maria Gula Confeitaria",
   "extensions": {
     "colorMeta": {
@@ -19,116 +19,116 @@
           "#f5eff0"
         ]
       },
-      "pessego": {
-        "role": "primary",
-        "displayName": "Pêssego",
-        "canonical": "#fce8d8",
+      "noite": {
+        "role": "neutral",
+        "displayName": "Noite",
+        "canonical": "#0f0909",
         "tonalRamp": [
-          "#392413",
-          "#663b19",
-          "#9d551a",
-          "#e16f14",
-          "#e6904c",
-          "#e5b38b",
-          "#ebd4c1",
+          "#2c2121",
+          "#4b3535",
+          "#6f4949",
+          "#985d5d",
+          "#af8383",
+          "#c5aaaa",
+          "#dcd0d0",
+          "#f4f1f1"
+        ]
+      },
+      "espresso": {
+        "role": "neutral",
+        "displayName": "Espresso",
+        "canonical": "#2b120d",
+        "tonalRamp": [
+          "#321e1a",
+          "#583028",
+          "#854133",
+          "#ba503a",
+          "#c97969",
+          "#d4a59b",
+          "#e3cec9",
+          "#f5f0ef"
+        ]
+      },
+      "creme": {
+        "role": "neutral",
+        "displayName": "Creme",
+        "canonical": "#fdf2e7",
+        "tonalRamp": [
+          "#392613",
+          "#66401a",
+          "#9c5c1b",
+          "#df7a15",
+          "#e5994d",
+          "#e4b88b",
+          "#ebd6c2",
           "#f7f2ed"
+        ]
+      },
+      "creme-deep": {
+        "role": "neutral",
+        "displayName": "Creme escuro",
+        "canonical": "#f5e0cf",
+        "tonalRamp": [
+          "#352518",
+          "#5d3d23",
+          "#8e572a",
+          "#c9722c",
+          "#d4935e",
+          "#dab495",
+          "#e6d5c6",
+          "#f6f2ee"
         ]
       },
       "vinho": {
         "role": "secondary",
         "displayName": "Vinho",
-        "canonical": "#892d32",
+        "canonical": "#7e2a2f",
         "tonalRamp": [
           "#311b1c",
           "#56292c",
-          "#823539",
-          "#b73e45",
+          "#82363a",
+          "#b63f46",
           "#c66c71",
           "#d29da0",
-          "#e2cacb",
+          "#e2cacc",
           "#f5eff0"
         ]
       },
       "rose": {
         "role": "secondary",
         "displayName": "Rosé",
-        "canonical": "#c66d63",
+        "canonical": "#eaa69c",
         "tonalRamp": [
-          "#311e1c",
-          "#542f2b",
-          "#7f3f38",
-          "#b24e43",
-          "#c3786f",
-          "#d0a49f",
-          "#e1cdcb",
-          "#f5f0f0"
+          "#351c18",
+          "#5d2a23",
+          "#8d372a",
+          "#c8412d",
+          "#d36e5f",
+          "#da9e95",
+          "#e6cbc7",
+          "#f6efee"
         ]
       },
-      "espresso": {
+      "ink-soft": {
         "role": "neutral",
-        "displayName": "Espresso",
-        "canonical": "#3a140e",
+        "displayName": "Tinta suave",
+        "canonical": "#6b463c",
         "tonalRamp": [
-          "#341c19",
-          "#5b2c24",
-          "#8a3a2d",
-          "#c34531",
-          "#d07162",
-          "#d8a097",
-          "#e5cbc7",
-          "#f6f0ef"
-        ]
-      },
-      "pessego-light": {
-        "role": "neutral",
-        "displayName": "Pêssego claro",
-        "canonical": "#fdefe0",
-        "tonalRamp": [
-          "#3a2713",
-          "#674119",
-          "#9f5e19",
-          "#e37e11",
-          "#e89c4a",
-          "#e6b989",
-          "#ebd7c1",
-          "#f7f2ed"
-        ]
-      },
-      "pessego-deep": {
-        "role": "neutral",
-        "displayName": "Pêssego escuro",
-        "canonical": "#f9d8c2",
-        "tonalRamp": [
-          "#382314",
-          "#64381b",
-          "#9a4f1d",
-          "#dc6718",
-          "#e38a4f",
-          "#e3af8c",
-          "#ead2c2",
-          "#f7f1ed"
-        ]
-      },
-      "vinho-dark": {
-        "role": "neutral",
-        "displayName": "Vinho escuro",
-        "canonical": "#5e2420",
-        "tonalRamp": [
-          "#311d1b",
-          "#562d2a",
-          "#813b36",
-          "#b54740",
-          "#c5736d",
-          "#d1a19e",
-          "#e2ccca",
-          "#f5f0ef"
+          "#2c2320",
+          "#4c3933",
+          "#714f46",
+          "#9c6759",
+          "#b28a80",
+          "#c6afa9",
+          "#ddd2cf",
+          "#f4f1f1"
         ]
       }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "Hero title and footer name."
+      "name": {
+        "displayName": "Name",
+        "purpose": "First-screen h1 and the footer name."
       },
       "headline": {
         "displayName": "Headline",
@@ -136,7 +136,7 @@
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Shelf names, prices, address, quote, totals."
+        "purpose": "Slogan, prices, occasion and cake names, facts, address, quote."
       },
       "body": {
         "displayName": "Body",
@@ -144,24 +144,29 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Plaque names, captions, helper text, nav links, small buttons."
+        "purpose": "Product names, captions, helper text, chips, nav links, small buttons."
       }
     },
     "shadows": [
       {
+        "name": "header",
+        "value": "0 10px 30px -18px rgba(15,9,9,.7)",
+        "purpose": "Only once the header turns solid after the first screen."
+      },
+      {
         "name": "order-bar",
-        "value": "0 0 0 3px #f9d8c2, 0 14px 32px -12px rgba(58,20,14,.6)",
-        "purpose": "Floating order summary; the pink ring keeps it visible on chocolate."
+        "value": "0 0 0 3px #f5e0cf, 0 14px 32px -12px rgba(43,18,13,.6)",
+        "purpose": "Floating order summary."
       },
       {
         "name": "toast",
-        "value": "0 0 0 2px #3a140e, 0 12px 28px -12px rgba(58,20,14,.5)",
+        "value": "0 0 0 2px #2b120d, 0 12px 28px -12px rgba(43,18,13,.5)",
         "purpose": "Short confirmations with undo."
       },
       {
         "name": "drawer",
-        "value": "-20px 0 48px -24px rgba(58,20,14,.5)",
-        "purpose": "Order panel over the chocolate backdrop."
+        "value": "-20px 0 48px -24px rgba(43,18,13,.5)",
+        "purpose": "Order panel over the noite backdrop."
       }
     ],
     "motion": [
@@ -171,29 +176,29 @@
         "purpose": "Every entrance and state change."
       },
       {
-        "name": "tortas-counter",
+        "name": "cover-settle",
+        "value": "scale 1.12 to 1 and fade in, 2.4s; on scroll drifts down at 0.28x and zooms up to 1.06",
+        "purpose": "The signature move: the dessert photo on the first screen."
+      },
+      {
+        "name": "tortas-run",
         "value": "pinned horizontal run, photos drift 8% slower than cards",
-        "purpose": "The cake counter slides past as you scroll."
+        "purpose": "The cake run slides past as you scroll."
       },
       {
-        "name": "sweets-landing",
-        "value": "scattered from the right, ease-out cubic, 25ms stagger",
-        "purpose": "The party sweets land in rows on the table."
+        "name": "rise",
+        "value": "translateY(28px) to 0, 1s, 80ms stagger",
+        "purpose": "Section parts enter in order."
       },
       {
-        "name": "case-lights",
-        "value": "brightness(0.35) to none, 1s, 160ms stagger",
-        "purpose": "The display case lights up on load; the one authored motion moment."
+        "name": "curtain",
+        "value": "clip-path inset(100% 0 0 0) to 0, scale 1.1 to 1",
+        "purpose": "Photos open as they enter."
       },
       {
-        "name": "plaque-pop",
-        "value": "translateY(-6px) and back, 0.45s",
-        "purpose": "A plaque lifts when its item enters the order."
-      },
-      {
-        "name": "order-bar-rise",
-        "value": "translateY(140%) to 0, 0.5s",
-        "purpose": "The order bar rises when the first item is added."
+        "name": "occasion-crossfade",
+        "value": "opacity 0.6s, scale 1.06 to 1 over 1.2s",
+        "purpose": "The open occasion's photo."
       }
     ],
     "breakpoints": [
@@ -212,69 +217,69 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Main action on pink and cream grounds.",
-      "html": "<button class=\"ds-btn\">Fazer pedido</button>",
-      "css": ".ds-btn{background:#b83a48;color:#fdefe0;border:0;border-radius:999px;min-height:54px;padding:0 1.6em;font:500 1.125rem/1 Jost, system-ui, sans-serif;cursor:pointer;transition:background-color .2s,transform .2s cubic-bezier(.16,1,.3,1)}.ds-btn:hover{background:#892d32}.ds-btn:focus-visible{outline:3px solid #3a140e;outline-offset:3px}.ds-btn:active{transform:scale(.96)}"
+      "description": "The one action colour, on every ground.",
+      "html": "<button class=\"ds-btn\">Ver o cardápio do dia</button>",
+      "css": ".ds-btn{background:#b83a48;color:#fdf2e7;border:0;border-radius:999px;min-height:56px;padding:0 1.75em;font:500 1.125rem/1 Jost, system-ui, sans-serif;cursor:pointer;transition:background-color .2s,transform .2s cubic-bezier(.16,1,.3,1)}.ds-btn:hover{background:#9b2f3c}.ds-btn:focus-visible{outline:3px solid #2b120d;outline-offset:3px}.ds-btn:active{transform:scale(.96)}"
     },
     {
-      "name": "Button on Dark",
+      "name": "Light Button",
       "kind": "button",
-      "refersTo": "button-on-dark",
-      "description": "Main action on chocolate and green grounds.",
-      "html": "<div style=\"background:#892d32;padding:24px\"><button class=\"ds-btn-dark\">Como chegar</button></div>",
-      "css": ".ds-btn-dark{background:#fdefe0;color:#892d32;border:0;border-radius:999px;min-height:54px;padding:0 1.6em;font:500 1.125rem/1 Jost, system-ui, sans-serif;cursor:pointer;transition:background-color .2s}.ds-btn-dark:hover{background:#f9d8c2}.ds-btn-dark:focus-visible{outline:3px solid #fce8d8;outline-offset:3px}"
+      "refersTo": "button-light",
+      "description": "The second action on dark grounds.",
+      "html": "<div style=\"background:#0f0909;padding:24px\"><button class=\"ds-btn-light\">Encomendas para festa</button></div>",
+      "css": ".ds-btn-light{background:#fdf2e7;color:#2b120d;border:0;border-radius:999px;min-height:56px;padding:0 1.75em;font:500 1.125rem/1 Jost, system-ui, sans-serif;cursor:pointer;transition:background-color .2s}.ds-btn-light:hover{background:#f5e0cf}.ds-btn-light:focus-visible{outline:3px solid #fdf2e7;outline-offset:3px}"
     },
     {
-      "name": "Price Plaque",
+      "name": "Product",
       "kind": "card",
-      "refersTo": "plaque",
-      "description": "A menu item as a cream price tag standing on the case shelf.",
-      "html": "<div class=\"ds-case\"><div class=\"ds-plaque\"><p class=\"ds-plaque-name\">Vulcão de chocolate</p><div class=\"ds-plaque-foot\"><span class=\"ds-price\"><span class=\"ds-cur\">R$</span>&nbsp;35</span><button class=\"ds-add\" aria-label=\"Adicionar ao pedido\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg></button></div></div><div class=\"ds-shelf\"></div></div>",
-      "css": ".ds-case{background:#3a140e;padding:24px}.ds-plaque{width:200px;min-height:148px;background:#fdefe0;color:#3a140e;padding:14px;display:flex;flex-direction:column;gap:12px;font:400 1.125rem/1.3 Jost, system-ui, sans-serif}.ds-plaque-name{margin:0;font-weight:500}.ds-plaque-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto}.ds-price{font:400 1.75rem/1 Gloock,serif}.ds-cur{font:500 .55em/1 Jost, system-ui, sans-serif;vertical-align:.38em}.ds-add{width:46px;height:46px;border:0;border-radius:50%;background:#b83a48;color:#fdefe0;display:grid;place-items:center;cursor:pointer}.ds-add:hover{background:#4a2618}.ds-add:focus-visible{outline:3px solid #3a140e;outline-offset:3px}.ds-shelf{height:14px;background:#5e2420;margin-top:12px}"
+      "refersTo": "add-button",
+      "description": "A menu item: 4:5 photo, name, description, price and the Adicionar pill.",
+      "html": "<div class=\"ds-prod\"><div class=\"ds-foto\"></div><p class=\"ds-nome\">Vulcão de chocolate</p><p class=\"ds-desc\">Bolo de chocolate com ganache brilhante.</p><div class=\"ds-pe\"><span class=\"ds-preco\"><span class=\"ds-cur\">R$</span>&nbsp;35</span><button class=\"ds-add\">+ Adicionar</button></div></div>",
+      "css": ".ds-prod{width:240px;background:#fdf2e7;padding:16px;font:400 1rem/1.4 Jost, system-ui, sans-serif;color:#2b120d}.ds-foto{aspect-ratio:4/5;background:#3d1d16}.ds-nome{margin:16px 0 4px;font-weight:600}.ds-desc{margin:0;font-size:.9375rem;color:#6b463c}.ds-pe{display:flex;align-items:center;justify-content:space-between;margin-top:12px}.ds-preco{font:400 1.75rem/1 Gloock,serif}.ds-cur{font:500 .55em/1 Jost, system-ui, sans-serif;vertical-align:.38em}.ds-add{min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#b83a48;color:#fdf2e7;font:500 .9375rem Jost, system-ui, sans-serif;cursor:pointer}.ds-add:hover{background:#9b2f3c}"
     },
     {
       "name": "Text Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "Order drawer field with a persistent label.",
+      "description": "Form field with a persistent label.",
       "html": "<label class=\"ds-field\"><span>Endereço de entrega</span><input placeholder=\"Rua, número e bairro\"></label>",
-      "css": ".ds-field{display:grid;gap:8px;font:500 1.125rem/1.4 Jost, system-ui, sans-serif;color:#3a140e;max-width:360px}.ds-field input{font:400 1.125rem Jost, system-ui, sans-serif;padding:13px 14px;background:#fff;border:2px solid #f9d8c2;border-radius:0}.ds-field input:focus{outline:none;border-color:#3a140e}"
+      "css": ".ds-field{display:grid;gap:8px;font:500 1.125rem/1.4 Jost, system-ui, sans-serif;color:#2b120d;max-width:360px}.ds-field input{font:400 1.125rem Jost, system-ui, sans-serif;padding:13px 14px;background:#fff;border:2px solid #f5e0cf;border-radius:0}.ds-field input:focus{outline:none;border-color:#2b120d}"
     },
     {
-      "name": "Sign Bar",
+      "name": "Header",
       "kind": "nav",
-      "refersTo": "nav-bar",
-      "description": "Chocolate shop sign with wordmark, links and one action.",
-      "html": "<nav class=\"ds-nav\"><span class=\"ds-mark\">Maria Gula</span><a href=\"#\">Cardápio</a><a href=\"#\">Encomendas</a><a href=\"#\">Visite</a></nav>",
-      "css": ".ds-nav{display:flex;align-items:center;gap:28px;min-height:64px;padding:0 24px;background:#b83a48;color:#fdefe0;font:500 .9375rem Jost, system-ui, sans-serif}.ds-mark{font:400 1.5rem Gloock,serif;margin-right:auto}.ds-nav a{color:inherit;text-decoration:none;border-bottom:2px solid transparent;padding:6px 0}.ds-nav a:hover{border-bottom-color:#fce8d8}"
+      "refersTo": "header",
+      "description": "Transparent over the first screen, espresso after it: wordmark, four links, one action.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-mark\">Maria Gula</span><a href=\"#\">Cardápio do dia</a><a href=\"#\">Encomendas</a><a href=\"#\">Visite</a><button class=\"ds-nav-btn\">Fazer pedido</button></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:28px;min-height:76px;padding:0 24px;background:#2b120d;color:#fdf2e7;font:500 .9375rem Jost, system-ui, sans-serif}.ds-mark{font:400 1.625rem Gloock,serif;margin-right:auto}.ds-nav a{color:inherit;text-decoration:none;border-bottom:2px solid transparent;padding:6px 0}.ds-nav a:hover{border-bottom-color:#eaa69c}.ds-nav-btn{min-height:44px;padding:0 1.25em;border:0;border-radius:999px;background:#b83a48;color:#fdf2e7;font:500 .9375rem Jost, system-ui, sans-serif}"
     }
   ],
   "narrative": {
-    "northStar": "A Vitrine da Maria",
-    "overview": "The site is the front of Maria Gula's shop on Av. Nereu Ramos, painted in the colours of her opening poster. A framboesa sign bar sits over the shop's real awning, yellow and white stripes with a straight edge; behind the glass, a lit display case holds the sweets. Every item on every menu is a photo standing in the case with a cream price plaque stuck in front of it, so choosing feels like pointing at the vitrine.\n\nThe page moves like a shop you walk past. The case lights up when the page opens. The cake section holds still while the cakes slide past like a counter. The party sweets arrive scattered and land in rows on the table. Between these two scenes, quiet sections let each one land. Colour works in whole fields: each section takes one ground (pêssego, espresso, vinho, pêssego claro, framboesa) and changes at its edge with no blending. Type is two voices: Gloock for titles, prices and the name; Jost for everything read or operated.\n\nThe world refuses the generic bakery template: no cream page with a centred hero photo, no icon cards, no eyebrows above headings, no gradients or glass.",
+    "northStar": "Dá água na boca, e dá para pedir",
+    "overview": "The site opens on one dessert photographed against black, filling the screen, with the name Maria Gula and her slogan beside it. Everything after that is organised around the two things a visitor comes to do: order today's menu, or order for a party. Each page has one job (Hoje, Encomendas), each section says one thing, and each section sits on its own ground, so the page reads as clear layers: chocolate, cream, berry.\n\nPremium here means restraint and appetite: big photographs with square corners, large Gloock headings, generous space, one action colour, and no decoration that is not food. Type is two voices: Gloock for the name, headings and prices; Jost for everything read or operated.\n\nThe site refuses the template look of the category (and the earlier round of this project, judged \"Canva\" by the user): no stickers or doodles, no awning stripes, no rotating badges, no running phrase strips, no paper grain, no arches, no tilted photo stacks, no eyebrows, no gradients used as decoration.",
     "keyCharacteristics": [
-      "References chosen with the user: Bernice Bakery (rotating badge, arches, doodle stickers), Crumbl (the day's lineup as round top-down plates), Milk Bar (orders by occasion, a running phrase strip).",
-      "Whole-section colour fields from the opening-poster palette.",
-      "Shop objects drawn in CSS: the sign bar, the real yellow-and-white awning, the case's light strip and shelves, plates drawn to scale.",
-      "Every menu item has a 4:5 photo with its price plaque in front.",
-      "Two pinned scroll scenes (horizontal cake counter, sweets landing on the table), finished compositions on phones and under reduced motion.",
-      "Square corners on photos, plaques, fields and inputs; fully round on every button and chip.",
-      "Flat at rest; only floating things (order bar, toast, drawer) carry shadow."
+      "A full-screen first screen: the dessert photo fills the background and fuses into black, with the name, the slogan, one sentence, two actions (today, party) and the live open/closed status.",
+      "Three grounds that alternate with strong contrast: dark (noite, espresso), light (creme) and colour (vinho, framboesa footer).",
+      "One action colour, framboesa, on every primary button and add button.",
+      "Menus shown as clean grids of 4:5 photos with name, description, price and an \"Adicionar\" button; categories are filter chips, not scattered blocks.",
+      "One pinned scroll scene (the cake run), quiet entrances elsewhere, and a slow drift on the first-screen photo.",
+      "Square corners on every photo and field; fully round on every button and chip.",
+      "Flat at rest; only floating things (header after the first screen, order bar, toast, drawer) carry shadow."
     ],
     "rules": [
       {
-        "name": "The Whole Field Rule",
-        "body": "A section changes colour as a whole field at its edge. Colours never fade into each other and never appear as scattered decorative accents.",
+        "name": "The Layer Rule",
+        "body": "Neighbouring sections never share a ground. Dark follows light follows colour; the change happens at the section edge, never in a fade.",
         "section": "colors"
       },
       {
-        "name": "The Real Awning Rule",
-        "body": "Yellow belongs to the awning alone. It never becomes a button, a field or an accent elsewhere.",
+        "name": "The One Action Rule",
+        "body": "Framboesa is reserved for actions (and the footer field). Nothing decorative is framboesa.",
         "section": "colors"
       },
       {
-        "name": "The Tinted Ink Rule",
-        "body": "Running text is full espresso or full pêssego claro. Secondary text uses the tinted ink for its ground; grey text does not exist in this system.",
+        "name": "The Dark-Ground Rule",
+        "body": "Rose appears only on dark grounds, and only on short text.",
         "section": "colors"
       },
       {
@@ -284,7 +289,7 @@
       },
       {
         "name": "The Two-Line Rule",
-        "body": "No heading runs past two lines at any width; cut words before shrinking type.",
+        "body": "No heading runs past two lines at any width; a one-word name scales with the viewport (min(name size, 15vw)) so it never crosses the edge.",
         "section": "typography"
       },
       {
@@ -294,19 +299,19 @@
       }
     ],
     "dos": [
-      "Do give each section one whole colour field and change it at the section edge.",
-      "Do show every menu item with its own 4:5 photo and price plaque.",
-      "Do set every price with the Currency Rule and tabular figures.",
-      "Do use framboesa for the primary action on light grounds and pêssego claro buttons on dark grounds, one primary per screen.",
-      "Do keep a quiet section between two scroll scenes, and give each scene a finished composition for phones and reduced motion."
+      "Do open every page with one large, appetising photograph and the page's name in the Name size.",
+      "Do give neighbouring sections different grounds (dark, light, colour) and change them at the section edge.",
+      "Do show every menu item with its own 4:5 photo, price and add button, in a regular grid.",
+      "Do set every price with the Currency Rule and tabular figures, and fill price ranges from the data file.",
+      "Do keep framboesa for actions, with one primary action per screen."
     ],
     "donts": [
+      "Don't add stickers, doodles, badges, stripes, grain, arches or tilted photos: decoration that is not food reads as Canva.",
       "Don't put a small label or eyebrow above a heading.",
       "Don't use gradients, glass, glows or shadows on anything that sits in the page.",
       "Don't add a third typeface or use tracked uppercase labels.",
       "Don't use a medium radius: corners are square or fully round.",
-      "Don't let anything move across a heading or a statement while it is being read.",
-      "Don't place a doodle sticker over text, or use more than two in one section."
+      "Don't let a category or section leave a half-empty row: filter or merge instead."
     ]
   }
 }
