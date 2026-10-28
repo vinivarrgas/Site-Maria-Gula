@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Encomendas · Maria Gula Confeitaria, Meia Praia, Itapema</title>
   <meta name="description" content="Tortas em 21 sabores, docinhos de festa e bolos para aniversário, casamento, empresas e Páscoa. Peça seu orçamento pelo WhatsApp com pelo menos 2 dias de antecedência.">
-  <meta name="theme-color" content="#0F0909">
+  <meta name="theme-color" content="#FBF7F1">
   <meta property="og:title" content="Encomendas · Maria Gula Confeitaria">
   <meta property="og:description" content="Tortas, docinhos e bolos para a sua festa, em Meia Praia, Itapema.">
-  <meta property="og:image" content="assets/img/capa-encomendas.jpg">
+  <meta property="og:image" content="assets/img/capa-torta-morango.jpg">
   <meta property="og:locale" content="pt_BR">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Jost:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" as="image" href="assets/img/capa-encomendas.jpg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Jost:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="preload" as="image" href="assets/img/capa-torta-morango.jpg">
   <script>
     document.documentElement.classList.add('js');
     setTimeout(function () { if (!window.__mgPronto) document.documentElement.classList.add('sem-animacao'); }, 2500);
@@ -44,7 +44,7 @@
     <div class="wrap topo__in">
       <a class="marca" href="index.html" aria-label="Maria Gula Confeitaria, página inicial">
         <svg aria-hidden="true"><use href="#i-hat"/></svg>
-        <span>Maria Gula</span>
+        <span class="marca__txt"><span class="marca__nome">Maria Gula</span><span class="marca__sub">Confeitaria</span></span>
       </a>
       <nav class="nav" id="menu-principal" aria-label="Principal" data-nav>
         <a href="index.html#cardapio">Cardápio do dia</a>
@@ -62,17 +62,19 @@
 
   <main>
     <section class="capa capa--encomendas" id="inicio" aria-labelledby="titulo">
-      <img class="capa__foto" src="assets/img/capa-encomendas.jpg" alt="Bolo de aniversário com velas acesas sendo levado à aniversariante" width="1600" height="1067" fetchpriority="high" data-capa-foto>
-      <div class="wrap capa__conteudo">
+      <div class="wrap capa__in">
         <div class="capa__bloco">
-          <h1 class="capa__nome" id="titulo" style="--i:0">Encomendas</h1>
-          <p class="capa__slogan" style="--i:1">Tortas, docinhos e bolos para a sua festa</p>
+          <p class="capa__marca" style="--i:0">Encomendas</p>
+          <h1 class="capa__nome" id="titulo" style="--i:1">Uma torta especial para a sua próxima comemoração.</h1>
           <p class="capa__texto" style="--i:2">21 sabores de torta, docinhos a partir de 25 unidades e bolos para aniversário, casamento, empresas e Páscoa. Peça com pelo menos 2 dias de antecedência.</p>
           <div class="acoes" style="--i:3">
             <a class="btn btn--primario" href="#orcamento">Pedir orçamento</a>
-            <a class="btn btn--claro" href="#tortas">Ver as tortas</a>
+            <a class="btn btn--blush" href="#tortas">Ver as tortas</a>
           </div>
         </div>
+        <figure class="capa__quadro">
+          <img class="capa__foto" src="assets/img/capa-torta-morango.jpg" alt="Torta de creme branco com pedaços de morango e morangos cobertos no topo, sobre um prato branco" width="1122" height="1402" fetchpriority="high" data-capa-foto>
+        </figure>
       </div>
     </section>
 
@@ -97,7 +99,7 @@
       </div>
     </section>
 
-    <section class="tortas chao-escuro" id="tortas" aria-labelledby="tortas-titulo">
+    <section class="tortas chao-blush" id="tortas" aria-labelledby="tortas-titulo">
       <div class="tortas__trilho" data-trilho>
         <div class="tortas__stage">
           <div class="tortas__track" data-trilho-track>
@@ -132,7 +134,7 @@
       </div>
     </section>
 
-    <section class="docinhos chao-vinho secao" id="docinhos" aria-labelledby="docinhos-titulo">
+    <section class="docinhos chao-blush secao" id="docinhos" aria-labelledby="docinhos-titulo">
       <div class="wrap grade">
         <div class="docinhos__texto">
           <h2 class="titulo" id="docinhos-titulo">Docinhos de festa</h2>
@@ -240,7 +242,7 @@
       </div>
       <details class="creditos">
         <summary>Créditos das fotos</summary>
-        <p>Foto da capa: Sergei Solovev, StockSnap, CC0. As fotos das encomendas são ilustrativas, de bancos de imagens livres:</p>
+        <p>Foto da capa: imagem de referência do estilo das fotos, a trocar pela torta da Maria. As fotos das encomendas são ilustrativas, de bancos de imagens livres:</p>
         <ul data-creditos></ul>
       </details>
       <p class="rodape__legal">© <span data-year>2026</span> Maria Gula Confeitaria · Meia Praia, Itapema (SC)</p>
@@ -251,6 +253,6 @@
 
   <script src="js/dados.js"></script>
   <script src="js/creditos.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=3"></script>
 </body>
 </html>

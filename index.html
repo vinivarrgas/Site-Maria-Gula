@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Maria Gula Confeitaria · Doces artesanais em Meia Praia, Itapema</title>
   <meta name="description" content="Confeitaria artesanal em Meia Praia, Itapema. Cardápio do dia com pedido pelo WhatsApp, e tortas, docinhos e bolos por encomenda. Av. Nereu Ramos, 2880.">
-  <meta name="theme-color" content="#0F0909">
+  <meta name="theme-color" content="#FBF7F1">
   <meta property="og:title" content="Maria Gula Confeitaria">
-  <meta property="og:description" content="Seu doce favorito, hoje! Confeitaria artesanal em Meia Praia, Itapema.">
-  <meta property="og:image" content="assets/img/capa-hoje.jpg">
+  <meta property="og:description" content="Uma pausa para saborear. Confeitaria artesanal em Meia Praia, Itapema.">
+  <meta property="og:image" content="assets/img/capa-torta-chocolate.jpg">
   <meta property="og:locale" content="pt_BR">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Jost:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" as="image" href="assets/img/capa-hoje.jpg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Jost:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="preload" as="image" href="assets/img/capa-torta-chocolate.jpg">
   <script>
     document.documentElement.classList.add('js');
     setTimeout(function () { if (!window.__mgPronto) document.documentElement.classList.add('sem-animacao'); }, 2500);
@@ -77,7 +77,7 @@
     <div class="wrap topo__in">
       <a class="marca" href="#inicio" aria-label="Maria Gula Confeitaria, início">
         <svg aria-hidden="true"><use href="#i-hat"/></svg>
-        <span>Maria Gula</span>
+        <span class="marca__txt"><span class="marca__nome">Maria Gula</span><span class="marca__sub">Confeitaria</span></span>
       </a>
       <nav class="nav" id="menu-principal" aria-label="Principal" data-nav>
         <a href="#cardapio">Cardápio do dia</a>
@@ -95,18 +95,20 @@
 
   <main>
     <section class="capa" id="inicio" aria-labelledby="titulo">
-      <img class="capa__foto" src="assets/img/capa-hoje.jpg" alt="Morangos cobertos de chocolate escorrendo" width="1600" height="1067" fetchpriority="high" data-capa-foto>
-      <div class="wrap capa__conteudo">
+      <div class="wrap capa__in">
         <div class="capa__bloco">
-          <h1 class="capa__nome" id="titulo" style="--i:0">Maria Gula</h1>
-          <p class="capa__slogan" style="--i:1">Seu doce favorito, hoje!</p>
-          <p class="capa__texto" style="--i:2">Confeitaria artesanal em Meia Praia, Itapema. Doces do dia para levar ou receber em casa, e encomendas para a sua festa.</p>
+          <p class="capa__marca" style="--i:0">Maria Gula · Confeitaria artesanal &amp; café</p>
+          <h1 class="capa__nome" id="titulo" style="--i:1">Uma pausa para saborear.</h1>
+          <p class="capa__texto" style="--i:2">Escolha sua fatia e fique para um café. Doces e salgados do dia para levar ou receber em casa, em Meia Praia, Itapema.</p>
           <div class="acoes" style="--i:3">
             <a class="btn btn--primario" href="#cardapio">Ver o cardápio do dia</a>
-            <a class="btn btn--claro" href="encomendas.html">Encomendas para festa</a>
+            <a class="btn btn--blush" href="encomendas.html#tortas">Conheça nossas tortas</a>
           </div>
           <p class="capa__status" style="--i:4"><span class="ponto" aria-hidden="true"></span><span data-status>Todos os dias, das 8h às 18h</span><span aria-hidden="true">·</span><span>Av. Nereu Ramos, 2880</span></p>
         </div>
+        <figure class="capa__quadro">
+          <img class="capa__foto" src="assets/img/capa-torta-chocolate.jpg" alt="Torta de chocolate com brigadeiros e morangos sobre um prato branco" width="1122" height="1402" fetchpriority="high" data-capa-foto>
+        </figure>
       </div>
     </section>
 
@@ -128,7 +130,7 @@
       </div>
     </section>
 
-    <section class="chamada chao-vinho" id="festas" aria-labelledby="festas-titulo">
+    <section class="chamada chao-blush" id="festas" aria-labelledby="festas-titulo">
       <figure class="chamada__foto" data-reveal="foto">
         <img src="assets/img/torta-merengue.jpg" alt="Torta com merengue maçaricado sendo cortada" width="660" height="804" loading="lazy">
       </figure>
@@ -141,7 +143,7 @@
           <div><dt>Ocasiões</dt><dd>Aniversário, casamento, empresas e Páscoa</dd></div>
         </dl>
         <div class="acoes">
-          <a class="btn btn--claro" href="encomendas.html">Ver encomendas<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--primario" href="encomendas.html">Ver encomendas<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
           <a class="link" href="encomendas.html#orcamento">Pedir orçamento</a>
         </div>
       </div>
@@ -168,7 +170,7 @@
       </div>
     </section>
 
-    <section class="visite chao-escuro secao" id="visite" aria-labelledby="visite-titulo">
+    <section class="visite chao-blush secao" id="visite" aria-labelledby="visite-titulo">
       <div class="wrap grade">
         <div class="visite__texto" data-reveal>
           <h2 class="titulo" id="visite-titulo">Visite a loja</h2>
@@ -180,7 +182,7 @@
           </dl>
           <p class="status" data-status>Todos os dias, das 8h às 18h</p>
           <div class="acoes">
-            <a class="btn btn--claro" href="https://www.google.com/maps/dir/?api=1&amp;destination=Maria+Gula+Confeitaria,+Av.+Nereu+Ramos,+2880,+Meia+Praia,+Itapema+-+SC" target="_blank" rel="noopener">Como chegar</a>
+            <a class="btn btn--primario" href="https://www.google.com/maps/dir/?api=1&amp;destination=Maria+Gula+Confeitaria,+Av.+Nereu+Ramos,+2880,+Meia+Praia,+Itapema+-+SC" target="_blank" rel="noopener">Como chegar</a>
             <a class="link" data-wa href="https://wa.me/5547997524457">Falar no WhatsApp</a>
           </div>
         </div>
@@ -221,7 +223,7 @@
       </div>
       <details class="creditos">
         <summary>Créditos das fotos</summary>
-        <p>Fotos da Maria e dos doces das seções "Tem festa chegando?" e "Quem faz é a Maria": @mariagulagula. Foto da capa (ilustração): Bango Renders, StockSnap, CC0. As fotos do cardápio são ilustrativas, de bancos de imagens livres:</p>
+        <p>Fotos da Maria e dos doces das seções "Tem festa chegando?" e "Quem faz é a Maria": @mariagulagula. Foto da capa: imagem de referência do estilo das fotos, a trocar pela torta da Maria. As fotos do cardápio são ilustrativas, de bancos de imagens livres:</p>
         <ul data-creditos></ul>
       </details>
       <p class="rodape__legal">© <span data-year>2026</span> Maria Gula Confeitaria · Meia Praia, Itapema (SC)</p>
@@ -286,6 +288,6 @@
 
   <script src="js/dados.js"></script>
   <script src="js/creditos.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=3"></script>
 </body>
 </html>

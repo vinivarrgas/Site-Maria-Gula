@@ -216,7 +216,7 @@
           <div class="torta__body">
             <div class="torta__head"><h3 class="torta__name">${esc(t.nome)}</h3><span class="torta__price">${precoKg(t.precoKg)}</span></div>
             <p class="torta__desc">${esc(t.descricao)}</p>
-            <button type="button" class="btn btn--claro btn--p" data-quero="${t.id}">Quero esta torta</button>
+            <button type="button" class="btn btn--primario btn--p" data-quero="${t.id}">Quero esta torta</button>
           </div>
         </article>`
       )

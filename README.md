@@ -2,10 +2,10 @@
 
 Site da Maria Gula Confeitaria (Meia Praia, Itapema/SC), em duas páginas:
 
-- **Hoje** (`index.html`): capa com o doce em tela cheia, o cardápio do dia (com filtro por categoria e pedido montado e enviado pelo WhatsApp), a chamada para encomendas, a confeiteira e como chegar.
+- **Hoje** (`index.html`): capa com a frase "Uma pausa para saborear." e a torta sobre fundo rosa, o cardápio do dia (com filtro por categoria e pedido montado e enviado pelo WhatsApp), a chamada para encomendas, a confeiteira e como chegar.
 - **Encomendas** (`encomendas.html`): capa, ocasiões, tortas (as mais pedidas e a lista com os 21 sabores), tamanhos, docinhos de festa e o formulário de orçamento pelo WhatsApp.
 
-As seções se alternam entre três fundos (escuro, creme e vinho/framboesa) para separar bem cada parte.
+Visual claro: fundo baunilha, rosa blush com moderação e o chocolate da logo nos títulos, no botão principal e no rodapé. As seções se alternam entre baunilha e blush claro.
 
 HTML, CSS e JavaScript puros, sem etapa de build.
 
@@ -46,11 +46,12 @@ Os textos fixos ficam no HTML de cada página. O cabeçalho e o rodapé se repet
 - `css/style.css`: estilos (cores e tamanhos em variáveis no topo)
 - `js/dados.js`: cardápio, preços e horários
 - `js/main.js`: serve as duas páginas; cada parte só roda se o seu bloco existir na página (pedido, orçamento, aviso de aberto/fechado, menu do celular e animações)
-- `assets/img/`: fotos recortadas do Instagram @mariagulagula (baixa resolução, trocar por originais) e as fotos de capa (`capa-hoje.jpg`, `capa-encomendas.jpg`)
+- `assets/img/`: fotos recortadas do Instagram @mariagulagula (baixa resolução, trocar por originais) e as fotos de capa (`capa-torta-chocolate.jpg`, `capa-torta-morango.jpg`)
 - `PRODUCT.md`, `DESIGN.md`, `.impeccable/`: contexto de produto e sistema visual (skill Impeccable)
 
 ## Antes de publicar de verdade
 
-- Trocar as fotos de capa por fotos profissionais do carro-chefe da Maria (horizontais, pelo menos 2400 px de largura, fundo escuro). As atuais são ilustrativas e de domínio público (StockSnap, CC0); a da página de hoje é uma ilustração 3D.
+- Trocar as fotos de capa pelas tortas da Maria fotografadas no mesmo estilo: torta inteira no prato, fundo rosa, luz suave de janela, em retrato (pelo menos 1100 x 1400 px). As atuais foram geradas por IA só como referência de estilo e não podem ir ao ar como se fossem produtos dela.
+- Ao trocar a capa, medir o rosa do fundo da foto nova e ajustar `--capa` em `css/style.css`.
 - Trocar as fotos ilustrativas pelas fotos reais dos produtos, e as da Maria por originais em alta resolução.
 - Confirmar com a Maria: horário de domingo, o preço por quilo de cada torta (R$ 109,90 ou R$ 89,90), se os preços dos docinhos (de cerca de 49 semanas atrás) continuam valendo, e o texto da seção "Quem faz é a Maria".
